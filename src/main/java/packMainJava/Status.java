@@ -1,5 +1,5 @@
 package packMainJava;
 
-public class Status {
-
+public enum Status {
+INTACTO, TOCADO, HUNDIDO;
 }
