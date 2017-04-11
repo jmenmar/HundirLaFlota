@@ -26,6 +26,8 @@ import packMainJava.Casilla;
 import packMainJava.Tablero;
 
 import java.awt.Panel;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class Partida extends JFrame {
 	private JPanel panel;
@@ -33,9 +35,13 @@ public class Partida extends JFrame {
 	private JPanel panel_2;
 	private JPanel panel_3;
 	private JButton[][] mCasillas = null;
+	private JButton[][] mCasillas2 = null;
 	
 	private int numeroDeFilas = 10;
 	private int numeroDeColumnas = 10;
+	private JButton button;
+	private JButton button_1;
+	private JButton button_2;
 	
 //	int tableroUsuario[][]= new int[10][10];
 //	int tableroIA[][]= new int[10][10];
@@ -78,24 +84,58 @@ public class Partida extends JFrame {
 			panel = new JPanel();
 			panel.setBackground(new Color(175, 238, 238));
 			panel.setPreferredSize(new Dimension(20, 20));
+			
+			JLabel lblTableroJugador = new JLabel("TABLERO JUGADOR");
+			lblTableroJugador.setFont(new Font("Tahoma", Font.BOLD, 20));
+			
+			JLabel lblTableroIa = new JLabel("TABLERO IA");
+			lblTableroIa.setFont(new Font("Tahoma", Font.BOLD, 20));
+			
+			JButton btnNewButton = new JButton("New button");
 			GroupLayout gl_panel = new GroupLayout(panel);
 			gl_panel.setHorizontalGroup(
 				gl_panel.createParallelGroup(Alignment.LEADING)
 					.addGroup(gl_panel.createSequentialGroup()
-						.addGap(46)
-						.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGap(62)
-						.addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(206, Short.MAX_VALUE))
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panel.createSequentialGroup()
+								.addGap(46)
+								.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGap(63)
+								.addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGap(69)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+									.addComponent(btnNewButton)
+									.addComponent(getButton_2())
+									.addComponent(getButton_1())
+									.addComponent(getButton())))
+							.addGroup(gl_panel.createSequentialGroup()
+								.addGap(118)
+								.addComponent(lblTableroJugador)
+								.addGap(228)
+								.addComponent(lblTableroIa, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(47, Short.MAX_VALUE))
 			);
 			gl_panel.setVerticalGroup(
 				gl_panel.createParallelGroup(Alignment.LEADING)
 					.addGroup(gl_panel.createSequentialGroup()
-						.addGap(98)
+						.addGap(54)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblTableroJugador)
+							.addComponent(lblTableroIa, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 							.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(114, Short.MAX_VALUE))
+							.addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_panel.createSequentialGroup()
+								.addGap(9)
+								.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(getButton(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(getButton_1(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(getButton_2(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(129, Short.MAX_VALUE))
 			);
 			panel.setLayout(gl_panel);
 		}
@@ -135,7 +175,7 @@ public class Partida extends JFrame {
 			gl_panel_3.setVerticalGroup(gl_panel_3.createParallelGroup(
 					Alignment.LEADING).addGap(349, 349, Short.MAX_VALUE));
 			panel_3.setLayout(gl_panel_3);
-			inicializar();
+			inicializar2();
 			ordenar2();
 		}
 		return panel_3;
@@ -170,6 +210,18 @@ public class Partida extends JFrame {
 		
 	}
 	
+	public void inicializar2(){
+		mCasillas2 = new JButton[10][10];
+		for(int n=0;n<10;n++){
+			for(int m=0;m<10;m++){
+				JButton temp = new JButton();
+				getContentPane().add(temp);
+				mCasillas2[n][m] = temp;
+			 }
+	     }
+	}
+	
+	
 	public void ordenar2(){
 		int anchoTotal = 335;
 		int altoTotal = 335;
@@ -179,11 +231,29 @@ public class Partida extends JFrame {
 		for(int n=0;n<10;n++){
 			for(int m=0;m<10;m++){
 			  //obtenemos una referencia al boton actual
-		      JButton temp = mCasillas[n][m];
+		      JButton temp = mCasillas2[n][m];
 		      //fijar cada casilla a una posicion y tamaño en funcion de su fila y columna
 		      temp.setBounds(446 +(m * anchoDeCasilla),100+(n * altoDeCasilla), anchoDeCasilla, altoDeCasilla);
 			}
 		} 
 		
+	}
+	private JButton getButton() {
+		if (button == null) {
+			button = new JButton("New button");
+		}
+		return button;
+	}
+	private JButton getButton_1() {
+		if (button_1 == null) {
+			button_1 = new JButton("New button");
+		}
+		return button_1;
+	}
+	private JButton getButton_2() {
+		if (button_2 == null) {
+			button_2 = new JButton("New button");
+		}
+		return button_2;
 	}
 }
