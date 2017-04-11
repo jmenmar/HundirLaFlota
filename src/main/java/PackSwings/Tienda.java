@@ -8,7 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -71,6 +73,7 @@ public class Tienda extends JFrame {
 				try {
 					Tienda frame = new Tienda();
 					frame.setVisible(true);
+					frame.setAlwaysOnTop(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -339,8 +342,14 @@ public class Tienda extends JFrame {
 			actualizarTienda();
 		} else {
 			// No money
-			AvisoSinDinero aviso = new AvisoSinDinero();
-			aviso.setVisible(true);
+			/*
+			 * AvisoSinDinero aviso = new AvisoSinDinero();
+			 * aviso.setVisible(true);
+			 */
+			JOptionPane optionPane = new JOptionPane("Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
+			JDialog dialog = optionPane.createDialog("Failure");
+			dialog.setAlwaysOnTop(true);
+			dialog.setVisible(true);
 		}
 		estado();
 	}

@@ -21,6 +21,7 @@ public class AvisoSinDinero extends JDialog {
 	private JPanel panelCentral;
 	private JPanel panelSur;
 	private JPanel panelNorte;
+	private JButton btnAceptar;
 
 	/**
 	 * Launch the application.
@@ -53,6 +54,7 @@ public class AvisoSinDinero extends JDialog {
 		getContentPane().add(getPanelCentral(), BorderLayout.CENTER);
 		getContentPane().add(getPanelSur(), BorderLayout.SOUTH);
 		getContentPane().add(getPanelNorte(), BorderLayout.NORTH);
+		setModal(true);
 	}
 
 	private JLabel getLabelAviso() {
@@ -85,6 +87,7 @@ public class AvisoSinDinero extends JDialog {
 			panelSur = new JPanel();
 			FlowLayout flowLayout = (FlowLayout) panelSur.getLayout();
 			flowLayout.setVgap(8);
+			panelSur.add(getBtnAceptar());
 		}
 		return panelSur;
 	}
@@ -93,8 +96,20 @@ public class AvisoSinDinero extends JDialog {
 		if (panelNorte == null) {
 			panelNorte = new JPanel();
 			FlowLayout flowLayout = (FlowLayout) panelNorte.getLayout();
-			flowLayout.setVgap(13);
+			flowLayout.setVgap(8);
 		}
 		return panelNorte;
+	}
+
+	private JButton getBtnAceptar() {
+		if (btnAceptar == null) {
+			btnAceptar = new JButton("Aceptar");
+			btnAceptar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+
+				}
+			});
+		}
+		return btnAceptar;
 	}
 }
