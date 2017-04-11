@@ -159,8 +159,7 @@ public class Tienda extends JFrame {
 		if (labelImagenMisil == null) {
 			labelImagenMisil = new JLabel("");
 			labelImagenMisil.setHorizontalAlignment(SwingConstants.CENTER);
-			labelImagenMisil.setIcon(new ImageIcon(
-					"C:\\Users\\JAVIER\\git\\isoftproyecto-hundirflotajaj\\src\\main\\resources\\misil.png"));
+			labelImagenMisil.setIcon(new ImageIcon(this.getClass().getResource("/misil.png")));
 		}
 		return labelImagenMisil;
 	}
@@ -169,8 +168,7 @@ public class Tienda extends JFrame {
 		if (labelImagenEscudo == null) {
 			labelImagenEscudo = new JLabel("");
 			labelImagenEscudo.setHorizontalAlignment(SwingConstants.CENTER);
-			labelImagenEscudo.setIcon(new ImageIcon(
-					"C:\\Users\\JAVIER\\git\\isoftproyecto-hundirflotajaj\\src\\main\\resources\\escudo.png"));
+			labelImagenEscudo.setIcon(new ImageIcon(this.getClass().getResource("/escudo.png")));
 		}
 		return labelImagenEscudo;
 	}
@@ -179,8 +177,8 @@ public class Tienda extends JFrame {
 		if (labelImagenRadar == null) {
 			labelImagenRadar = new JLabel("");
 			labelImagenRadar.setHorizontalAlignment(SwingConstants.CENTER);
-			labelImagenRadar.setIcon(new ImageIcon(
-					"C:\\Users\\JAVIER\\git\\isoftproyecto-hundirflotajaj\\src\\main\\resources\\radar.png"));
+			labelImagenRadar.setIcon(new ImageIcon(this.getClass().getResource("/radar.png")));
+					
 		}
 		return labelImagenRadar;
 	}
