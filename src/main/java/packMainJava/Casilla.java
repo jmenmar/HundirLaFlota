@@ -9,10 +9,11 @@ public class Casilla {
 	Barco ocupadaPor;
 	
 	//Constructor
-	public Casilla(int hor, int alt)
+	//n es horizontal y m es Vertical
+	public Casilla(int n, int m)
 	{
-		this.x = hor;
-		this.y = alt;
+		this.x = n;
+		this.y = m;
 		this.estado = CasillaEstado.AGUA;
 		this.tocaBarco = false;
 		this.ocupadaPor = null;
