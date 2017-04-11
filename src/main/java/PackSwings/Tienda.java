@@ -16,7 +16,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+
+import packMainJava.Inventario;
+import packMainJava.Misil;
+
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Tienda extends JFrame {
 
@@ -42,6 +48,20 @@ public class Tienda extends JFrame {
 	private JTextArea txtrEscudoAadeseloA;
 	private JTextArea txtrMisilUnSlo;
 
+	private int dinero = 1000;
+	private int PRECIO_MISIL = 100;
+	private int PRECIO_ESCUDO = 200;
+	private int PRECIO_RADAR = 250;
+	private int misilesDisp = 5;
+	private int escudosDisp = 2;
+	private int radaresDisp = 1;
+
+	Inventario inv = Inventario.getInventario(); // Instancia única al Singleton
+	private JLabel labelMisilDisp;
+	private JLabel labelEscudoDisp;
+	private JLabel labelRadarDisp;
+	// Inventario
+
 	/**
 	 * Launch the application.
 	 */
@@ -63,11 +83,13 @@ public class Tienda extends JFrame {
 	 */
 	public Tienda() {
 		initialize();
+		actualizarTienda();
+		estado();
 	}
 
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 580, 440);
+		setBounds(100, 100, 600, 440);
 		panelTienda = new JPanel();
 		panelTienda.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panelTienda.setLayout(new BorderLayout(0, 0));
@@ -98,6 +120,7 @@ public class Tienda extends JFrame {
 			panelMisil.add(getLabelImagenMisil());
 			panelMisil.add(getTxtrMisilUnSlo());
 			panelMisil.add(getBotonComprarMisil());
+			panelMisil.add(getLabel_1());
 		}
 		return panelMisil;
 	}
@@ -110,6 +133,7 @@ public class Tienda extends JFrame {
 			panelEscudo.add(getLabelImagenEscudo());
 			panelEscudo.add(getTxtrEscudoAadeseloA());
 			panelEscudo.add(getBotonComprarEscudo());
+			panelEscudo.add(getLabel_2());
 		}
 		return panelEscudo;
 	}
@@ -123,6 +147,7 @@ public class Tienda extends JFrame {
 			panelRadar.add(getLabelImagenRadar());
 			panelRadar.add(getTxtrRadarDescripcinDescripcin());
 			panelRadar.add(getBotonComprarRadar());
+			panelRadar.add(getLabel_3());
 		}
 		return panelRadar;
 	}
@@ -159,21 +184,36 @@ public class Tienda extends JFrame {
 
 	private JButton getBotonComprarMisil() {
 		if (botonComprarMisil == null) {
-			botonComprarMisil = new JButton("Comprar");
+			botonComprarMisil = new JButton("Comprar (100€)");
+			botonComprarMisil.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					comprarMisil();
+				}
+			});
 		}
 		return botonComprarMisil;
 	}
 
 	private JButton getBotonComprarEscudo() {
 		if (botonComprarEscudo == null) {
-			botonComprarEscudo = new JButton("Comprar");
+			botonComprarEscudo = new JButton("Comprar (200€)");
+			botonComprarEscudo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					comprarEscudo();
+				}
+			});
 		}
 		return botonComprarEscudo;
 	}
 
 	private JButton getBotonComprarRadar() {
 		if (botonComprarRadar == null) {
-			botonComprarRadar = new JButton("Comprar");
+			botonComprarRadar = new JButton("Comprar (250€)");
+			botonComprarRadar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					comprarRadar();
+				}
+			});
 		}
 		return botonComprarRadar;
 	}
@@ -195,7 +235,7 @@ public class Tienda extends JFrame {
 	private JLabel getLabelDinero() {
 		if (labelDinero == null) {
 			labelDinero = new JLabel("dinero disponible $");
-			labelDinero.setFont(new Font("Stencil", Font.PLAIN, 14));
+			labelDinero.setFont(new Font("Stencil", Font.PLAIN, 20));
 			labelDinero.setForeground(new Color(204, 204, 0));
 		}
 		return labelDinero;
@@ -249,7 +289,7 @@ public class Tienda extends JFrame {
 			txtrRadarDescripcinDescripcin.setFont(new Font("Tahoma", Font.PLAIN, 15));
 			txtrRadarDescripcinDescripcin.setBackground(new Color(102, 153, 51));
 			txtrRadarDescripcinDescripcin.setText(
-					"  RADAR\r\n  Permite ver una sección de 2x2          \r\n  casillas del tablero enemigo.");
+					"  RADAR\r\n  Permite ver una sección de 4x4          \r\n  casillas del tablero enemigo.");
 		}
 		return txtrRadarDescripcinDescripcin;
 	}
@@ -285,8 +325,98 @@ public class Tienda extends JFrame {
 			txtrMisilUnSlo.setEditable(false);
 			txtrMisilUnSlo.setFont(new Font("Tahoma", Font.PLAIN, 15));
 			txtrMisilUnSlo.setText(
-					" MISIL\r\n Un sólo impacto con uno de estos      \r\n será suficiente para hundir un \r\n barco enemigo");
+					" MISIL\r\n Un sólo impacto con uno de estos      \r\n será suficiente para hundir un \r\n barco enemigo.");
 		}
 		return txtrMisilUnSlo;
+	}
+
+	// COMPRAS
+	public void comprarMisil() {
+		if (dinero >= PRECIO_MISIL && misilesDisp > 0) {
+			dinero = dinero - PRECIO_MISIL;
+			misilesDisp--;
+			inv.addMisil();
+			actualizarTienda();
+		} else {
+			// No money
+			AvisoSinDinero aviso = new AvisoSinDinero();
+			aviso.setVisible(true);
+		}
+		estado();
+	}
+
+	public void comprarEscudo() {
+		if (dinero >= PRECIO_ESCUDO && escudosDisp > 0) {
+			dinero = dinero - PRECIO_ESCUDO;
+			escudosDisp--;
+			inv.addEscudo();
+			actualizarTienda();
+		} else {
+			// ERROR: No money
+			AvisoSinDinero aviso = new AvisoSinDinero();
+			aviso.setVisible(true);
+		}
+
+		estado();
+	}
+
+	public void comprarRadar() {
+		if (dinero >= PRECIO_RADAR && radaresDisp > 0) {
+			dinero = dinero - PRECIO_RADAR;
+			radaresDisp--;
+			inv.addRadar();
+			actualizarTienda();
+		} else {
+			// ERROR: No money
+			AvisoSinDinero aviso = new AvisoSinDinero();
+			aviso.setVisible(true);
+		}
+		estado();
+	}
+
+	public void estado() {
+		System.out.println("MISILES: " + inv.getNumMisiles() + " ESCUDOS: " + inv.getNumEscudos() + " RADARES: "
+				+ inv.getNumRadares() + " | DINERO: " + dinero);
+
+	}
+
+	public void actualizarTienda() {
+		// Textos
+		labelMisilDisp.setText("(" + misilesDisp + " DISP)");
+		labelEscudoDisp.setText("(" + escudosDisp + " DISP)");
+		labelRadarDisp.setText("(" + radaresDisp + " DISP)");
+		labelDinero.setText(dinero + " €");
+
+		// Botones
+		if (misilesDisp == 0) {
+			botonComprarMisil.setEnabled(false);
+		}
+		if (escudosDisp == 0) {
+			botonComprarEscudo.setEnabled(false);
+		}
+		if (radaresDisp == 0) {
+			botonComprarRadar.setEnabled(false);
+		}
+	}
+
+	private JLabel getLabel_1() {
+		if (labelMisilDisp == null) {
+			labelMisilDisp = new JLabel("(5 DISP)");
+		}
+		return labelMisilDisp;
+	}
+
+	private JLabel getLabel_2() {
+		if (labelEscudoDisp == null) {
+			labelEscudoDisp = new JLabel("(2 DISP)");
+		}
+		return labelEscudoDisp;
+	}
+
+	private JLabel getLabel_3() {
+		if (labelRadarDisp == null) {
+			labelRadarDisp = new JLabel("(1 DISP)");
+		}
+		return labelRadarDisp;
 	}
 }
