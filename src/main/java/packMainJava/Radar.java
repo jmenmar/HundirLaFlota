@@ -3,9 +3,7 @@ import java.util.Random;
 import java.util.ArrayList;
 public class Radar extends Recurso{
 	
-	public Radar(){
-		
-	}
+	private final static Radar awacs = new Radar();
 	public void act()
 	{
 		cumplirFuncion(encontrarObjetivo());
@@ -42,5 +40,9 @@ public class Radar extends Recurso{
 		Casilla resultado = lista.get(randomNum);
 		return resultado;
 	}
-
+	
+	public Radar getRadar()
+	{
+		return awacs;
+	}
 }

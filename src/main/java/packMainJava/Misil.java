@@ -2,16 +2,14 @@ package packMainJava;
 
 public class Misil extends Recurso {
 	
-	public Misil(){
-		
-	}
+	private static final Misil sidewinder = new Misil();
 
 	public void act()
 	{
 		cumplirFuncion(encontrarObjetivo());
 	}
 
-	public void cumplirFuncion(Casilla pCasilla) {
+	public CasillaEstado cumplirFuncion(Casilla pCasilla) {
 		// TODO Auto-generated method stub
 		Barco papaBear = pCasilla.getOcupadaPor();
 		if(papaBear != null)
@@ -24,9 +22,17 @@ public class Misil extends Recurso {
 			{
 				papaBear.setProtegido(false);
 			}
+			return CasillaEstado.OCUPADA;
 		}
-		
+		else
+		{
+			return CasillaEstado.AGUA;
+		}
 	}
 
+	public Misil getMisil()
+	{
+		return sidewinder;
+	}
 	
 }
