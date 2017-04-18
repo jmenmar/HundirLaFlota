@@ -24,9 +24,17 @@ import packMainJava.Misil;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 import java.awt.event.ActionEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.GridLayout;
 
-public class Tienda extends JFrame {
+public class Tienda extends JFrame implements Observer {
+
+	private static Tienda mTienda = new Tienda();
 
 	private JPanel panelTienda;
 	private JPanel panelCatalogo;
@@ -104,6 +112,21 @@ public class Tienda extends JFrame {
 		panelTienda.add(getPanelDer(), BorderLayout.EAST);
 	}
 
+	// ------- SINGLETON ---------------------------------------
+	public static Tienda getTienda() {
+		return mTienda;
+	}
+
+	// GETTER AND SETTER
+	public static Tienda getmTienda() {
+		return mTienda;
+	}
+
+	public static void setmInventario(Tienda mTienda) {
+		Tienda.mTienda = mTienda;
+	}
+	// ----------------------------------------------------------
+
 	private JPanel getPanelCatalogo() {
 		if (panelCatalogo == null) {
 			panelCatalogo = new JPanel();
@@ -178,7 +201,7 @@ public class Tienda extends JFrame {
 			labelImagenRadar = new JLabel("");
 			labelImagenRadar.setHorizontalAlignment(SwingConstants.CENTER);
 			labelImagenRadar.setIcon(new ImageIcon(this.getClass().getResource("/radar.png")));
-					
+
 		}
 		return labelImagenRadar;
 	}
@@ -222,11 +245,9 @@ public class Tienda extends JFrame {
 	private JPanel getPanelCabecera() {
 		if (panelCabecera == null) {
 			panelCabecera = new JPanel();
+			panelCabecera.setBorder(new EmptyBorder(15, 20, 10, 20));
 			panelCabecera.setBackground(new Color(0, 51, 0));
-			FlowLayout flowLayout = (FlowLayout) panelCabecera.getLayout();
-			flowLayout.setVgap(15);
-			flowLayout.setHgap(30);
-			flowLayout.setAlignment(FlowLayout.LEFT);
+			panelCabecera.setLayout(new GridLayout(0, 2, 0, 0));
 			panelCabecera.add(getLabelTienda());
 			panelCabecera.add(getLabelDinero());
 		}
@@ -236,8 +257,10 @@ public class Tienda extends JFrame {
 	private JLabel getLabelDinero() {
 		if (labelDinero == null) {
 			labelDinero = new JLabel("dinero disponible $");
+			labelDinero.setHorizontalAlignment(SwingConstants.RIGHT);
 			labelDinero.setFont(new Font("Stencil", Font.PLAIN, 20));
 			labelDinero.setForeground(new Color(204, 204, 0));
+			// labelDinero.set
 		}
 		return labelDinero;
 	}
@@ -246,7 +269,7 @@ public class Tienda extends JFrame {
 		if (labelTienda == null) {
 			labelTienda = new JLabel("TIENDA");
 			labelTienda.setForeground(new Color(255, 255, 255));
-			labelTienda.setHorizontalAlignment(SwingConstants.CENTER);
+			labelTienda.setHorizontalAlignment(SwingConstants.LEFT);
 			labelTienda.setFont(new Font("Stencil", Font.PLAIN, 27));
 		}
 		return labelTienda;
@@ -268,6 +291,11 @@ public class Tienda extends JFrame {
 	private JButton getBotonVolver() {
 		if (botonVolver == null) {
 			botonVolver = new JButton("Volver");
+			botonVolver.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setVisible(false);
+				}
+			});
 		}
 		return botonVolver;
 	}
@@ -337,13 +365,10 @@ public class Tienda extends JFrame {
 			dinero = dinero - PRECIO_MISIL;
 			misilesDisp--;
 			inv.addMisil();
+			// inv.setNumMisiles();
 			actualizarTienda();
 		} else {
-			// No money
-			/*
-			 * AvisoSinDinero aviso = new AvisoSinDinero();
-			 * aviso.setVisible(true);
-			 */
+			// ERROR: No money
 			JOptionPane optionPane = new JOptionPane("Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
 			JDialog dialog = optionPane.createDialog("Failure");
 			dialog.setAlwaysOnTop(true);
@@ -360,8 +385,10 @@ public class Tienda extends JFrame {
 			actualizarTienda();
 		} else {
 			// ERROR: No money
-			AvisoSinDinero aviso = new AvisoSinDinero();
-			aviso.setVisible(true);
+			JOptionPane optionPane = new JOptionPane("Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
+			JDialog dialog = optionPane.createDialog("Failure");
+			dialog.setAlwaysOnTop(true);
+			dialog.setVisible(true);
 		}
 
 		estado();
@@ -375,8 +402,10 @@ public class Tienda extends JFrame {
 			actualizarTienda();
 		} else {
 			// ERROR: No money
-			AvisoSinDinero aviso = new AvisoSinDinero();
-			aviso.setVisible(true);
+			JOptionPane optionPane = new JOptionPane("Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
+			JDialog dialog = optionPane.createDialog("Failure");
+			dialog.setAlwaysOnTop(true);
+			dialog.setVisible(true);
 		}
 		estado();
 	}
@@ -425,5 +454,10 @@ public class Tienda extends JFrame {
 			labelRadarDisp = new JLabel("(1 DISP)");
 		}
 		return labelRadarDisp;
+	}
+
+	public void update(Observable observable, Object arg) {
+		// TODO Auto-generated method stub
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
 	}
 }
