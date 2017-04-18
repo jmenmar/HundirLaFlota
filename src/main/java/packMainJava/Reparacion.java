@@ -2,6 +2,8 @@ package packMainJava;
 
 public class Reparacion extends Recurso{
 	
+	private static final Reparacion astillero = new Reparacion();
+	
 	public void act()
 	{
 		cumplirFuncion(encontrarObjetivo());
@@ -14,5 +16,10 @@ public class Reparacion extends Recurso{
 		{
 			normandy.repararBarco();
 		}
+	}
+	
+	public Reparacion getReparacion()
+	{
+		return astillero;
 	}
 }

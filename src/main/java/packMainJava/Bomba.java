@@ -2,16 +2,14 @@ package packMainJava;
 
 public class Bomba extends Recurso {
 
-	public Bomba(){
-		
-	}
+	private static final Bomba gbu10 = new Bomba();
 	
 	public void act() {
 		// TODO Auto-generated method stub
 		cumplirFuncion(encontrarObjetivo());
 	}
 	
-	public void cumplirFuncion(Casilla pCasilla)
+	public CasillaEstado cumplirFuncion(Casilla pCasilla)
 	{
 		Barco tangoZulu = pCasilla.getOcupadaPor();
 		if(tangoZulu != null)
@@ -24,7 +22,16 @@ public class Bomba extends Recurso {
 			{
 				tangoZulu.setProtegido(false);
 			}
+			return CasillaEstado.OCUPADA;
+		} else 
+		{
+			return CasillaEstado.AGUA;
 		}
+		
 	}
 	
+	public Bomba getBomba()
+	{
+		return gbu10;
+	}
 }
