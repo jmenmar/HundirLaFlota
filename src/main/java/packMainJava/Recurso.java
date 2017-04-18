@@ -1,8 +1,19 @@
 package packMainJava;
 
-public abstract class Recurso {
+public class Recurso {
 	
 	//Métodos
-	abstract public void act();
+	public void act()
+	{
+		
+	}
+	public Casilla encontrarObjetivo()
+	{
+		
+		//hay que añadir cómo encontrar la casilla, no se muy bien como pasarle el parámetro
+		Casilla objetivo;
+		objetivo = null;
+		return objetivo;
+	}
 	
 }

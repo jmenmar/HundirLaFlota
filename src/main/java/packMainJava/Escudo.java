@@ -6,10 +6,9 @@ public class Escudo extends Recurso{
 		
 	}
 
-	@Override
-	public void act() {
+	public void cumplirFuncion(Casilla pCasilla) {
 		// TODO Auto-generated method stub
-		
+		pCasilla.getOcupadaPor().setProtegido(true);
 	}
 	
 }

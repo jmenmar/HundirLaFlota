@@ -6,9 +6,25 @@ public class Misil extends Recurso {
 		
 	}
 
-	@Override
-	public void act() {
+	public void act()
+	{
+		cumplirFuncion(encontrarObjetivo());
+	}
+
+	public void cumplirFuncion(Casilla pCasilla) {
 		// TODO Auto-generated method stub
+		Barco papaBear = pCasilla.getOcupadaPor();
+		if(papaBear != null)
+		{
+			if(!papaBear.isProtegido())
+			{
+				papaBear.hundirBarco();
+			}
+			else
+			{
+				papaBear.setProtegido(false);
+			}
+		}
 		
 	}
 

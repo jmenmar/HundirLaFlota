@@ -201,6 +201,7 @@ public class Partida extends JFrame {
 	
 	public void inicializar(){
 		mCasillas = new JButton[10][10];
+		Tablero tableroJ = new Tablero();
 		for(int n=0;n<10;n++){
 			for(int m=0;m<10;m++){
 				JButton temp = new JButton();
@@ -229,6 +230,7 @@ public class Partida extends JFrame {
 	
 	public void inicializar2(){
 		mCasillas2 = new JButton[10][10];
+		Tablero tableroK = new Tablero();
 		for(int n=0;n<10;n++){
 			for(int m=0;m<10;m++){
 				JButton temp = new JButton();

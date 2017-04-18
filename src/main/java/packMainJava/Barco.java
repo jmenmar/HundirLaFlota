@@ -21,7 +21,7 @@ public class Barco {
 		this.posicion = new Casilla[this.modelo.getLongitud()];
 		this.impactos = new Casilla[this.modelo.getLongitud()];
 		
-		//Establecer posicion (DENTRO DEL CONSTRUCTOR LEÑE YA)
+		//Establecer posicion (DENTRO DEL CONSTRUCTOR LEï¿½E YA)
 		
 		if(horizontal)
 		{
@@ -80,6 +80,15 @@ public class Barco {
 					this.estado = Status.HUNDIDO;
 				}
 			}
+		}
+		
+		public void hundirBarco()
+		{
+			for(int i = 0; i < this.posicion.length; i++)
+			{
+				setImpacto(posicion[i]);
+			}
+			
 		}
 		
 		public void repararBarco()
