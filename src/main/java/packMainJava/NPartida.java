@@ -15,5 +15,6 @@ public class NPartida {
 		inve.addObserver(shop);
 		shop.setVisible(false);
 		partida.setVisible(true);
+		inve.notifyObservers();
 	}
 }

@@ -56,6 +56,7 @@ public class Partida extends JFrame implements Observer {
 
 	Inventario inv = Inventario.getInventario(); // Instancia única al Singleton
 	Tienda shop = Tienda.getTienda(); // Instancia única al Singleton
+	private JLabel lblDeSerie;
 	// int tableroUsuario[][]= new int[10][10];
 	// int tableroIA[][]= new int[10][10];
 
@@ -105,35 +106,40 @@ public class Partida extends JFrame implements Observer {
 			JButton Bomba = new JButton("Nº de Bombas");
 			GroupLayout gl_panel = new GroupLayout(panel);
 			gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_panel
-									.createSequentialGroup().addGap(46).addGroup(gl_panel
-											.createParallelGroup(Alignment.LEADING, false)
-											.addGroup(gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+									.createSequentialGroup()
+									.addGap(46).addGroup(gl_panel
+											.createParallelGroup(Alignment.LEADING, false).addGroup(gl_panel
+													.createSequentialGroup()
 													.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE,
 															GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 													.addGap(63).addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE,
 															GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 											.addComponent(getTIENDA(), GroupLayout.DEFAULT_SIZE,
-													GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-									.addGap(62)
+													GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+									.addGroup(gl_panel.createSequentialGroup().addGap(118)
+											.addComponent(lblTableroJugador).addGap(228).addComponent(lblTableroIa,
+													GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)))
+							.addGap(62)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addComponent(getLblDeSerie())
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-											.addComponent(Bomba, GroupLayout.DEFAULT_SIZE,
-													GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(Bomba, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+													Short.MAX_VALUE)
 											.addComponent(getEscudo(), GroupLayout.DEFAULT_SIZE,
 													GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 											.addComponent(getRadar(), GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
 											.addComponent(getReparar(), 0, 0, Short.MAX_VALUE)
 											.addComponent(getMisil(), Alignment.TRAILING)))
-							.addGroup(gl_panel.createSequentialGroup().addGap(118).addComponent(lblTableroJugador)
-									.addGap(228).addComponent(lblTableroIa, GroupLayout.PREFERRED_SIZE, 133,
-											GroupLayout.PREFERRED_SIZE)))
 							.addContainerGap(20, Short.MAX_VALUE)));
 			gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
 					.createSequentialGroup().addGap(54)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblTableroJugador)
-							.addComponent(lblTableroIa, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblTableroJugador)
+									.addComponent(lblTableroIa, GroupLayout.PREFERRED_SIZE,
+											25, GroupLayout.PREFERRED_SIZE))
+							.addGap(18))
+							.addGroup(gl_panel.createSequentialGroup().addComponent(getLblDeSerie()).addGap(18)))
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup()
 							.addGap(9).addComponent(Bomba, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
@@ -300,6 +306,14 @@ public class Partida extends JFrame implements Observer {
 
 	public void update(Observable observable, Object arg1) {
 		// TODO Auto-generated method stub
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("El nuevo nº misiles es: " + ((Inventario) observable).getNumMisiles());
+		lblDeSerie.setText(((Inventario) observable).getNumMisiles() + "");
+	}
+
+	private JLabel getLblDeSerie() {
+		if (lblDeSerie == null) {
+			lblDeSerie = new JLabel("De serie = 1");
+		}
+		return lblDeSerie;
 	}
 }
