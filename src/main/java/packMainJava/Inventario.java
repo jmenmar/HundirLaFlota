@@ -1,9 +1,14 @@
 package packMainJava;
 
-public class Inventario {
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+
+public class Inventario extends Observable{
 	
 	private static Inventario mInventario = new Inventario(1,1,1,1);
 
+	private List <Observer> observerList;
 	private int numBombas;
 	private int numMisiles;
 	private int numRadares;
@@ -44,10 +49,12 @@ public class Inventario {
 	
 	public void setNumMisiles(int numMisiles) {
 		this.numMisiles = numMisiles;
+		this.notifyObservers();
 	}
 	
 	public void addMisil(){
 		numMisiles++;
+		this.notifyObservers();
 	}
 
 	public int getNumRadares() {
@@ -73,5 +80,18 @@ public class Inventario {
 	public void addEscudo(){
 		numEscudos++;
 	}
+	
+	@Override
+	public void addObserver(Observer observer) {
+		this.observerList.add(observer);
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer observer : this.observerList)
+			observer.update(this, "Act");
+	}
+
+	
 	
 }
