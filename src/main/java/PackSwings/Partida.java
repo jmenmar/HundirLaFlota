@@ -232,6 +232,9 @@ public class Partida extends JFrame implements Observer {
 				mCasillas2[n][m] = temp;
 			}
 		}
+		/*		for(int tam=1;tam<=5;tam++){		
+    	IA.ponerBarco(mCasillas2, tam);
+   } */
 	}
 
 	public void ordenar2() {
