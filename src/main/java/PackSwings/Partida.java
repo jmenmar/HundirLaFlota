@@ -40,7 +40,7 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.ActionEvent;
-
+import packMainJava.CasillaEstado;
 public class Partida extends JFrame implements Observer {
 	private JPanel panel;
 	private JPanel panel_1;

@@ -12,21 +12,21 @@ public class Casilla {
 	//n es horizontal y m es Vertical
 	public Casilla(int n, int m)
 	{
-		this.x = n;
-		this.y = m;
-		this.estado = CasillaEstado.AGUA;
-		this.tocaBarco = false;
-		this.ocupadaPor = null;
+		x = n;
+		y = m;
+		estado = CasillaEstado.AGUA;
+		tocaBarco = false;
+		ocupadaPor = null;
 	}
 	
-	//Get & set (no hay setX o setY porque la posicion de una casilla no debería de variar una
+	//Get & set (no hay setX o setY porque la posicion de una casilla no deberï¿½a de variar una
 	//vez creada
 	public CasillaEstado getEstado() {
 		return estado;
 	}
 
 	public void setEstado(CasillaEstado estado) {
-		this.estado = estado;
+		estado = estado;
 	}
 
 	public boolean isTocaBarco() {
@@ -34,7 +34,7 @@ public class Casilla {
 	}
 
 	public void setTocaBarco(boolean tocaBarco) {
-		this.tocaBarco = tocaBarco;
+		tocaBarco = tocaBarco;
 	}
 
 	public Barco getOcupadaPor() {
@@ -42,7 +42,7 @@ public class Casilla {
 	}
 
 	public void setOcupadaPor(Barco ocupadaPor) {
-		this.ocupadaPor = ocupadaPor;
+		ocupadaPor = ocupadaPor;
 	}
 
 	public int getX() {
