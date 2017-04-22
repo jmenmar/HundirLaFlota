@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import packMainJava.Casilla;
+import packMainJava.IA;
 import packMainJava.Inventario;
 import packMainJava.Tablero;
 
@@ -32,7 +33,9 @@ import java.awt.Panel;
 import javax.swing.JLabel;
 
 import java.awt.Font;
+
 import javax.swing.SwingConstants;
+
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
@@ -224,7 +227,7 @@ public class Partida extends JFrame implements Observer {
 
 	public void inicializar2() {
 		mCasillas2 = new JButton[10][10];
-		Tablero tableroK = new Tablero();
+		Tablero tableroIA = new Tablero();
 		for (int n = 0; n < 10; n++) {
 			for (int m = 0; m < 10; m++) {
 				JButton temp = new JButton();
@@ -232,10 +235,10 @@ public class Partida extends JFrame implements Observer {
 				mCasillas2[n][m] = temp;
 			}
 		}
-		/*		for(int tam=1;tam<=5;tam++){		
-    	IA.ponerBarco(mCasillas2, tam);
-   } */
-	}
+			for(int tam=1;tam<=4;tam++){		
+    	 IA.ponerBarco(tableroIA,1);
+          }  
+    }
 
 	public void ordenar2() {
 		int anchoTotal = 335;
