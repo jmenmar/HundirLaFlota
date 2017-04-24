@@ -51,10 +51,10 @@ public class Partida extends JFrame implements Observer {
 
 	private int numeroDeFilas = 10;
 	private int numeroDeColumnas = 10;
-	private JButton Misil;
-	private JButton Reparar;
-	private JButton Escudo;
-	private JButton Radar;
+	private JButton misil;
+	private JButton reparar;
+	private JButton escudo;
+	private JButton radar;
 	private JButton TIENDA;
 
 	Inventario inv = Inventario.getInventario(); // Instancia única al Singleton
@@ -108,7 +108,7 @@ public class Partida extends JFrame implements Observer {
 			JLabel lblTableroIa = new JLabel("TABLERO IA");
 			lblTableroIa.setFont(new Font("Tahoma", Font.BOLD, 20));
 
-			JButton Bomba = new JButton("Nº de Bombas");
+			JButton bomba = new JButton("Nº de Bombas");
 			GroupLayout gl_panel = new GroupLayout(panel);
 			gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 					.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
@@ -124,7 +124,7 @@ public class Partida extends JFrame implements Observer {
 													GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 									.addGap(62)
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-											.addComponent(Bomba, GroupLayout.DEFAULT_SIZE,
+											.addComponent(bomba, GroupLayout.DEFAULT_SIZE,
 													GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 											.addComponent(getEscudo(), GroupLayout.DEFAULT_SIZE,
 													GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -141,7 +141,7 @@ public class Partida extends JFrame implements Observer {
 							.addComponent(lblTableroIa, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel.createSequentialGroup()
-							.addGap(9).addComponent(Bomba, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+							.addGap(9).addComponent(bomba, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(getMisil(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
@@ -271,37 +271,37 @@ public class Partida extends JFrame implements Observer {
 	}
 
 	private JButton getMisil() {
-		if (Misil == null) {
-			Misil = new JButton("x" + inv.getNumMisiles());
-			Misil.addActionListener(new ActionListener() {
+		if (misil == null) {
+			misil = new JButton("x" + inv.getNumMisiles());
+			misil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 				}
 			});
-			Misil.setHorizontalAlignment(SwingConstants.LEFT);
-			Misil.setIcon(new ImageIcon(this.getClass().getResource("/misil.png")));
+			misil.setHorizontalAlignment(SwingConstants.LEFT);
+			misil.setIcon(new ImageIcon(this.getClass().getResource("/misil.png")));
 		}
-		return Misil;
+		return misil;
 	}
 
 	private JButton getReparar() {
-		if (Reparar == null) {
-			Reparar = new JButton("Nº de Reparaciones");
+		if (reparar == null) {
+			reparar = new JButton("Nº de Reparaciones");
 		}
-		return Reparar;
+		return reparar;
 	}
 
 	private JButton getEscudo() {
-		if (Escudo == null) {
-			Escudo = new JButton("Nº de Escudo");
+		if (escudo == null) {
+			escudo = new JButton("Nº de Escudo");
 		}
-		return Escudo;
+		return escudo;
 	}
 
 	private JButton getRadar() {
-		if (Radar == null) {
-			Radar = new JButton("Nº de Radares");
+		if (radar == null) {
+			radar = new JButton("Nº de Radares");
 		}
-		return Radar;
+		return radar;
 	}
 
 	private JButton getTIENDA() {
@@ -318,6 +318,8 @@ public class Partida extends JFrame implements Observer {
 
 	public void update(Observable observable, Object arg1) {
 		// TODO Auto-generated method stub
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
+		misil.setText("x"+ ((Inventario) observable).getNumMisiles());
+		escudo.setText("(x"+ ((Inventario) observable).getNumEscudos()+")");
+		radar.setText("(x"+ ((Inventario) observable).getNumRadares()+")");
 	}
 }

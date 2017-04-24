@@ -48,8 +48,9 @@ public class Inventario extends Observable{
 	
 	public void setNumMisiles(int numMisiles) {
 		this.numMisiles = numMisiles;
-		//this.notifyObservers();
 		//setChanged();
+		//this.notifyObservers();
+		
 	}
 	
 	public void addMisil(){
