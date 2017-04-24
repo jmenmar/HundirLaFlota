@@ -1,17 +1,78 @@
 package packMainJava;
+
+import java.util.Random;
+
 public class IA {
  
-	//para que no de error
+	private boolean[][] tabla = new boolean[10][10];
+	private int x,y;
 	public IA(){	
 		
-		//poner 5 barcos de diferente tamaño de 1 a 5, luego ya pondremos mas variedad como en el enunciado
-/*		for(int tam=1;tam<=5;tam++){		
+		inicializarTablero();
+		ponerBarcoDe4();
+		comprobar();
+		
+		/*poner 5 barcos de diferente tamaño de 1 a 5, luego ya pondremos mas variedad como en el enunciado
+		  for(int tam=1;tam<=5;tam++){		
 	    	ponerBarco(tableroIA, tam);
-	}
-	*/
+		}*/
 	}
 	
-	public boolean celdaEstaEnTablero(int fila,int columna){
+	public void inicializarTablero(){
+		for (int i=0; i<10; i++) {
+	        for (int j=0; j<10; j++) {
+	        	tabla[i][j]=true;
+	        }
+		}
+	}
+	
+	public void comprobar(){
+		for (int i=0; i<10; i++) {
+	        for (int j=0; j<10; j++) {
+	        	if(tabla[i][j]==true){
+	        		System.out.print("[ ]");
+	        	}else{
+	        		System.out.print("[X]");
+	        	}
+	        }
+	        System.out.println();
+		}
+	}
+	
+	public void ponerBarcoDe4(){
+		int randomX;
+		int randomY;
+		Random ran0 = new Random();
+		int orient = ran0.nextInt(2);
+		//System.out.println(orient);
+		if(orient==0){ //Horizontal
+				Random ran1 = new Random();
+				randomX = ran1.nextInt(7);
+				Random ran2 = new Random();
+				randomY = ran2.nextInt(10);
+				
+				for(int i=0; i<4;i++){
+					tabla[randomX+i][randomY] = false;
+					//System.out.println("BARCO ["+(randomX+i)+"]["+randomY+"]");
+				}				
+				
+		}else{ //Vertical
+			Random ran1 = new Random();
+			randomX = ran1.nextInt(10);
+			Random ran2 = new Random();
+			randomY = ran2.nextInt(7);
+			tabla[randomX][randomY] = false;
+		
+			for(int i=0; i<4;i++){
+				tabla[randomX][randomY+i] = false;
+				//System.out.println("["+randomX+"]["+(randomY+i)+"]");
+			}
+		}
+		
+	}
+	
+	
+	/*public boolean celdaEstaEnTablero(int fila,int columna){
 		if(fila<0)	return false;
 		if(columna<0)	return false;
 		if(fila>=10)	return false;
@@ -89,7 +150,7 @@ public class IA {
 		return true;
 	
 	
-	}
+	}*/
 	
 	
 }
