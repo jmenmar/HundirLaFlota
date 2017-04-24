@@ -251,8 +251,6 @@ public class Partida extends JFrame implements Observer {
 				numBarcos++;
           }  
     }
-				
-  
 
 	public void ordenar2() {
 		int anchoTotal = 335;

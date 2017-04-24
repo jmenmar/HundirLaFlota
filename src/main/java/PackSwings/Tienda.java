@@ -365,7 +365,6 @@ public class Tienda extends JFrame implements Observer {
 			dinero = dinero - PRECIO_MISIL;
 			misilesDisp--;
 			inv.addMisil();
-			// inv.setNumMisiles();
 			actualizarTienda();
 		} else {
 			// ERROR: No money
@@ -456,8 +455,9 @@ public class Tienda extends JFrame implements Observer {
 		return labelRadarDisp;
 	}
 
-	public void update(Observable observable, Object arg) {
+	public void update(Observable observable, Object value) {
 		// TODO Auto-generated method stub
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
+		// System.out.println("El nuevo nº misiles es: " + ((Inventario)
+		// observable).getNumMisiles());
 	}
 }

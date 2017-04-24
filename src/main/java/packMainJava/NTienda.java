@@ -1,5 +1,5 @@
 package packMainJava;
 
-public class Tienda {
+public class NTienda {
 
 }

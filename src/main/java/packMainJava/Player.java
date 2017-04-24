@@ -1,11 +1,17 @@
 package packMainJava;
+
+import java.awt.event.MouseEvent;
+
 //Habra que hacerlo singleton
 public class Player {
 
+
+	public Player(){
 	int pFila=0;
 	int pCol=0;
 	int pTam=5;
 	int pHor=0;
+	
 	
 	/* addMouseMotionListener{
 	 *    new MouseMotionAdapter(){
@@ -44,9 +50,6 @@ public class Player {
 	 * 
 	 * 
 	 */
-	
-public Player(){
-	
+	}
 }
-	
-}
+
