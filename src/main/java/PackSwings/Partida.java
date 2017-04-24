@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import packMainJava.Casilla;
+import packMainJava.IA;
 import packMainJava.Inventario;
 import packMainJava.Tablero;
 
@@ -225,7 +226,7 @@ public class Partida extends JFrame implements Observer {
 
 	public void inicializar2() {
 		mCasillas2 = new JButton[10][10];
-		Tablero tableroK = new Tablero();
+		Tablero tableroIA = new Tablero();
 		for (int n = 0; n < 10; n++) {
 			for (int m = 0; m < 10; m++) {
 				JButton temp = new JButton();
