@@ -59,9 +59,6 @@ public class Partida extends JFrame implements Observer {
 
 	Inventario inv = Inventario.getInventario(); // Instancia única al Singleton
 	Tienda shop = Tienda.getTienda(); // Instancia única al Singleton
-	// int tableroUsuario[][]= new int[10][10];
-	// int tableroIA[][]= new int[10][10];
-
 	/**
 	 * Launch the application.
 	 */
@@ -71,6 +68,7 @@ public class Partida extends JFrame implements Observer {
 				try {
 					Partida frame = new Partida();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -91,6 +89,11 @@ public class Partida extends JFrame implements Observer {
 		setBounds(100, 100, 1000, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
+		int partidaEstado=1;
+		if(partidaEstado==1){
+			
+		}
+		
 	}
 
 	private JPanel getPanel() {
@@ -165,7 +168,7 @@ public class Partida extends JFrame implements Observer {
 		if (panel_1 == null) {
 			panel_1 = new JPanel();
 			panel_1.setPreferredSize(new Dimension(335, 335));
-			panel_1.setBackground(Color.BLUE);
+			panel_1.setBackground(Color.BLACK);
 			GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 			gl_panel_1.setHorizontalGroup(
 					gl_panel_1.createParallelGroup(Alignment.LEADING).addGap(0, 335, Short.MAX_VALUE));
@@ -182,7 +185,7 @@ public class Partida extends JFrame implements Observer {
 		if (panel_3 == null) {
 			panel_3 = new JPanel();
 			panel_3.setPreferredSize(new Dimension(335, 335));
-			panel_3.setBackground(Color.BLUE);
+			panel_3.setBackground(Color.BLACK);
 			GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 			gl_panel_3.setHorizontalGroup(
 					gl_panel_3.createParallelGroup(Alignment.LEADING).addGap(349, 349, Short.MAX_VALUE));
@@ -203,6 +206,7 @@ public class Partida extends JFrame implements Observer {
 				JButton temp = new JButton();
 				getContentPane().add(temp);
 				mCasillas[n][m] = temp;
+				temp.setBackground(Color.BLUE);
 			}
 		}
 	}
@@ -236,7 +240,7 @@ public class Partida extends JFrame implements Observer {
 			}
 		}
 			for(int tam=1;tam<=4;tam++){		
-    	 IA.ponerBarco(tableroIA,1);
+    	 IA.ponerBarco(tableroIA,tam);
           }  
     }
 
