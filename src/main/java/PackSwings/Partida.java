@@ -235,8 +235,16 @@ public class Partida extends JFrame implements Observer {
 				mCasillas2[n][m] = temp;
 			}
 		}
-			for(int tam=1;tam<=4;tam++){		
-    	 IA.ponerBarco(tableroIA,1);
+		int cont = 0;
+		int numBarcos = 1;
+			for(int tam=1;tam<=4;tam++){	
+				while(cont < numBarcos)
+				{
+					IA.ponerBarco(tableroIA,tam);
+					cont++;
+				}
+				cont = 0;
+				numBarcos++;
           }  
     }
 
