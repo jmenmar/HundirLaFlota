@@ -11,7 +11,7 @@ public class Tablero {
 		tabla = new Casilla[10][10];
 		for(int n=0;n<10;n++){
 			for(int m=0;m<10;m++){
-			 Casilla casilla = new Casilla(n, m);
+			 tabla[n][m] = new Casilla(n, m);
 			}
 		}	
 	}
