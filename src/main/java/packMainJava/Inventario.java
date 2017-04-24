@@ -8,7 +8,6 @@ public class Inventario extends Observable{
 	
 	private static Inventario mInventario = new Inventario(1,1,1,1);
 
-	private List <Observer> observerList;
 	private int numBombas;
 	private int numMisiles;
 	private int numRadares;
@@ -49,11 +48,14 @@ public class Inventario extends Observable{
 	
 	public void setNumMisiles(int numMisiles) {
 		this.numMisiles = numMisiles;
-		this.notifyObservers();
+		//setChanged();
+		//this.notifyObservers();
+		
 	}
 	
 	public void addMisil(){
 		numMisiles++;
+		setChanged();
 		this.notifyObservers();
 	}
 
@@ -67,6 +69,8 @@ public class Inventario extends Observable{
 	
 	public void addRadar(){
 		numRadares++;
+		setChanged();
+		this.notifyObservers();
 	}
 
 	public int getNumEscudos() {
@@ -79,19 +83,9 @@ public class Inventario extends Observable{
 	
 	public void addEscudo(){
 		numEscudos++;
+		setChanged();
+		this.notifyObservers();
 	}
-	
-	@Override
-	public void addObserver(Observer observer) {
-		this.observerList.add(observer);
-	}
-
-	@Override
-	public void notifyObservers() {
-		for (Observer observer : this.observerList)
-			observer.update(this, "Act");
-	}
-
 	
 	
 }

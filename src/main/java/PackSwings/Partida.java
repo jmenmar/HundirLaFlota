@@ -243,7 +243,6 @@ public class Partida extends JFrame implements Observer {
 		int numBarcos = 1;
 			for(int tam=1;tam<=4;tam++){	
 				while(cont < numBarcos)
-		
 				{
 					IA.ponerBarco(tableroIA,tam);
 					cont++;
