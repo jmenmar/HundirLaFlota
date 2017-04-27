@@ -18,7 +18,7 @@ public class Reparacion extends Recurso{
 		}
 	}
 	
-	public Reparacion getReparacion()
+	public static Reparacion getReparacion()
 	{
 		return astillero;
 	}

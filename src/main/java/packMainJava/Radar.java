@@ -37,11 +37,16 @@ public class Radar extends Recurso{
 		Random rnd = new Random();
 		int randomNum;
 		randomNum = rnd.nextInt((lista.size()) + 1);
+		try{
 		Casilla resultado = lista.get(randomNum);
 		return resultado;
+		}catch(NullPointerException e)
+		{
+			return null;
+		}
 	}
 	
-	public Radar getRadar()
+	public static Radar getRadar()
 	{
 		return awacs;
 	}
