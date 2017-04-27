@@ -30,7 +30,7 @@ public class Bomba extends Recurso {
 		
 	}
 	
-	public Bomba getBomba()
+	public static Bomba getBomba()
 	{
 		return gbu10;
 	}

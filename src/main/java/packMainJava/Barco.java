@@ -2,82 +2,57 @@ package packMainJava;
 
 public class Barco {
 	
-	Status estado;
-	TipoDeBarco modelo;
-	boolean protegido;
-	boolean horizontal;
-	Casilla proa;
-	Casilla[] posicion;
-	Casilla[] impactos;
+	private Status estado;
+	private TipoDeBarco modelo;
+	private boolean protegido;
+	private boolean horizontal;
+	private Casilla proa;
+	private Casilla[] posicion;
+	private boolean[] impactos;
 	
 	//Constructor
-	public Barco(TipoDeBarco pModelo, boolean esHorizontal, Casilla laProa)
+
+	public Barco(TipoDeBarco pModelo)
 	{
 		this.modelo = pModelo;
-		this.horizontal = esHorizontal;
-		this.proa = laProa;
 		this.estado = Status.INTACTO;
 		this.protegido = false;
 		this.posicion = new Casilla[this.modelo.getLongitud()];
-		this.impactos = new Casilla[this.modelo.getLongitud()];
-		
-		//Establecer posicion (DENTRO DEL CONSTRUCTOR LE�E YA)
-		
-		if(horizontal)
+		this.impactos = new boolean[this.modelo.getLongitud()];
+		for(int i = 0; i < impactos.length; i++)
 		{
-			//IMPORTANTE, no se puede implementar hasta que Tablero lo este
-			//ya que esto es un array de casillas DEL TABLERO
-		}else
-		{
-			/*
-			 * Lo mismo, en ambos casos es hace un set en las casillas DEL TABLERO que indiquen
-			 * que las casillas estan ocupadas por un barco y luego registrar en el array 
-			 * posicion[] en BARCO las casillas correspondientes, la operacion se efectua 
-			 * mediante un +lonngitud desde la proa, en la x si horizontal y en 
-			 * la y si no horizontal.
-			*/
+			impactos[i] = false;
 		}
-		
 	}
 	
 		//Metodos
 		public void setImpacto(Casilla impacto) {
 			boolean finder = false;
 			boolean done = false;
-			int cont = 0;
+			int buscador;
 			for(int foo = 0; foo < this.impactos.length; foo++)
 			{
-				if(impacto == this.impactos[foo])
+				if(impacto == this.posicion[foo] && impactos[foo])
 				{
 					finder = true;
+				}
+				else if(impacto == this.posicion[foo])
+				{
+					buscador = foo;
 				}
 			}
 			if(!finder)
 			{
-				if(this.estado == Status.INTACTO)
+				if(protegido)
 				{
-					this.estado = Status.TOCADO;
+					protegido = false;
 				}
-				for(int fua = 0; fua < this.impactos.length; fua++)
+				else
 				{
-					if(this.impactos[fua] == null && !done)
+					if(estado == Status.INTACTO)
 					{
-						this.impactos[fua] = impacto;
+						estado = Status.TOCADO;
 					}
-				}
-				for(int alpha = 0; alpha < this.impactos.length; alpha++)
-				{
-					for(int bravo = 0; bravo < this.posicion.length; bravo++)
-					{
-						if(this.impactos[alpha]==this.posicion[bravo])
-						{
-							cont++;
-						}
-					}
-				}
-				if(cont == this.posicion.length)
-				{
-					this.estado = Status.HUNDIDO;
 				}
 			}
 		}
@@ -95,9 +70,9 @@ public class Barco {
 		{
 			for(int charlie = 0; charlie < this.impactos.length; charlie++)
 			{
-				this.impactos[charlie] = null;
+				this.impactos[charlie] = false;
 			}
-			this.estado = Status.HUNDIDO;
+			this.estado = Status.INTACTO;
 		}
 			
 		//get & set (he eliminado los que no deberian de ser modificados tras su inicializacion)
@@ -117,8 +92,27 @@ public class Barco {
 			return posicion;
 		}
 
-		public Casilla[] getImpactos() {
+		public boolean[] getImpactos() {
 			return impactos;
+		}
+
+		public TipoDeBarco getModelo() {
+			return modelo;
+		}
+		public boolean isHorizontal() {
+			return horizontal;
+		}
+		public void setHorizontal(boolean horizontal) {
+			this.horizontal = horizontal;
+		}
+		public Casilla getProa() {
+			return proa;
+		}
+		public void setProa(Casilla proa) {
+			this.proa = proa;
+		}
+		public void setPosicion(Casilla[] posicion) {
+			this.posicion = posicion;
 		}
 
 		

@@ -23,6 +23,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import packMainJava.Barco;
 import packMainJava.Casilla;
 import packMainJava.IA;
 import packMainJava.Inventario;
@@ -64,7 +65,8 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	private JButton Escudo;
 	private JButton Radar;
 	private JButton TIENDA;
-
+	private static Tablero tableroJ;
+	private static Tablero tableroIA;
 	Inventario inv = Inventario.getInventario(); // Instancia única al Singleton
 	Tienda shop = Tienda.getTienda(); // Instancia única al Singleton
 	private JRadioButton rdbtnSubmarino;
@@ -281,7 +283,9 @@ public class Partida extends JFrame implements Observer,ActionListener {
 				JButton temp = mCasillas[n][m];
 				// fijar cada casilla a una posicion y tama�o en funcion de su
 				// fila y columna
-				temp.setBounds(48 + (m * anchoDeCasilla), 100 + (n * altoDeCasilla), anchoDeCasilla, altoDeCasilla);
+				temp.setBounds(48 + (m * anchoDeCasilla),
+						100 + (n * altoDeCasilla), anchoDeCasilla,
+						altoDeCasilla);
 			}
 		}
 
@@ -289,7 +293,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 
 	public void inicializar2() {
 		mCasillas2 = new JButton[10][10];
-		Tablero tableroIA = new Tablero();
+		tableroIA = new Tablero();
 		for (int n = 0; n < 10; n++) {
 			for (int m = 0; m < 10; m++) {
 				JButton temp = new JButton();
@@ -299,16 +303,16 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		int cont = 0;
 		int numBarcos = 1;
-			for(int tam=1;tam<=4;tam++){	
-				while(cont < numBarcos)
-				{
-					//IA.ponerBarco(tableroIA,tam);
-					cont++;
-				}
-				cont = 0;
-				numBarcos++;
-          }  
-    }
+		Barco hmsVictory;
+		for (int tam = 1; tam <= 4; tam++) {
+			while (cont < numBarcos) {
+				IA.ponerBarco(tableroIA, hmsVictory);
+				cont++;
+			}
+			cont = 0;
+			numBarcos++;
+		}
+	}
 
 	public void ordenar2() {
 		int anchoTotal = 335;
@@ -322,7 +326,9 @@ public class Partida extends JFrame implements Observer,ActionListener {
 				JButton temp = mCasillas2[n][m];
 				// fijar cada casilla a una posicion y tama�o en funcion de su
 				// fila y columna
-				temp.setBounds(446 + (m * anchoDeCasilla), 100 + (n * altoDeCasilla), anchoDeCasilla, altoDeCasilla);
+				temp.setBounds(446 + (m * anchoDeCasilla),
+						100 + (n * altoDeCasilla), anchoDeCasilla,
+						altoDeCasilla);
 			}
 		}
 
@@ -336,7 +342,8 @@ public class Partida extends JFrame implements Observer,ActionListener {
 				}
 			});
 			Misil.setHorizontalAlignment(SwingConstants.LEFT);
-			Misil.setIcon(new ImageIcon(this.getClass().getResource("/misil.png")));
+			Misil.setIcon(new ImageIcon(this.getClass().getResource(
+					"/misil.png")));
 		}
 		return Misil;
 	}
@@ -433,5 +440,12 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		    temp.setBackground(Color.GREEN);
 		    
 		    		}	
+	}
+	public static Tablero getTableroJugador() {
+		return tableroJ;
+	}
+
+	public static Tablero getTableroIA() {
+		return tableroIA;
 	}
 }

@@ -3,7 +3,7 @@ package packMainJava;
 import java.awt.event.MouseEvent;
 
 //Habra que hacerlo singleton
-public class Player {
+public class Player extends Jugador {
 
 
 	public Player(){
@@ -50,6 +50,23 @@ public class Player {
 	 * 
 	 * 
 	 */
+	}
+
+	@Override
+	boolean puedePonerBarco(Tablero tab, int tam, int fila, int columna,
+			boolean hor) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	void ponerBarco(Tablero tab, Barco pBarco) {
+		// TODO Auto-generated method stub
+		
+	}
+	void act()
+	{
+		
 	}
 }
 

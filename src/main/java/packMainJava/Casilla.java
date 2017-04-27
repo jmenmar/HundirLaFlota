@@ -4,9 +4,9 @@ public class Casilla {
 	
 	private int x;
 	private int y;
-	CasillaEstado estado;
-	boolean tocaBarco;
-	Barco ocupadaPor;
+	private CasillaEstado estado;
+	private boolean tocaBarco;
+	private Barco ocupadaPor;
 	
 	//Constructor
 	//n es horizontal y m es Vertical

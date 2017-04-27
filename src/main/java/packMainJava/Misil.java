@@ -30,7 +30,7 @@ public class Misil extends Recurso {
 		}
 	}
 
-	public Misil getMisil()
+	public static Misil getMisil()
 	{
 		return sidewinder;
 	}
