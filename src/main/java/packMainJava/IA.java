@@ -152,6 +152,8 @@ public class IA extends Jugador{
 		{
 			usarRadar(random.nextInt(100), PackSwings.Partida.getTableroJugador());
 		}
+		disparar(random.nextInt(100), PackSwings.Partida.getTableroJugador());
+		//Aqui se cambiaria el turno ya
 		
 	}
 	private void comprarRecursos(int probabilidad)
@@ -287,7 +289,7 @@ public class IA extends Jugador{
 		Random kBoom = new Random();
 		int bombaOMisil = kBoom.nextInt();
 		Casilla objetivo;
-		if(bombaOMisil < 25)
+		if(bombaOMisil < 25 && numMisiles > 0)
 		{
 			if(detectado != null)
 			{
