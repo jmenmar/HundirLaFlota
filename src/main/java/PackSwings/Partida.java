@@ -28,6 +28,7 @@ import packMainJava.Casilla;
 import packMainJava.IA;
 import packMainJava.Inventario;
 import packMainJava.Jugador;
+import packMainJava.Player;
 import packMainJava.Tablero;
 import packMainJava.TipoDeBarco;
 
@@ -45,6 +46,7 @@ import java.util.Observer;
 import java.awt.event.ActionEvent;
 
 import packMainJava.CasillaEstado;
+
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 public class Partida extends JFrame implements Observer,ActionListener {
@@ -72,10 +74,12 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	private JRadioButton rdbtnSubmarino;
 	private JRadioButton rdbtnDestructor;
 	private JRadioButton rdbtnFragata;
+	private JRadioButton rdbtnPortaaviones;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JRadioButton rdbtnHorizontal;
 	private JRadioButton rdbtnVertical;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -130,24 +134,21 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			lblTableroIa.setFont(new Font("Tahoma", Font.BOLD, 20));
 
 			JButton Bomba = new JButton("Nº de Bombas");
-			
-			JRadioButton rdbtnNewRadioButton = new JRadioButton("PORTAAVIONES");
-			rdbtnNewRadioButton.setSelected(true);
-			buttonGroup.add(rdbtnNewRadioButton);
 			GroupLayout gl_panel = new GroupLayout(panel);
 			gl_panel.setHorizontalGroup(
 				gl_panel.createParallelGroup(Alignment.LEADING)
 					.addGroup(gl_panel.createSequentialGroup()
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(46)
+								.addGap(28)
 								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
 									.addGroup(gl_panel.createSequentialGroup()
 										.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addGap(63)
 										.addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 									.addGroup(gl_panel.createSequentialGroup()
-										.addComponent(rdbtnNewRadioButton, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+										.addGap(18)
+										.addComponent(getRdbtnPortaaviones(), GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
 										.addPreferredGap(ComponentPlacement.RELATED)
 										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 											.addComponent(getRdbtnHorizontal(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -208,8 +209,9 @@ public class Partida extends JFrame implements Observer,ActionListener {
 									.addGroup(gl_panel.createSequentialGroup()
 										.addGap(32)
 										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-											.addComponent(getRdbtnSubmarino(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-											.addComponent(rdbtnNewRadioButton, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+											.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+												.addComponent(getRdbtnSubmarino(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+												.addComponent(getRdbtnPortaaviones(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
 											.addComponent(getRdbtnDestructor(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
 											.addComponent(getRdbtnFragata(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(ComponentPlacement.RELATED)
@@ -306,7 +308,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		Barco hmsVictory;
 		for (int tam = 1; tam <= 4; tam++) {
 			while (cont < numBarcos) {
-				IA.ponerBarco(tableroIA, hmsVictory);
+			//	IA.ponerBarco(tableroIA, hmsVictory);
 				cont++;
 			}
 			cont = 0;
@@ -324,6 +326,8 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			for (int m = 0; m < 10; m++) {
 				// obtenemos una referencia al boton actual
 				JButton temp = mCasillas2[n][m];
+				int x = n;
+				int y = m;
 				// fijar cada casilla a una posicion y tama�o en funcion de su
 				// fila y columna
 				temp.setBounds(446 + (m * anchoDeCasilla),
@@ -392,6 +396,13 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		// TODO Auto-generated method stub
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
 	}
+	private JRadioButton getRdbtnPortaaviones() {
+		if (rdbtnPortaaviones == null) {
+			rdbtnPortaaviones = new JRadioButton("PORTAAVIONES");
+			buttonGroup.add(rdbtnPortaaviones);
+		}
+		return rdbtnPortaaviones;
+	}
 	private JRadioButton getRdbtnSubmarino() {
 		if (rdbtnSubmarino == null) {
 			rdbtnSubmarino = new JRadioButton("SUBMARINO");
@@ -409,6 +420,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	private JRadioButton getRdbtnFragata() {
 		if (rdbtnFragata == null) {
 			rdbtnFragata = new JRadioButton("FRAGATA");
+			rdbtnFragata.setSelected(true);
 			buttonGroup.add(rdbtnFragata);
 		}
 		return rdbtnFragata;
@@ -429,6 +441,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		return rdbtnVertical;
 	}
 
+	@SuppressWarnings("null")
 	public void actionPerformed(ActionEvent e) {
 		// Recibimos la notificacion de que alguno de los botones fue presionado
 		
@@ -437,7 +450,95 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			//Obtenemos una referencia al objeto causante del evento
 			JButton temp = (JButton) e.getSource();
 			//Realizamos las operaciones que queremos realizar sobre el boton clicado
-		    temp.setBackground(Color.GREEN);
+     	    temp.setBackground(Color.GREEN);
+		    //La idea es que crea un barco del tipo del cual el radiobutton este marcado para poder pasarselo a los metodos
+		    //Horizontal sera 0 y vertical sera 1
+		    int hor=0;
+		    if(rdbtnHorizontal.isSelected()==true){
+		    	hor=0;
+		    }else if(rdbtnVertical.isSelected()==true){
+		    	hor=1;
+		    }
+	/*	    int portaaviones=1;
+		    int submarinos=2;
+		    int destructores=3;
+		    int fragatas=4;    */
+		    		
+		    //Calculamos la posicion del boton en X e Y en su tablero
+		    int posX=(temp.getX()-48)/(335/10);
+		    int posY=(temp.getX()-100)/(335/10);
+		    Barco pBarco = new Barco(TipoDeBarco.FRAGATA);
+		    if(rdbtnSubmarino.isSelected()==true){
+		    	if(hor==0){
+		    	for(int i=0;i<3;i++){
+		    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+		    	pBarco.modelo = TipoDeBarco.SUBMARINO;
+			    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
+			    mCasillas[posX][posY+i].setBackground(Color.GREEN);    	
+		    	}}else if(hor==1){
+		    		for(int i=0;i<3;i++){
+				    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+				    	pBarco.modelo = TipoDeBarco.SUBMARINO;
+					    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
+					    mCasillas[posX+i][posY].setBackground(Color.GREEN);
+		         	}
+			    }   	
+	/*          	submarinos--;
+		    	if(submarinos==0){
+		    		rdbtnSubmarino.setEnabled(false);
+		    	} */
+		    }else if(rdbtnDestructor.isSelected()==true){
+		       	if(hor==0){
+			    	for(int i=0;i<2;i++){
+			    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+			    	pBarco.modelo = TipoDeBarco.DESTRUCTOR;
+				    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
+				    mCasillas[posX][posY+i].setBackground(Color.GREEN);
+			    	
+			    	}}else if(hor==1){
+			    		for(int i=0;i<2;i++){
+					    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+					    	pBarco.modelo = TipoDeBarco.DESTRUCTOR;
+						    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
+						    mCasillas[posX+i][posY].setBackground(Color.GREEN);
+			           	}
+				    }  	
+		    }else if(rdbtnPortaaviones.isSelected()==true){
+		    	if(hor==0){
+			    	for(int i=0;i<4;i++){
+			    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+			    	pBarco.modelo = TipoDeBarco.PORTAAVIONES;
+				    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
+				   temp = mCasillas[posX][posY+i];
+                   temp.setBackground(Color.GREEN);			    	
+			    	}}else if(hor==1){
+			    		for(int i=0;i<4;i++){
+					    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+					    	pBarco.modelo = TipoDeBarco.PORTAAVIONES;
+						    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
+						    mCasillas[posX+i][posY].setBackground(Color.GREEN);
+			           	}
+				    }  
+		    }else if(rdbtnFragata.isSelected()==true){
+		    	if(hor==0){
+			    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+			    	pBarco.modelo = TipoDeBarco.FRAGATA;
+				    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
+				    mCasillas[posX][posY].setBackground(Color.GREEN);
+			    	
+			    	}else if(hor==1){		    		
+					    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+					    	pBarco.modelo = TipoDeBarco.FRAGATA;
+						    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
+						    mCasillas[posX][posY].setBackground(Color.GREEN);
+				    } 
+		    }
+		    //Indicas a la casilla que esta ocupada y por que barco lo esta
+		    //Falta hacerlo para todas las casillas
+		  
+		    
+		    //Pintamos el resto de casillas segun el barco y el hor que nos indican los botones, 
+		    //comprobando que esta dentro y que no haya barcos debajo
 		    
 		    		}	
 	}
@@ -448,4 +549,5 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	public static Tablero getTableroIA() {
 		return tableroIA;
 	}
+	
 }
