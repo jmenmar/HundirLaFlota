@@ -79,6 +79,10 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	private JRadioButton rdbtnHorizontal;
 	private JRadioButton rdbtnVertical;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	int portaaviones=1;
+    int submarinos=2;
+    int destructores=3;
+    int fragatas=4; 
 	
 	/**
 	 * Launch the application.
@@ -450,97 +454,124 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			//Obtenemos una referencia al objeto causante del evento
 			JButton temp = (JButton) e.getSource();
 			//Realizamos las operaciones que queremos realizar sobre el boton clicado
-     	    temp.setBackground(Color.GREEN);
 		    //La idea es que crea un barco del tipo del cual el radiobutton este marcado para poder pasarselo a los metodos
 		    //Horizontal sera 0 y vertical sera 1
-		    int hor=0;
+		    boolean hor=true;
 		    if(rdbtnHorizontal.isSelected()==true){
-		    	hor=0;
+		    	hor=true;
 		    }else if(rdbtnVertical.isSelected()==true){
-		    	hor=1;
-		    }
-	/*	    int portaaviones=1;
-		    int submarinos=2;
-		    int destructores=3;
-		    int fragatas=4;    */
-		    		
+		    	hor=false;
+		    }	
 		    //Calculamos la posicion del boton en X e Y en su tablero
+		    //Aviso, estan invertidas, la X es la Y y la Y es la X
 		    int posX=(temp.getX()-48)/(335/10);
-		    int posY=(temp.getX()-100)/(335/10);
+		    int posY=(temp.getY()-100)/(335/10);
 		    Barco pBarco = new Barco(TipoDeBarco.FRAGATA);
-		    if(rdbtnSubmarino.isSelected()==true){
-		    	if(hor==0){
+		    //Queda comprobar si se puede colocar el barco
+		    // && Jugador.puedePonerBarco(tableroJ, 3, posY, posX, hor)==true para el submarino
+		    if(rdbtnSubmarino.isSelected()==true && rdbtnSubmarino.isEnabled()==true){
+		    	if(hor==true){
+		    		//indicamos que hemos colacado un barco, y si ya no hay mas lo negamos
+		    		submarinos--;
+			    	if(submarinos==0){
+			    		rdbtnSubmarino.setEnabled(false);
+			    	} 
+			    //Pintamos el barco en sus casillas correspondientes	
 		    	for(int i=0;i<3;i++){
-		    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+		    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
 		    	pBarco.modelo = TipoDeBarco.SUBMARINO;
-			    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
-			    mCasillas[posX][posY+i].setBackground(Color.GREEN);    	
-		    	}}else if(hor==1){
+			    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
+			    mCasillas[posY][posX+i].setBackground(Color.GREEN);    
+		    	}}else if(hor==false){
+		    		 submarinos--;
+				    	if(submarinos==0){
+				    		rdbtnSubmarino.setEnabled(false);
+				    	} 
 		    		for(int i=0;i<3;i++){
-				    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+				    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
 				    	pBarco.modelo = TipoDeBarco.SUBMARINO;
-					    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
-					    mCasillas[posX+i][posY].setBackground(Color.GREEN);
+					    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
+					    mCasillas[posY+i][posX].setBackground(Color.GREEN);
 		         	}
 			    }   	
-	/*          	submarinos--;
-		    	if(submarinos==0){
-		    		rdbtnSubmarino.setEnabled(false);
-		    	} */
-		    }else if(rdbtnDestructor.isSelected()==true){
-		       	if(hor==0){
+		    }else if(rdbtnDestructor.isSelected()==true  && rdbtnDestructor.isEnabled()==true){
+		       	if(hor==true){
+		       	    destructores--;
+			    	if(destructores==0){
+			    		rdbtnDestructor.setEnabled(false);
+			    	} 
 			    	for(int i=0;i<2;i++){
-			    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
-			    	pBarco.modelo = TipoDeBarco.DESTRUCTOR;
-				    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
-				    mCasillas[posX][posY+i].setBackground(Color.GREEN);
-			    	
-			    	}}else if(hor==1){
-			    		for(int i=0;i<2;i++){
-					    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
-					    	pBarco.modelo = TipoDeBarco.DESTRUCTOR;
-						    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
-						    mCasillas[posX+i][posY].setBackground(Color.GREEN);
+			    	  Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
+			    	  pBarco.modelo = TipoDeBarco.DESTRUCTOR;
+				      Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
+				      mCasillas[posY][posX+i].setBackground(Color.GREEN);
+			    }}else if(hor==false){
+			    		  destructores--;
+					    	if(destructores==0){
+					    		rdbtnDestructor.setEnabled(false);
+					    	} 
+			    	for(int i=0;i<2;i++){
+					   	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
+					   	pBarco.modelo = TipoDeBarco.DESTRUCTOR;
+					    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
+					    mCasillas[posY+i][posX].setBackground(Color.GREEN);
 			           	}
 				    }  	
-		    }else if(rdbtnPortaaviones.isSelected()==true){
-		    	if(hor==0){
+		    }else if(rdbtnPortaaviones.isSelected()==true  && rdbtnPortaaviones.isEnabled()==true){
+		    	if(hor==true){
+		    		 portaaviones--;
+				    	if(portaaviones==0){
+				    		rdbtnPortaaviones.setEnabled(false);
+				    	} 
 			    	for(int i=0;i<4;i++){
-			    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+			    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
 			    	pBarco.modelo = TipoDeBarco.PORTAAVIONES;
-				    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
-				   temp = mCasillas[posX][posY+i];
-                   temp.setBackground(Color.GREEN);			    	
-			    	}}else if(hor==1){
+				    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
+				    mCasillas[posY][posX+i].setBackground(Color.GREEN);		
+			    }}else if(hor==false){
+			   		 portaaviones--;
+				    	if(portaaviones==0){
+				    		rdbtnPortaaviones.setEnabled(false);
+				    	} 
 			    		for(int i=0;i<4;i++){
-					    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
-					    	pBarco.modelo = TipoDeBarco.PORTAAVIONES;
-						    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
-						    mCasillas[posX+i][posY].setBackground(Color.GREEN);
+				    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
+					   	pBarco.modelo = TipoDeBarco.PORTAAVIONES;
+					    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
+					    mCasillas[posY+i][posX].setBackground(Color.GREEN);
 			           	}
 				    }  
-		    }else if(rdbtnFragata.isSelected()==true){
-		    	if(hor==0){
-			    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
+		    }else if(rdbtnFragata.isSelected()==true && rdbtnFragata.isEnabled()==true){
+		    	if(hor==true){
+		    		 fragatas--;
+				    	if(fragatas==0){
+				    		rdbtnFragata.setEnabled(false);
+				    	} 
+			    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
 			    	pBarco.modelo = TipoDeBarco.FRAGATA;
-				    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
-				    mCasillas[posX][posY].setBackground(Color.GREEN);
-			    	
-			    	}else if(hor==1){		    		
-					    	Player.tableroJ.getCasilla(posX,posY).setEstado(CasillaEstado.OCUPADA);
-					    	pBarco.modelo = TipoDeBarco.FRAGATA;
-						    Player.tableroJ.getCasilla(posX,posY).setOcupadaPor(pBarco);
-						    mCasillas[posX][posY].setBackground(Color.GREEN);
-				    } 
+				    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
+				    mCasillas[posY][posX].setBackground(Color.GREEN);
+			   	}else if(hor==false){	
+			   	 fragatas--;
+			    	if(fragatas==0){
+			    		rdbtnFragata.setEnabled(false);
+			    	} 
+			    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
+			    	pBarco.modelo = TipoDeBarco.FRAGATA;
+				    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
+				    mCasillas[posY][posX].setBackground(Color.GREEN);
+		     	    } 
 		    }
-		    //Indicas a la casilla que esta ocupada y por que barco lo esta
-		    //Falta hacerlo para todas las casillas
-		  
-		    
-		    //Pintamos el resto de casillas segun el barco y el hor que nos indican los botones, 
-		    //comprobando que esta dentro y que no haya barcos debajo
-		    
-		    		}	
+		    if(rdbtnPortaaviones.isEnabled()==false && rdbtnFragata.isEnabled()==false 
+					&& rdbtnSubmarino.isEnabled()==false && rdbtnDestructor.isEnabled()==false){
+				partidaEstado=2;
+				Misil.setEnabled(true);
+				//Bomba.setEnabled(false);
+				Escudo.setEnabled(true);
+				Radar.setEnabled(true);
+				Reparar.setEnabled(true);
+				TIENDA.setEnabled(true);
+			}
+		}	
 	}
 	public static Tablero getTableroJugador() {
 		return tableroJ;

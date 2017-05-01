@@ -13,8 +13,7 @@ public class Player extends Jugador {
 	int pHor=0;
 	}
 
-	@Override
-	boolean puedePonerBarco(Tablero tab, int tam, int fila, int columna,
+	public static boolean puedePonerBarco(Tablero tab, int tam, int fila, int columna,
 			boolean hor) {
 		return false;
 	}

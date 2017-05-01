@@ -21,7 +21,7 @@ public abstract class Jugador {
 		return true;
 	}
 	
-	boolean puedePonerBarco(Tablero tab, int tam, int fila, int columna,
+	public static boolean puedePonerBarco(Tablero tab, int tam, int fila, int columna,
 			boolean hor) {
 		int dFila=0,dColumna=0;
 		if(hor){
