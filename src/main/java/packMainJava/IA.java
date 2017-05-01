@@ -15,6 +15,7 @@ public class IA extends Jugador{
 	private int numReparaciones = 1;
 	private int numRadar = 1;
 	private int dinero = 1000;
+	private boolean magisterioEsUnGradoMedio;
 	private final int precioMisil = 100;
 	private final int precioEscudo = 200;
 	private final int precioRadar = 250;
@@ -116,60 +117,67 @@ public class IA extends Jugador{
 	}
 	private void comprarRecursos(int probabilidad)
 	{
-		if(probabilidad < 10)
-		{
-			Random quePodemosComprar = new Random();
-			int controlador = quePodemosComprar.nextInt(3);
-			//prueba adelante
-			/*	
-				Method maquillaje;
-				Class[] dineroArray = new Class[1];
-				dineroArray[0] = Integer.class;
+		magisterioEsUnGradoMedio = true;
+		while(magisterioEsUnGradoMedio){
+			if(probabilidad < 40)
+			{
+				Random quePodemosComprar = new Random();
+				int controlador = quePodemosComprar.nextInt(3);
+				//prueba adelante
+				/*	
+					Method maquillaje;
+					Class[] dineroArray = new Class[1];
+					dineroArray[0] = Integer.class;
+					switch (controlador)
+					{
+						case 0: try
+								{
+									maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
+									maquillaje.invoke(null, precioMisil);
+								} catch (NoSuchMethodException x) {
+								    x.printStackTrace();
+								} catch (IllegalAccessException x) {
+								    x.printStackTrace();
+								} catch (InvocationTargetException x) {
+								    x.printStackTrace();
+								{
+									System.out.println(x.toString());
+								}
+								}
+								break;
+						case 1: try
+								{
+									maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
+								} catch(NoSuchMethodException e)
+								{
+									System.out.println(e.toString());
+								}
+								break;
+						case 2: try
+								{
+									maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
+								} catch(NoSuchMethodException e)
+								{
+									System.out.println(e.toString());
+								}
+								break;
+					}
+				*/
 				switch (controlador)
 				{
-					case 0: try
-							{
-								maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
-								maquillaje.invoke(null, precioMisil);
-							} catch (NoSuchMethodException x) {
-							    x.printStackTrace();
-							} catch (IllegalAccessException x) {
-							    x.printStackTrace();
-							} catch (InvocationTargetException x) {
-							    x.printStackTrace();
-							{
-								System.out.println(x.toString());
-							}
-							}
-							break;
-					case 1: try
-							{
-								maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
-							} catch(NoSuchMethodException e)
-							{
-								System.out.println(e.toString());
-							}
-							break;
-					case 2: try
-							{
-								maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
-							} catch(NoSuchMethodException e)
-							{
-								System.out.println(e.toString());
-							}
-							break;
+					case 0:
+						if(dinero >= precioMisil)comprarMisil();
+						break;
+					case 1:
+						if(dinero >= precioEscudo)comprarEscudo();
+					
+					case 2:
+						if(dinero >= precioRadar)comprarRadar();
 				}
-			*/
-			switch (controlador)
+			}
+			else
 			{
-				case 0:
-					if(dinero >= precioMisil)comprarMisil();
-					break;
-				case 1:
-					if(dinero >= precioEscudo)comprarEscudo();
-				
-				case 2:
-					if(dinero >= precioRadar)comprarRadar();
+				magisterioEsUnGradoMedio = false;
 			}
 		}
 	}

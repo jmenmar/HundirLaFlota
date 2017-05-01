@@ -49,15 +49,16 @@ import packMainJava.CasillaEstado;
 
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-public class Partida extends JFrame implements Observer,ActionListener {
+
+public class Partida extends JFrame implements Observer, ActionListener {
 	private JPanel panel;
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JPanel panel_3;
 	private JButton[][] mCasillas = null;
 	private JButton[][] mCasillas2 = null;
-	
-	int partidaEstado=1;
+
+	int partidaEstado = 1;
 
 	private int numeroDeFilas = 10;
 	private int numeroDeColumnas = 10;
@@ -79,11 +80,11 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	private JRadioButton rdbtnHorizontal;
 	private JRadioButton rdbtnVertical;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	int portaaviones=1;
-    int submarinos=2;
-    int destructores=3;
-    int fragatas=4; 
-	
+	int portaaviones = 1;
+	int submarinos = 2;
+	int destructores = 3;
+	int fragatas = 4;
+
 	/**
 	 * Launch the application.
 	 */
@@ -93,7 +94,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 				try {
 					Partida frame = new Partida();
 					frame.setVisible(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -114,15 +115,15 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		setBounds(100, 100, 1000, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
-		if(partidaEstado==1){
+		if (partidaEstado == 1) {
 			Misil.setEnabled(false);
-			//Bomba.setEnabled(false);
+			Bomba.setEnabled(false);
 			Escudo.setEnabled(false);
 			Radar.setEnabled(false);
 			Reparar.setEnabled(false);
 			TIENDA.setEnabled(false);
 		}
-		
+
 	}
 
 	private JPanel getPanel() {
@@ -138,92 +139,258 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			lblTableroIa.setFont(new Font("Tahoma", Font.BOLD, 20));
 
 			JButton Bomba = new JButton("Nº de Bombas");
+			Bomba.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				}
+			});
 			GroupLayout gl_panel = new GroupLayout(panel);
-			gl_panel.setHorizontalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_panel.createSequentialGroup()
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(28)
-								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-									.addGroup(gl_panel.createSequentialGroup()
-										.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(63)
-										.addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGroup(gl_panel.createSequentialGroup()
-										.addGap(18)
-										.addComponent(getRdbtnPortaaviones(), GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-											.addComponent(getRdbtnHorizontal(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(getRdbtnSubmarino(), GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-											.addGroup(gl_panel.createSequentialGroup()
-												.addComponent(getRdbtnDestructor(), GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(getRdbtnFragata(), GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE))
-											.addComponent(getRdbtnVertical(), GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-										.addComponent(getTIENDA(), GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)))
-								.addGap(62)
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(Bomba, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(getEscudo(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(getRadar(), GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-									.addComponent(getReparar(), 0, 0, Short.MAX_VALUE)
-									.addComponent(getMisil(), Alignment.TRAILING)))
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(118)
-								.addComponent(lblTableroJugador)
-								.addGap(228)
-								.addComponent(lblTableroIa, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap(20, Short.MAX_VALUE))
-			);
-			gl_panel.setVerticalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_panel.createSequentialGroup()
-						.addGap(54)
-						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblTableroJugador)
-							.addComponent(lblTableroIa, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(9)
-								.addComponent(Bomba, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(getMisil(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(getReparar(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(getEscudo(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(getRadar(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(83, Short.MAX_VALUE))
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-									.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_panel.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-										.addComponent(getTIENDA(), GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-										.addGap(30))
-									.addGroup(gl_panel.createSequentialGroup()
-										.addGap(32)
-										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-											.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-												.addComponent(getRdbtnSubmarino(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-												.addComponent(getRdbtnPortaaviones(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
-											.addComponent(getRdbtnDestructor(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-											.addComponent(getRdbtnFragata(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-											.addComponent(getRdbtnHorizontal())
-											.addComponent(getRdbtnVertical()))
-										.addContainerGap())))))
-			);
+			gl_panel.setHorizontalGroup(gl_panel
+					.createParallelGroup(Alignment.LEADING)
+					.addGroup(
+							gl_panel.createSequentialGroup()
+									.addGroup(
+											gl_panel.createParallelGroup(
+													Alignment.LEADING)
+													.addGroup(
+															gl_panel.createSequentialGroup()
+																	.addGap(28)
+																	.addGroup(
+																			gl_panel.createParallelGroup(
+																					Alignment.TRAILING,
+																					false)
+																					.addGroup(
+																							gl_panel.createSequentialGroup()
+																									.addComponent(
+																											getPanel_1(),
+																											GroupLayout.PREFERRED_SIZE,
+																											GroupLayout.DEFAULT_SIZE,
+																											GroupLayout.PREFERRED_SIZE)
+																									.addGap(63)
+																									.addComponent(
+																											getPanel_3(),
+																											GroupLayout.PREFERRED_SIZE,
+																											GroupLayout.DEFAULT_SIZE,
+																											GroupLayout.PREFERRED_SIZE))
+																					.addGroup(
+																							gl_panel.createSequentialGroup()
+																									.addGap(18)
+																									.addComponent(
+																											getRdbtnPortaaviones(),
+																											GroupLayout.PREFERRED_SIZE,
+																											124,
+																											GroupLayout.PREFERRED_SIZE)
+																									.addPreferredGap(
+																											ComponentPlacement.RELATED)
+																									.addGroup(
+																											gl_panel.createParallelGroup(
+																													Alignment.LEADING,
+																													false)
+																													.addComponent(
+																															getRdbtnHorizontal(),
+																															GroupLayout.DEFAULT_SIZE,
+																															GroupLayout.DEFAULT_SIZE,
+																															Short.MAX_VALUE)
+																													.addComponent(
+																															getRdbtnSubmarino(),
+																															GroupLayout.DEFAULT_SIZE,
+																															124,
+																															Short.MAX_VALUE))
+																									.addPreferredGap(
+																											ComponentPlacement.RELATED)
+																									.addGroup(
+																											gl_panel.createParallelGroup(
+																													Alignment.LEADING)
+																													.addGroup(
+																															gl_panel.createSequentialGroup()
+																																	.addComponent(
+																																			getRdbtnDestructor(),
+																																			GroupLayout.PREFERRED_SIZE,
+																																			124,
+																																			GroupLayout.PREFERRED_SIZE)
+																																	.addPreferredGap(
+																																			ComponentPlacement.RELATED)
+																																	.addComponent(
+																																			getRdbtnFragata(),
+																																			GroupLayout.PREFERRED_SIZE,
+																																			124,
+																																			GroupLayout.PREFERRED_SIZE))
+																													.addComponent(
+																															getRdbtnVertical(),
+																															GroupLayout.PREFERRED_SIZE,
+																															124,
+																															GroupLayout.PREFERRED_SIZE))
+																									.addPreferredGap(
+																											ComponentPlacement.RELATED,
+																											99,
+																											Short.MAX_VALUE)
+																									.addComponent(
+																											getTIENDA(),
+																											GroupLayout.PREFERRED_SIZE,
+																											138,
+																											GroupLayout.PREFERRED_SIZE)))
+																	.addGap(62)
+																	.addGroup(
+																			gl_panel.createParallelGroup(
+																					Alignment.LEADING,
+																					false)
+																					.addComponent(
+																							Bomba,
+																							GroupLayout.DEFAULT_SIZE,
+																							GroupLayout.DEFAULT_SIZE,
+																							Short.MAX_VALUE)
+																					.addComponent(
+																							getEscudo(),
+																							GroupLayout.DEFAULT_SIZE,
+																							GroupLayout.DEFAULT_SIZE,
+																							Short.MAX_VALUE)
+																					.addComponent(
+																							getRadar(),
+																							GroupLayout.DEFAULT_SIZE,
+																							114,
+																							Short.MAX_VALUE)
+																					.addComponent(
+																							getReparar(),
+																							0,
+																							0,
+																							Short.MAX_VALUE)
+																					.addComponent(
+																							getMisil(),
+																							Alignment.TRAILING)))
+													.addGroup(
+															gl_panel.createSequentialGroup()
+																	.addGap(118)
+																	.addComponent(
+																			lblTableroJugador)
+																	.addGap(228)
+																	.addComponent(
+																			lblTableroIa,
+																			GroupLayout.PREFERRED_SIZE,
+																			133,
+																			GroupLayout.PREFERRED_SIZE)))
+									.addContainerGap(20, Short.MAX_VALUE)));
+			gl_panel.setVerticalGroup(gl_panel
+					.createParallelGroup(Alignment.LEADING)
+					.addGroup(
+							gl_panel.createSequentialGroup()
+									.addGap(54)
+									.addGroup(
+											gl_panel.createParallelGroup(
+													Alignment.BASELINE)
+													.addComponent(
+															lblTableroJugador)
+													.addComponent(
+															lblTableroIa,
+															GroupLayout.PREFERRED_SIZE,
+															25,
+															GroupLayout.PREFERRED_SIZE))
+									.addGap(18)
+									.addGroup(
+											gl_panel.createParallelGroup(
+													Alignment.LEADING)
+													.addGroup(
+															gl_panel.createSequentialGroup()
+																	.addGap(9)
+																	.addComponent(
+																			Bomba,
+																			GroupLayout.PREFERRED_SIZE,
+																			60,
+																			GroupLayout.PREFERRED_SIZE)
+																	.addGap(18)
+																	.addComponent(
+																			getMisil(),
+																			GroupLayout.PREFERRED_SIZE,
+																			60,
+																			GroupLayout.PREFERRED_SIZE)
+																	.addGap(18)
+																	.addComponent(
+																			getReparar(),
+																			GroupLayout.PREFERRED_SIZE,
+																			60,
+																			GroupLayout.PREFERRED_SIZE)
+																	.addGap(18)
+																	.addComponent(
+																			getEscudo(),
+																			GroupLayout.PREFERRED_SIZE,
+																			60,
+																			GroupLayout.PREFERRED_SIZE)
+																	.addGap(18)
+																	.addComponent(
+																			getRadar(),
+																			GroupLayout.PREFERRED_SIZE,
+																			60,
+																			GroupLayout.PREFERRED_SIZE)
+																	.addContainerGap(
+																			83,
+																			Short.MAX_VALUE))
+													.addGroup(
+															gl_panel.createSequentialGroup()
+																	.addGroup(
+																			gl_panel.createParallelGroup(
+																					Alignment.LEADING)
+																					.addComponent(
+																							getPanel_1(),
+																							GroupLayout.PREFERRED_SIZE,
+																							GroupLayout.DEFAULT_SIZE,
+																							GroupLayout.PREFERRED_SIZE)
+																					.addComponent(
+																							getPanel_3(),
+																							GroupLayout.PREFERRED_SIZE,
+																							GroupLayout.DEFAULT_SIZE,
+																							GroupLayout.PREFERRED_SIZE))
+																	.addGroup(
+																			gl_panel.createParallelGroup(
+																					Alignment.LEADING)
+																					.addGroup(
+																							gl_panel.createSequentialGroup()
+																									.addPreferredGap(
+																											ComponentPlacement.RELATED,
+																											41,
+																											Short.MAX_VALUE)
+																									.addComponent(
+																											getTIENDA(),
+																											GroupLayout.PREFERRED_SIZE,
+																											58,
+																											GroupLayout.PREFERRED_SIZE)
+																									.addGap(30))
+																					.addGroup(
+																							gl_panel.createSequentialGroup()
+																									.addGap(32)
+																									.addGroup(
+																											gl_panel.createParallelGroup(
+																													Alignment.LEADING)
+																													.addGroup(
+																															gl_panel.createParallelGroup(
+																																	Alignment.BASELINE)
+																																	.addComponent(
+																																			getRdbtnSubmarino(),
+																																			GroupLayout.PREFERRED_SIZE,
+																																			48,
+																																			GroupLayout.PREFERRED_SIZE)
+																																	.addComponent(
+																																			getRdbtnPortaaviones(),
+																																			GroupLayout.PREFERRED_SIZE,
+																																			48,
+																																			GroupLayout.PREFERRED_SIZE))
+																													.addComponent(
+																															getRdbtnDestructor(),
+																															GroupLayout.PREFERRED_SIZE,
+																															48,
+																															GroupLayout.PREFERRED_SIZE)
+																													.addComponent(
+																															getRdbtnFragata(),
+																															GroupLayout.PREFERRED_SIZE,
+																															48,
+																															GroupLayout.PREFERRED_SIZE))
+																									.addPreferredGap(
+																											ComponentPlacement.RELATED)
+																									.addGroup(
+																											gl_panel.createParallelGroup(
+																													Alignment.BASELINE)
+																													.addComponent(
+																															getRdbtnHorizontal())
+																													.addComponent(
+																															getRdbtnVertical()))
+																									.addContainerGap()))))));
 			panel.setLayout(gl_panel);
 		}
 		return panel;
@@ -235,10 +402,10 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			panel_1.setPreferredSize(new Dimension(335, 335));
 			panel_1.setBackground(Color.BLACK);
 			GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-			gl_panel_1.setHorizontalGroup(
-					gl_panel_1.createParallelGroup(Alignment.LEADING).addGap(0, 335, Short.MAX_VALUE));
-			gl_panel_1.setVerticalGroup(
-					gl_panel_1.createParallelGroup(Alignment.LEADING).addGap(0, 335, Short.MAX_VALUE));
+			gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(
+					Alignment.LEADING).addGap(0, 335, Short.MAX_VALUE));
+			gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(
+					Alignment.LEADING).addGap(0, 335, Short.MAX_VALUE));
 			panel_1.setLayout(gl_panel_1);
 			inicializar();
 			ordenar();
@@ -252,10 +419,10 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			panel_3.setPreferredSize(new Dimension(335, 335));
 			panel_3.setBackground(Color.BLACK);
 			GroupLayout gl_panel_3 = new GroupLayout(panel_3);
-			gl_panel_3.setHorizontalGroup(
-					gl_panel_3.createParallelGroup(Alignment.LEADING).addGap(349, 349, Short.MAX_VALUE));
-			gl_panel_3.setVerticalGroup(
-					gl_panel_3.createParallelGroup(Alignment.LEADING).addGap(349, 349, Short.MAX_VALUE));
+			gl_panel_3.setHorizontalGroup(gl_panel_3.createParallelGroup(
+					Alignment.LEADING).addGap(349, 349, Short.MAX_VALUE));
+			gl_panel_3.setVerticalGroup(gl_panel_3.createParallelGroup(
+					Alignment.LEADING).addGap(349, 349, Short.MAX_VALUE));
 			panel_3.setLayout(gl_panel_3);
 			inicializar2();
 			ordenar2();
@@ -312,7 +479,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		Barco hmsVictory;
 		for (int tam = 1; tam <= 4; tam++) {
 			while (cont < numBarcos) {
-			//	IA.ponerBarco(tableroIA, hmsVictory);
+				// IA.ponerBarco(tableroIA, hmsVictory);
 				cont++;
 			}
 			cont = 0;
@@ -362,7 +529,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return Bomba;
 	}
-	
+
 	private JButton getReparar() {
 		if (Reparar == null) {
 			Reparar = new JButton("Nº de Reparaciones");
@@ -400,6 +567,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		// TODO Auto-generated method stub
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
 	}
+
 	private JRadioButton getRdbtnPortaaviones() {
 		if (rdbtnPortaaviones == null) {
 			rdbtnPortaaviones = new JRadioButton("PORTAAVIONES");
@@ -407,6 +575,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return rdbtnPortaaviones;
 	}
+
 	private JRadioButton getRdbtnSubmarino() {
 		if (rdbtnSubmarino == null) {
 			rdbtnSubmarino = new JRadioButton("SUBMARINO");
@@ -414,6 +583,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return rdbtnSubmarino;
 	}
+
 	private JRadioButton getRdbtnDestructor() {
 		if (rdbtnDestructor == null) {
 			rdbtnDestructor = new JRadioButton("DESTRUCTOR");
@@ -421,6 +591,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return rdbtnDestructor;
 	}
+
 	private JRadioButton getRdbtnFragata() {
 		if (rdbtnFragata == null) {
 			rdbtnFragata = new JRadioButton("FRAGATA");
@@ -429,6 +600,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return rdbtnFragata;
 	}
+
 	private JRadioButton getRdbtnHorizontal() {
 		if (rdbtnHorizontal == null) {
 			rdbtnHorizontal = new JRadioButton("HORIZONTAL");
@@ -437,6 +609,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return rdbtnHorizontal;
 	}
+
 	private JRadioButton getRdbtnVertical() {
 		if (rdbtnVertical == null) {
 			rdbtnVertical = new JRadioButton("VERTICAL");
@@ -448,131 +621,162 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	@SuppressWarnings("null")
 	public void actionPerformed(ActionEvent e) {
 		// Recibimos la notificacion de que alguno de los botones fue presionado
-		
-		//Verificar que el causante de este evento sea un JButton y que estemos en el estado de colocar barcos
-		if(e.getSource() instanceof JButton && partidaEstado==1 ){
-			//Obtenemos una referencia al objeto causante del evento
+
+		// Verificar que el causante de este evento sea un JButton y que estemos
+		// en el estado de colocar barcos
+		if (e.getSource() instanceof JButton && partidaEstado == 1) {
+			// Obtenemos una referencia al objeto causante del evento
 			JButton temp = (JButton) e.getSource();
-			//Realizamos las operaciones que queremos realizar sobre el boton clicado
-		    //La idea es que crea un barco del tipo del cual el radiobutton este marcado para poder pasarselo a los metodos
-		    //Horizontal sera 0 y vertical sera 1
-		    boolean hor=true;
-		    if(rdbtnHorizontal.isSelected()==true){
-		    	hor=true;
-		    }else if(rdbtnVertical.isSelected()==true){
-		    	hor=false;
-		    }	
-		    //Calculamos la posicion del boton en X e Y en su tablero
-		    //Aviso, estan invertidas, la X es la Y y la Y es la X
-		    int posX=(temp.getX()-48)/(335/10);
-		    int posY=(temp.getY()-100)/(335/10);
-		    Barco pBarco = new Barco(TipoDeBarco.FRAGATA);
-		    //Queda comprobar si se puede colocar el barco
-		    // && Jugador.puedePonerBarco(tableroJ, 3, posY, posX, hor)==true para el submarino
-		    if(rdbtnSubmarino.isSelected()==true && rdbtnSubmarino.isEnabled()==true){
-		    	if(hor==true){
-		    		//indicamos que hemos colacado un barco, y si ya no hay mas lo negamos
-		    		submarinos--;
-			    	if(submarinos==0){
-			    		rdbtnSubmarino.setEnabled(false);
-			    	} 
-			    //Pintamos el barco en sus casillas correspondientes	
-		    	for(int i=0;i<3;i++){
-		    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
-		    	pBarco.modelo = TipoDeBarco.SUBMARINO;
-			    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
-			    mCasillas[posY][posX+i].setBackground(Color.GREEN);    
-		    	}}else if(hor==false){
-		    		 submarinos--;
-				    	if(submarinos==0){
-				    		rdbtnSubmarino.setEnabled(false);
-				    	} 
-		    		for(int i=0;i<3;i++){
-				    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
-				    	pBarco.modelo = TipoDeBarco.SUBMARINO;
-					    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
-					    mCasillas[posY+i][posX].setBackground(Color.GREEN);
-		         	}
-			    }   	
-		    }else if(rdbtnDestructor.isSelected()==true  && rdbtnDestructor.isEnabled()==true){
-		       	if(hor==true){
-		       	    destructores--;
-			    	if(destructores==0){
-			    		rdbtnDestructor.setEnabled(false);
-			    	} 
-			    	for(int i=0;i<2;i++){
-			    	  Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
-			    	  pBarco.modelo = TipoDeBarco.DESTRUCTOR;
-				      Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
-				      mCasillas[posY][posX+i].setBackground(Color.GREEN);
-			    }}else if(hor==false){
-			    		  destructores--;
-					    	if(destructores==0){
-					    		rdbtnDestructor.setEnabled(false);
-					    	} 
-			    	for(int i=0;i<2;i++){
-					   	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
-					   	pBarco.modelo = TipoDeBarco.DESTRUCTOR;
-					    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
-					    mCasillas[posY+i][posX].setBackground(Color.GREEN);
-			           	}
-				    }  	
-		    }else if(rdbtnPortaaviones.isSelected()==true  && rdbtnPortaaviones.isEnabled()==true){
-		    	if(hor==true){
-		    		 portaaviones--;
-				    	if(portaaviones==0){
-				    		rdbtnPortaaviones.setEnabled(false);
-				    	} 
-			    	for(int i=0;i<4;i++){
-			    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
-			    	pBarco.modelo = TipoDeBarco.PORTAAVIONES;
-				    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
-				    mCasillas[posY][posX+i].setBackground(Color.GREEN);		
-			    }}else if(hor==false){
-			   		 portaaviones--;
-				    	if(portaaviones==0){
-				    		rdbtnPortaaviones.setEnabled(false);
-				    	} 
-			    		for(int i=0;i<4;i++){
-				    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
-					   	pBarco.modelo = TipoDeBarco.PORTAAVIONES;
-					    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
-					    mCasillas[posY+i][posX].setBackground(Color.GREEN);
-			           	}
-				    }  
-		    }else if(rdbtnFragata.isSelected()==true && rdbtnFragata.isEnabled()==true){
-		    	if(hor==true){
-		    		 fragatas--;
-				    	if(fragatas==0){
-				    		rdbtnFragata.setEnabled(false);
-				    	} 
-			    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
-			    	pBarco.modelo = TipoDeBarco.FRAGATA;
-				    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
-				    mCasillas[posY][posX].setBackground(Color.GREEN);
-			   	}else if(hor==false){	
-			   	 fragatas--;
-			    	if(fragatas==0){
-			    		rdbtnFragata.setEnabled(false);
-			    	} 
-			    	Player.tableroJ.getCasilla(posY,posX).setEstado(CasillaEstado.OCUPADA);
-			    	pBarco.modelo = TipoDeBarco.FRAGATA;
-				    Player.tableroJ.getCasilla(posY,posX).setOcupadaPor(pBarco);
-				    mCasillas[posY][posX].setBackground(Color.GREEN);
-		     	    } 
-		    }
-		    if(rdbtnPortaaviones.isEnabled()==false && rdbtnFragata.isEnabled()==false 
-					&& rdbtnSubmarino.isEnabled()==false && rdbtnDestructor.isEnabled()==false){
-				partidaEstado=2;
+			// Realizamos las operaciones que queremos realizar sobre el boton
+			// clicado
+			// La idea es que crea un barco del tipo del cual el radiobutton
+			// este marcado para poder pasarselo a los metodos
+			// Horizontal sera 0 y vertical sera 1
+			boolean hor = true;
+			if (rdbtnHorizontal.isSelected() == true) {
+				hor = true;
+			} else if (rdbtnVertical.isSelected() == true) {
+				hor = false;
+			}
+			// Calculamos la posicion del boton en X e Y en su tablero
+			// Aviso, estan invertidas, la X es la Y y la Y es la X
+			int posX = (temp.getX() - 48) / (335 / 10);
+			int posY = (temp.getY() - 100) / (335 / 10);
+			Barco pBarco = new Barco(TipoDeBarco.FRAGATA);
+			// Queda comprobar si se puede colocar el barco
+			// && Jugador.puedePonerBarco(tableroJ, 3, posY, posX, hor)==true
+			// para el submarino
+			if (rdbtnSubmarino.isSelected() == true
+					&& rdbtnSubmarino.isEnabled() == true) {
+				if (hor == true) {
+					// indicamos que hemos colacado un barco, y si ya no hay mas
+					// lo negamos
+					submarinos--;
+					if (submarinos == 0) {
+						rdbtnSubmarino.setEnabled(false);
+					}
+					// Pintamos el barco en sus casillas correspondientes
+					for (int i = 0; i < 3; i++) {
+						Player.tableroJ.getCasilla(posY, posX).setEstado(
+								CasillaEstado.OCUPADA);
+						pBarco.modelo = TipoDeBarco.SUBMARINO;
+						Player.tableroJ.getCasilla(posY, posX).setOcupadaPor(
+								pBarco);
+						mCasillas[posY][posX + i].setBackground(Color.GREEN);
+					}
+				} else if (hor == false) {
+					submarinos--;
+					if (submarinos == 0) {
+						rdbtnSubmarino.setEnabled(false);
+					}
+					for (int i = 0; i < 3; i++) {
+						Player.tableroJ.getCasilla(posY, posX).setEstado(
+								CasillaEstado.OCUPADA);
+						pBarco.modelo = TipoDeBarco.SUBMARINO;
+						Player.tableroJ.getCasilla(posY, posX).setOcupadaPor(
+								pBarco);
+						mCasillas[posY + i][posX].setBackground(Color.GREEN);
+					}
+				}
+			} else if (rdbtnDestructor.isSelected() == true
+					&& rdbtnDestructor.isEnabled() == true) {
+				if (hor == true) {
+					destructores--;
+					if (destructores == 0) {
+						rdbtnDestructor.setEnabled(false);
+					}
+					for (int i = 0; i < 2; i++) {
+						Player.tableroJ.getCasilla(posY, posX).setEstado(
+								CasillaEstado.OCUPADA);
+						pBarco.modelo = TipoDeBarco.DESTRUCTOR;
+						Player.tableroJ.getCasilla(posY, posX).setOcupadaPor(
+								pBarco);
+						mCasillas[posY][posX + i].setBackground(Color.GREEN);
+					}
+				} else if (hor == false) {
+					destructores--;
+					if (destructores == 0) {
+						rdbtnDestructor.setEnabled(false);
+					}
+					for (int i = 0; i < 2; i++) {
+						Player.tableroJ.getCasilla(posY, posX).setEstado(
+								CasillaEstado.OCUPADA);
+						pBarco.modelo = TipoDeBarco.DESTRUCTOR;
+						Player.tableroJ.getCasilla(posY, posX).setOcupadaPor(
+								pBarco);
+						mCasillas[posY + i][posX].setBackground(Color.GREEN);
+					}
+				}
+			} else if (rdbtnPortaaviones.isSelected() == true
+					&& rdbtnPortaaviones.isEnabled() == true) {
+				if (hor == true) {
+					portaaviones--;
+					if (portaaviones == 0) {
+						rdbtnPortaaviones.setEnabled(false);
+					}
+					for (int i = 0; i < 4; i++) {
+						Player.tableroJ.getCasilla(posY, posX).setEstado(
+								CasillaEstado.OCUPADA);
+						pBarco.modelo = TipoDeBarco.PORTAAVIONES;
+						Player.tableroJ.getCasilla(posY, posX).setOcupadaPor(
+								pBarco);
+						mCasillas[posY][posX + i].setBackground(Color.GREEN);
+					}
+				} else if (hor == false) {
+					portaaviones--;
+					if (portaaviones == 0) {
+						rdbtnPortaaviones.setEnabled(false);
+					}
+					for (int i = 0; i < 4; i++) {
+						Player.tableroJ.getCasilla(posY, posX).setEstado(
+								CasillaEstado.OCUPADA);
+						pBarco.modelo = TipoDeBarco.PORTAAVIONES;
+						Player.tableroJ.getCasilla(posY, posX).setOcupadaPor(
+								pBarco);
+						mCasillas[posY + i][posX].setBackground(Color.GREEN);
+					}
+				}
+			} else if (rdbtnFragata.isSelected() == true
+					&& rdbtnFragata.isEnabled() == true) {
+				if (hor == true) {
+					fragatas--;
+					if (fragatas == 0) {
+						rdbtnFragata.setEnabled(false);
+					}
+					Player.tableroJ.getCasilla(posY, posX).setEstado(
+							CasillaEstado.OCUPADA);
+					pBarco.modelo = TipoDeBarco.FRAGATA;
+					Player.tableroJ.getCasilla(posY, posX)
+							.setOcupadaPor(pBarco);
+					mCasillas[posY][posX].setBackground(Color.GREEN);
+				} else if (hor == false) {
+					fragatas--;
+					if (fragatas == 0) {
+						rdbtnFragata.setEnabled(false);
+					}
+					Player.tableroJ.getCasilla(posY, posX).setEstado(
+							CasillaEstado.OCUPADA);
+					pBarco.modelo = TipoDeBarco.FRAGATA;
+					Player.tableroJ.getCasilla(posY, posX)
+							.setOcupadaPor(pBarco);
+					mCasillas[posY][posX].setBackground(Color.GREEN);
+				}
+			}
+			if (rdbtnPortaaviones.isEnabled() == false
+					&& rdbtnFragata.isEnabled() == false
+					&& rdbtnSubmarino.isEnabled() == false
+					&& rdbtnDestructor.isEnabled() == false) {
+				partidaEstado = 2;
 				Misil.setEnabled(true);
-				//Bomba.setEnabled(false);
+				// Bomba.setEnabled(false);
 				Escudo.setEnabled(true);
 				Radar.setEnabled(true);
 				Reparar.setEnabled(true);
 				TIENDA.setEnabled(true);
 			}
-		}	
+		}
 	}
+
 	public static Tablero getTableroJugador() {
 		return tableroJ;
 	}
@@ -580,5 +784,5 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	public static Tablero getTableroIA() {
 		return tableroIA;
 	}
-	
+
 }
