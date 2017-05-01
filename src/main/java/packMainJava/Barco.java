@@ -3,7 +3,7 @@ package packMainJava;
 public class Barco {
 	
 	private Status estado;
-	private TipoDeBarco modelo;
+	public TipoDeBarco modelo;
 	private boolean protegido;
 	private boolean horizontal;
 	private Casilla proa;

@@ -25,8 +25,8 @@ public class Casilla {
 		return estado;
 	}
 
-	public void setEstado(CasillaEstado estado) {
-		estado = estado;
+	public void setEstado(CasillaEstado estadoNuevo) {
+		estado = estadoNuevo;
 	}
 
 	public boolean isTocaBarco() {
