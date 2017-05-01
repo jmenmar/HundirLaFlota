@@ -96,6 +96,7 @@ public class IA extends Jugador{
 	public void act()
 	{
 		Random random = new Random();
+		detectado = null;
 		comprarRecursos(random.nextInt(100));
 		if (numReparaciones > 0)
 		{
