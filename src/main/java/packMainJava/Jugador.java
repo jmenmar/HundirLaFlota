@@ -2,9 +2,9 @@ package packMainJava;
 
 public abstract class Jugador {
 
-	Tablero tableroPropio = new Tablero();
-	Tablero tableroOponente = new Tablero();
-
+	public static Tablero tableroIA = new Tablero();
+	public static Tablero tableroJ = new Tablero();
+		
 	public void ponerBarcos()
 	{
 		
