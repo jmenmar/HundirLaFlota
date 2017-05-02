@@ -15,25 +15,27 @@ public class IA extends Jugador{
 	private int numReparaciones = 1;
 	private int numRadar = 1;
 	private int dinero = 1000;
+	private boolean magisterioEsUnGradoMedio;
 	private final int precioMisil = 100;
 	private final int precioEscudo = 200;
 	private final int precioRadar = 250;
 	private Casilla detectado;
 	private Barco[] laArmadaInvencible = new Barco[10];
 	private static IA mIA = new IA();
+	
+	
 	private IA()
 	{
 		
 	}
+	
 	public static IA getIA()
 	{
 		return mIA;
 	}
 	
-
-	
 	public void ponerBarco(TipoDeBarco pBarco){
-		int fila,columna,hor, tam;
+		int fila,columna,hor;
 		Random rnd = new Random();
 		//Sacar posicion al azar hasta que se pueda colocar dicho barco
 		do{
@@ -73,60 +75,67 @@ public class IA extends Jugador{
 	}
 	private void comprarRecursos(int probabilidad)
 	{
-		if(probabilidad < 10)
-		{
-			Random quePodemosComprar = new Random();
-			int controlador = quePodemosComprar.nextInt(3);
-			//prueba adelante
-			/*	
-				Method maquillaje;
-				Class[] dineroArray = new Class[1];
-				dineroArray[0] = Integer.class;
+		magisterioEsUnGradoMedio = true;
+		while(magisterioEsUnGradoMedio){
+			if(probabilidad < 40)
+			{
+				Random quePodemosComprar = new Random();
+				int controlador = quePodemosComprar.nextInt(3);
+				//prueba adelante
+				/*	
+					Method maquillaje;
+					Class[] dineroArray = new Class[1];
+					dineroArray[0] = Integer.class;
+					switch (controlador)
+					{
+						case 0: try
+								{
+									maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
+									maquillaje.invoke(null, precioMisil);
+								} catch (NoSuchMethodException x) {
+								    x.printStackTrace();
+								} catch (IllegalAccessException x) {
+								    x.printStackTrace();
+								} catch (InvocationTargetException x) {
+								    x.printStackTrace();
+								{
+									System.out.println(x.toString());
+								}
+								}
+								break;
+						case 1: try
+								{
+									maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
+								} catch(NoSuchMethodException e)
+								{
+									System.out.println(e.toString());
+								}
+								break;
+						case 2: try
+								{
+									maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
+								} catch(NoSuchMethodException e)
+								{
+									System.out.println(e.toString());
+								}
+								break;
+					}
+				*/
 				switch (controlador)
 				{
-					case 0: try
-							{
-								maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
-								maquillaje.invoke(null, precioMisil);
-							} catch (NoSuchMethodException x) {
-							    x.printStackTrace();
-							} catch (IllegalAccessException x) {
-							    x.printStackTrace();
-							} catch (InvocationTargetException x) {
-							    x.printStackTrace();
-							{
-								System.out.println(x.toString());
-							}
-							}
-							break;
-					case 1: try
-							{
-								maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
-							} catch(NoSuchMethodException e)
-							{
-								System.out.println(e.toString());
-							}
-							break;
-					case 2: try
-							{
-								maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
-							} catch(NoSuchMethodException e)
-							{
-								System.out.println(e.toString());
-							}
-							break;
+					case 0:
+						if(dinero >= precioMisil)comprarMisil();
+						break;
+					case 1:
+						if(dinero >= precioEscudo)comprarEscudo();
+					
+					case 2:
+						if(dinero >= precioRadar)comprarRadar();
 				}
-			*/
-			switch (controlador)
+			}
+			else
 			{
-				case 0:
-					if(dinero >= precioMisil)comprarMisil();
-					break;
-				case 1:
-					if(dinero >= precioEscudo)comprarEscudo();
-				
-				case 2:
-					if(dinero >= precioRadar)comprarRadar();
+				magisterioEsUnGradoMedio = false;
 			}
 		}
 	}
@@ -183,7 +192,6 @@ public class IA extends Jugador{
 	{
 		if(probabilidad < 20)
 		{
-			Random areaDeRastreo = new Random();
 			int numCol = tab.getMaxCol();
 			int numFil = tab.getMaxFil();
 			int randomX;
@@ -241,6 +249,51 @@ public class IA extends Jugador{
 				objetivo = tab.getCasilla(randomX, randomY);				
 			}
 			Bomba.getBomba().cumplirFuncion(objetivo);
+		}
+	}
+	public void addBarcoToArmadaInvencible(Barco sanJuanNepomuceno)
+	{
+		boolean encontrado = false;
+		int cont = 0;
+		while(cont < 10 && !encontrado)
+		{
+			if(laArmadaInvencible[cont] != null)encontrado = true;
+			cont++;
+		}
+		
+		if(cont > 9)
+		{
+			laArmadaInvencible[0] = sanJuanNepomuceno;
+		}
+		else
+		{
+			laArmadaInvencible[cont] = sanJuanNepomuceno;
+		}
+		
+	}
+	
+	public void colocarBarcosPropios()
+	{
+		int numPor = 1;
+		int numSub = 2;
+		int numDes = 3;
+		int numFra = 4;
+		
+		while(numPor > 0)
+		{
+			ponerBarco(TipoDeBarco.PORTAAVIONES);
+		}
+		while(numSub > 0)
+		{
+			
+		}
+		while(numDes > 0)
+		{
+			
+		}
+		while(numFra > 0)
+		{
+			
 		}
 	}
 	

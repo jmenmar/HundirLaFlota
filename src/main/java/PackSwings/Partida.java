@@ -79,10 +79,6 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	private JRadioButton rdbtnHorizontal;
 	private JRadioButton rdbtnVertical;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	int portaaviones=1;
-    int submarinos=2;
-    int destructores=3;
-    int fragatas=4;
     boolean turno=true;
 	
 	/**
@@ -311,16 +307,31 @@ public class Partida extends JFrame implements Observer,ActionListener {
 				temp.addActionListener(this);
 			}
 		}
-		int cont = 0;
-		int numBarcos = 1;
-		Barco hmsVictory;
-		for (int tam = 1; tam <= 4; tam++) {
-			while (cont < numBarcos) {
-			//	IA.ponerBarco(tableroIA, hmsVictory);
-				cont++;
+		testBarcosIA();
+
+	}
+
+	public void testBarcosIA() {
+		Casilla testudo;
+		System.out.println("Test barcos");
+		System.out.print("[-]");
+		for (int foo = 0; foo < 10; foo++) {
+			System.out.print("[" + foo + "]");
+		}
+		System.out.println("");
+		for (int m = 0; m < numeroDeColumnas; m++) {
+			System.out.print("[" + m + "]");
+			for (int n = 0; n < numeroDeFilas; n++) {
+				testudo = tableroIA.getCasilla(n, m);
+				System.out.print("[");
+				if (testudo.getOcupadaPor() != null) {
+					System.out.print("x");
+				} else {
+					System.out.print(" ");
+				}
+				System.out.print("]");
 			}
-			cont = 0;
-			numBarcos++;
+			System.out.print("\n");
 		}
 	}
 

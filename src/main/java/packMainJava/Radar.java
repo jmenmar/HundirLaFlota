@@ -4,10 +4,6 @@ import java.util.ArrayList;
 public class Radar extends Recurso{
 	
 	private final static Radar awacs = new Radar();
-	public void act()
-	{
-		cumplirFuncion(encontrarObjetivo());
-	}
 	public Casilla cumplirFuncion(Casilla pCasilla) {
 		// TODO Auto-generated method stub
 		int posX = pCasilla.getX();
