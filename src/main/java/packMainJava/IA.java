@@ -32,67 +32,24 @@ public class IA extends Jugador{
 	
 
 	
-	public void ponerBarco(Tablero tab, Barco pBarco){
+	public void ponerBarco(TipoDeBarco pBarco){
 		int fila,columna,hor, tam;
-		tam = pBarco.getModelo().getLongitud();
 		Random rnd = new Random();
 		//Sacar posicion al azar hasta que se pueda colocar dicho barco
 		do{
 				fila= rnd.nextInt(10);
 				columna= rnd.nextInt(10);
 				hor= rnd.nextInt(2);
-		}while(!puedePonerBarco(tab,tam,fila,columna,hor == 1));
-		
-		int dFila=0,dColumna=0;
-		if(hor==1) dFila=1;
-		else dColumna=1;
-				
-		//Añadir limites
-		
-		int filaA, filaB, colA, colB, minFila = 0, minCol = 0, mi;
-		if(dFila==1){
-			for(int fila2=fila;fila2<fila+tam;fila2++){
-					tab.getCasilla(fila2, columna).setEstado(CasillaEstado.OCUPADA);
-					tab.getCasilla(fila2, columna).setOcupadaPor(pBarco);
-			}
-			
-		}else if(dColumna==1){
-			for(int columna2=columna;columna2<columna+tam;columna2++){
-					tab.getCasilla(fila, columna2).setEstado(CasillaEstado.OCUPADA);
-					tab.getCasilla(fila, columna2).setOcupadaPor(pBarco);
-			}
-		}
-		
+		}while(!addBarco(pBarco,fila,columna,hor == 1));	
 	}
 	
-	
-	
-	public int getNumEscudos() {
-		return numEscudos;
-	}
-	public void setNumEscudos(int numEscudos) {
-		this.numEscudos = numEscudos;
-	}
-	public int getNumReparaciones() {
-		return numReparaciones;
-	}
-	public void setNumReparaciones(int numReparaciones) {
-		this.numReparaciones = numReparaciones;
-	}
-	public int getDinero() {
-		return dinero;
-	}
-	public void setDinero(int dinero) {
-		this.dinero = dinero;
-	}
 	public static IA getmIA() {
 		return mIA;
 	}
 	public static void setmIA(IA mIA) {
 		IA.mIA = mIA;
 	}
-	@Override
-
+	
 	public void act()
 	{
 		Random random = new Random();
