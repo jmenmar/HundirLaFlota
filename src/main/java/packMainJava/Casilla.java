@@ -33,16 +33,16 @@ public class Casilla {
 		return tocaBarco;
 	}
 
-	public void setTocaBarco(boolean tocaBarco) {
-		tocaBarco = tocaBarco;
+	public void setTocaBarco(boolean sienteElRoce) {
+		tocaBarco = sienteElRoce;
 	}
 
 	public Barco getOcupadaPor() {
 		return ocupadaPor;
 	}
 
-	public void setOcupadaPor(Barco ocupadaPor) {
-		ocupadaPor = ocupadaPor;
+	public void setOcupadaPor(Barco hayOkupasPorAqui) {
+		ocupadaPor = hayOkupasPorAqui;
 	}
 
 	public int getX() {

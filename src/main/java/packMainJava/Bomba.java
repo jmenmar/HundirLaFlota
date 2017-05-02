@@ -4,11 +4,6 @@ public class Bomba extends Recurso {
 
 	private static final Bomba gbu10 = new Bomba();
 	
-	public void act() {
-		// TODO Auto-generated method stub
-		cumplirFuncion(encontrarObjetivo());
-	}
-	
 	public CasillaEstado cumplirFuncion(Casilla pCasilla)
 	{
 		Barco tangoZulu = pCasilla.getOcupadaPor();

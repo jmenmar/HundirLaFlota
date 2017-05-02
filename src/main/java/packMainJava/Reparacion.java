@@ -4,9 +4,9 @@ public class Reparacion extends Recurso{
 	
 	private static final Reparacion astillero = new Reparacion();
 	
-	public void act()
+	public void act(Casilla taquillaDeClase)
 	{
-		cumplirFuncion(encontrarObjetivo());
+		cumplirFuncion(taquillaDeClase);
 	}
 	
 	public void cumplirFuncion(Casilla pCasilla)

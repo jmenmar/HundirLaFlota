@@ -4,11 +4,6 @@ public class Misil extends Recurso {
 	
 	private static final Misil sidewinder = new Misil();
 
-	public void act()
-	{
-		cumplirFuncion(encontrarObjetivo());
-	}
-
 	public CasillaEstado cumplirFuncion(Casilla pCasilla) {
 		// TODO Auto-generated method stub
 		Barco papaBear = pCasilla.getOcupadaPor();

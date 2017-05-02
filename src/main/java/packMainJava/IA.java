@@ -22,16 +22,17 @@ public class IA extends Jugador{
 	private Casilla detectado;
 	private Barco[] laArmadaInvencible = new Barco[10];
 	private static IA mIA = new IA();
+	
+	
 	private IA()
 	{
 		
 	}
+	
 	public static IA getIA()
 	{
 		return mIA;
 	}
-	
-
 	
 	public void ponerBarco(Tablero tab, Barco pBarco){
 		int fila,columna,hor, tam;
@@ -293,6 +294,26 @@ public class IA extends Jugador{
 			}
 			Bomba.getBomba().cumplirFuncion(objetivo);
 		}
+	}
+	public void addBarcoToArmadaInvencible(Barco sanJuanNepomuceno)
+	{
+		boolean encontrado = false;
+		int cont = 0;
+		while(cont < 10 && !encontrado)
+		{
+			if(laArmadaInvencible[cont] != null)encontrado = true;
+			cont++;
+		}
+		
+		if(cont > 9)
+		{
+			laArmadaInvencible[0] = sanJuanNepomuceno;
+		}
+		else
+		{
+			laArmadaInvencible[cont] = sanJuanNepomuceno;
+		}
+		
 	}
 	
 }

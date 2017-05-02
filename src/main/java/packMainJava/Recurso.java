@@ -7,13 +7,6 @@ public class Recurso {
 	{
 		
 	}
-	public Casilla encontrarObjetivo()
-	{
-		
-		//hay que añadir cómo encontrar la casilla, no se muy bien como pasarle el parámetro
-		Casilla objetivo;
-		objetivo = null;
-		return objetivo;
-	}
+	
 	
 }
