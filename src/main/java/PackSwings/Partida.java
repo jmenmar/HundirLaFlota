@@ -437,6 +437,16 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			rdbtnHorizontal.setEnabled(false);
 			rdbtnVertical.setEnabled(false);
 		}
+		if(partidaEstado==3){
+			System.out.println("Partida finaliza, cerrando en unos segundos");
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.exit(0);
+		}
 	    
 	}
 	private JRadioButton getRdbtnPortaaviones() {
@@ -506,8 +516,6 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		    int posX=(temp.getX()-48)/(335/10);
 		    int posY=(temp.getY()-100)/(335/10);
 		    TipoDeBarco tipo = TipoDeBarco.FRAGATA;
-		    //Queda comprobar si se puede colocar el barco
-		    // && Jugador.puedePonerBarco(tableroJ, 3, posY, posX, hor)==true para el submarino
 		    if(rdbtnSubmarino.isSelected()==true && rdbtnSubmarino.isEnabled()==true){
 		    	tipo = TipoDeBarco.SUBMARINO;
 		    }else if(rdbtnDestructor.isSelected()==true  && rdbtnDestructor.isEnabled()==true){
@@ -537,23 +545,16 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	//	    mCasillas2[posYIA][posXIA].setBackground(Color.GREEN);
 			
 			//Aqui debes 
-			if(temp.getName().equals("Bomba") || temp.getName().equals("Misil") ){
+		/*	if(temp.getName().equals("Bomba") || temp.getName().equals("Misil") ){
 				System.out.println("comprobar");
 				turno=false;
 			}
 			
-			if(turno==false){
+			if(turno==false){ 
 				//Hace lo de la IA de disparar aleatoriamente y asi
-			}
+			} */
 			
-			//Si ya no le quedan barcos, un if que lo pone en estado 3
-			
-			
-			
-		}
-		if(partidaEstado==3){
-			System.out.println("Decir el ganador");
-			System.exit(0);
+						
 		}
 	}
 	public static Tablero getTableroJugador() {
