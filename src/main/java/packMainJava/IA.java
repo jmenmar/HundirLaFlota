@@ -35,7 +35,7 @@ public class IA extends Jugador{
 	}
 	
 	public void ponerBarco(TipoDeBarco pBarco){
-		int fila,columna,hor, tam;
+		int fila,columna,hor;
 		Random rnd = new Random();
 		//Sacar posicion al azar hasta que se pueda colocar dicho barco
 		do{
@@ -192,7 +192,6 @@ public class IA extends Jugador{
 	{
 		if(probabilidad < 20)
 		{
-			Random areaDeRastreo = new Random();
 			int numCol = tab.getMaxCol();
 			int numFil = tab.getMaxFil();
 			int randomX;
@@ -271,6 +270,31 @@ public class IA extends Jugador{
 			laArmadaInvencible[cont] = sanJuanNepomuceno;
 		}
 		
+	}
+	
+	public void colocarBarcosPropios()
+	{
+		int numPor = 1;
+		int numSub = 2;
+		int numDes = 3;
+		int numFra = 4;
+		
+		while(numPor > 0)
+		{
+			ponerBarco(TipoDeBarco.PORTAAVIONES);
+		}
+		while(numSub > 0)
+		{
+			
+		}
+		while(numDes > 0)
+		{
+			
+		}
+		while(numFra > 0)
+		{
+			
+		}
 	}
 	
 }

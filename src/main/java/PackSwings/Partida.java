@@ -59,7 +59,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JButton[][] mCasillas2 = null;
 
 	int partidaEstado = 1;
-
+	private Player jugador;
 	private int numeroDeFilas = 10;
 	private int numeroDeColumnas = 10;
 	private JButton Bomba;
@@ -109,6 +109,9 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	public Partida() {
 
 		initialize();
+		jugador = Player.getPlayer();
+		jugador.addObserver(this);
+		update(null, null);
 
 	}
 
@@ -580,8 +583,44 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	}
 
 	public void update(Observable observable, Object arg1) {
-		// TODO Auto-generated method stub
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
+		getMisil().setText("x" + inv.getNumMisiles());
+		getEscudo().setText("Escudo (x" + inv.getNumEscudos() + ")");
+		getRadar().setText("Radar (x" + inv.getNumRadares() + ")");
+
+		// Comprobar qué ha cambiado y actualizar y pintar recorriendo
+
+		for (int n = 0; n < 10; n++) {
+			for (int m = 0; m < 10; m++) {
+				if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA)
+					mCasillas[n][m].setBackground(Color.GREEN);
+			}
+		}
+
+		// Comprobaría los botones del los barcos
+		rdbtnPortaaviones.setEnabled(jugador
+				.comprobarNumBarcos(TipoDeBarco.PORTAAVIONES));
+		rdbtnSubmarino.setEnabled(jugador
+				.comprobarNumBarcos(TipoDeBarco.SUBMARINO));
+		rdbtnDestructor.setEnabled(jugador
+				.comprobarNumBarcos(TipoDeBarco.DESTRUCTOR));
+		rdbtnFragata
+				.setEnabled(jugador.comprobarNumBarcos(TipoDeBarco.FRAGATA));
+
+		if (rdbtnPortaaviones.isEnabled() == false
+				&& rdbtnFragata.isEnabled() == false
+				&& rdbtnSubmarino.isEnabled() == false
+				&& rdbtnDestructor.isEnabled() == false) {
+			partidaEstado = 2;
+			Misil.setEnabled(true);
+			Bomba.setEnabled(true);
+			Escudo.setEnabled(true);
+			Radar.setEnabled(true);
+			Reparar.setEnabled(true);
+			TIENDA.setEnabled(true);
+			rdbtnHorizontal.setEnabled(false);
+			rdbtnVertical.setEnabled(false);
+		}
+
 	}
 
 	private JRadioButton getRdbtnPortaaviones() {
@@ -643,35 +682,43 @@ public class Partida extends JFrame implements Observer, ActionListener {
 		if (e.getSource() instanceof JButton && partidaEstado == 1) {
 			// Obtenemos una referencia al objeto causante del evento
 			JButton temp = (JButton) e.getSource();
-			//Realizamos las operaciones que queremos realizar sobre el boton clicado
-		    //La idea es que crea un barco del tipo del cual el radiobutton este marcado para poder pasarselo a los metodos
-		    //Horizontal sera 0 y vertical sera 1
-		    boolean hor=true;
-		    if(rdbtnHorizontal.isSelected()==true){
-		    	hor=true;
-		    }else if(rdbtnVertical.isSelected()==true){
-		    	hor=false;
-		    }	
-		    //Calculamos la posicion del boton en X e Y en su tablero
-		    //Aviso, estan invertidas, la X es la Y y la Y es la X
-		    int posX=(temp.getX()-48)/(335/10);
-		    int posY=(temp.getY()-100)/(335/10);
-		    TipoDeBarco tipo = TipoDeBarco.FRAGATA;
-		    //Queda comprobar si se puede colocar el barco
-		    // && Jugador.puedePonerBarco(tableroJ, 3, posY, posX, hor)==true para el submarino
-		    if(rdbtnSubmarino.isSelected()==true && rdbtnSubmarino.isEnabled()==true){
-		    	tipo = TipoDeBarco.SUBMARINO;
-		    }else if(rdbtnDestructor.isSelected()==true  && rdbtnDestructor.isEnabled()==true){
-		    	tipo = TipoDeBarco.DESTRUCTOR;
-		    }else if(rdbtnPortaaviones.isSelected()==true  && rdbtnPortaaviones.isEnabled()==true){
-		    	tipo = TipoDeBarco.PORTAAVIONES;
-		    }else if(rdbtnFragata.isSelected()==true && rdbtnFragata.isEnabled()==true){ // Else
-		    	tipo = TipoDeBarco.FRAGATA;
-		    }
-		    
+			// Realizamos las operaciones que queremos realizar sobre el boton
+			// clicado
+			// La idea es que crea un barco del tipo del cual el radiobutton
+			// este marcado para poder pasarselo a los metodos
+			// Horizontal sera 0 y vertical sera 1
+			boolean hor = true;
+			if (rdbtnHorizontal.isSelected() == true) {
+				hor = true;
+			} else if (rdbtnVertical.isSelected() == true) {
+				hor = false;
+			}
+			// Calculamos la posicion del boton en X e Y en su tablero
+			// Aviso, estan invertidas, la X es la Y y la Y es la X
+			int posX = (temp.getX() - 48) / (335 / 10);
+			int posY = (temp.getY() - 100) / (335 / 10);
+			TipoDeBarco tipo = TipoDeBarco.FRAGATA;
+			// Queda comprobar si se puede colocar el barco
+			// && Jugador.puedePonerBarco(tableroJ, 3, posY, posX, hor)==true
+			// para el submarino
+			if (rdbtnSubmarino.isSelected() == true
+					&& rdbtnSubmarino.isEnabled() == true) {
+				tipo = TipoDeBarco.SUBMARINO;
+			} else if (rdbtnDestructor.isSelected() == true
+					&& rdbtnDestructor.isEnabled() == true) {
+				tipo = TipoDeBarco.DESTRUCTOR;
+			} else if (rdbtnPortaaviones.isSelected() == true
+					&& rdbtnPortaaviones.isEnabled() == true) {
+				tipo = TipoDeBarco.PORTAAVIONES;
+			} else if (rdbtnFragata.isSelected() == true
+					&& rdbtnFragata.isEnabled() == true) { // Else
+				tipo = TipoDeBarco.FRAGATA;
+			}
+
 			jugador.addBarco(tipo, posY, posX, hor);
-		    
-	    }   if (e.getSource() instanceof JButton && partidaEstado == 2) {
+
+		}
+		if (e.getSource() instanceof JButton && partidaEstado == 2) {
 			// Obtenemos una referencia al objeto causante del evento
 			JButton temp = (JButton) e.getSource();
 			// Realizamos las operaciones que queremos realizar sobre el boton
