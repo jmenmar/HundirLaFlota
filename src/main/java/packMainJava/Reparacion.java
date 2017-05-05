@@ -7,6 +7,8 @@ public class Reparacion extends Recurso{
 	public void act(Casilla taquillaDeClase)
 	{
 		cumplirFuncion(taquillaDeClase);
+		setChanged();
+		notifyObservers(); // Indicar que es el tablero de barcos
 	}
 	
 	public void cumplirFuncion(Casilla pCasilla)

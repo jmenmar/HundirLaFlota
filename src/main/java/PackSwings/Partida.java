@@ -29,8 +29,11 @@ import packMainJava.IA;
 import packMainJava.Inventario;
 import packMainJava.Jugador;
 import packMainJava.Player;
+import packMainJava.Radar;
+import packMainJava.Reparacion;
 import packMainJava.Tablero;
 import packMainJava.TipoDeBarco;
+import packMainJava.Escudo;
 
 import java.awt.Panel;
 
@@ -59,13 +62,16 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	
 	int partidaEstado=1;
   private Player jugador;
+  private Escudo escudo;
+  private Reparacion reparar;
+  private Radar radar;
 	private int numeroDeFilas = 10;
 	private int numeroDeColumnas = 10;
-	private JButton Bomba;
-	private JButton Misil;
-	private JButton Reparar;
-	private JButton Escudo;
-	private JButton Radar;
+	private JRadioButton rdbtnBomba;
+	private JRadioButton rdbtnMisil;
+	private JRadioButton rdbtnReparar;
+	private JRadioButton rdbtnEscudo;
+	private JRadioButton rdbtnRadar;
 	private JButton TIENDA;
 	private static Tablero tableroJ;
 	private static Tablero tableroIA;
@@ -80,6 +86,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	private JRadioButton rdbtnVertical;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
     boolean turno=true;
+    private final ButtonGroup buttonGroup_2 = new ButtonGroup();
 	
 	/**
 	 * Launch the application.
@@ -114,11 +121,11 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
 		if(partidaEstado==1){
-			Misil.setEnabled(false);
-			Bomba.setEnabled(false);
-			Escudo.setEnabled(false);
-			Radar.setEnabled(false);
-			Reparar.setEnabled(false);
+			rdbtnMisil.setEnabled(false);
+			rdbtnBomba.setEnabled(false);
+			rdbtnEscudo.setEnabled(false);
+			rdbtnRadar.setEnabled(false);
+			rdbtnReparar.setEnabled(false);
 			TIENDA.setEnabled(false);
 		}
 		
@@ -136,7 +143,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			JLabel lblTableroIa = new JLabel("TABLERO IA");
 			lblTableroIa.setFont(new Font("Tahoma", Font.BOLD, 20));
 
-			JButton Bomba = new JButton("Nº de Bombas");
+			JRadioButton Bomba = new JRadioButton("Nº de Bombas");
 			GroupLayout gl_panel = new GroupLayout(panel);
 			gl_panel.setHorizontalGroup(
 				gl_panel.createParallelGroup(Alignment.LEADING)
@@ -167,11 +174,11 @@ public class Partida extends JFrame implements Observer,ActionListener {
 										.addComponent(getTIENDA(), GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)))
 								.addGap(62)
 								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(getBomba(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(getEscudo(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(getRadar(), GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-									.addComponent(getReparar(), 0, 0, Short.MAX_VALUE)
-									.addComponent(getMisil(), Alignment.TRAILING)))
+									.addComponent(getRdbtnBomba(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(getRdbtnEscudo(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(getRdbtnRadar(), GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+									.addComponent(getRdbtnReparar(), 0, 0, Short.MAX_VALUE)
+									.addComponent(getRdbtnMisil(), Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 							.addGroup(gl_panel.createSequentialGroup()
 								.addGap(118)
 								.addComponent(lblTableroJugador)
@@ -190,15 +197,15 @@ public class Partida extends JFrame implements Observer,ActionListener {
 						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 							.addGroup(gl_panel.createSequentialGroup()
 								.addGap(9)
-								.addComponent(getBomba(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+								.addComponent(getRdbtnBomba(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
-								.addComponent(getMisil(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+								.addComponent(getRdbtnMisil(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
-								.addComponent(getReparar(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+								.addComponent(getRdbtnReparar(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
-								.addComponent(getEscudo(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+								.addComponent(getRdbtnEscudo(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
-								.addComponent(getRadar(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+								.addComponent(getRdbtnRadar(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 								.addContainerGap(83, Short.MAX_VALUE))
 							.addGroup(gl_panel.createSequentialGroup()
 								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
@@ -357,51 +364,47 @@ public class Partida extends JFrame implements Observer,ActionListener {
 
 	}
 
-	private JButton getMisil() {
-		if (Misil == null) {
-			Misil = new JButton("x" + inv.getNumMisiles());
-			Misil.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
-			Misil.setHorizontalAlignment(SwingConstants.LEFT);
-			Misil.setIcon(new ImageIcon(this.getClass().getResource(
+	private JRadioButton getRdbtnMisil() {
+		if (rdbtnMisil == null) {
+			rdbtnMisil = new JRadioButton("x" + inv.getNumMisiles());
+			buttonGroup_2.add(rdbtnMisil);
+			rdbtnMisil.setHorizontalAlignment(SwingConstants.LEFT);
+			rdbtnMisil.setIcon(new ImageIcon(this.getClass().getResource(
 					"/misil.png")));
-			Misil.addActionListener(this);
 		}
-		return Misil;
+		return rdbtnMisil;
 	}
 
-	private JButton getBomba() {
-		if (Bomba == null) {
-			Bomba = new JButton("Nº de Bombas");
-			Bomba.addActionListener(this);
+	private JRadioButton getRdbtnBomba() {
+		if (rdbtnBomba == null) {
+			rdbtnBomba = new JRadioButton("Nº de Bombas");
+			buttonGroup_2.add(rdbtnBomba);
 		}
-		return Bomba;
+		return rdbtnBomba;
 	}
 	
-	private JButton getReparar() {
-		if (Reparar == null) {
-			Reparar = new JButton("Nº de Reparaciones");
-			Reparar.addActionListener(this);
+	private JRadioButton getRdbtnReparar() {
+		if (rdbtnReparar == null) {
+			rdbtnReparar = new JRadioButton("Nº de Reparaciones");
+			buttonGroup_2.add(rdbtnReparar);
 		}
-		return Reparar;
+		return rdbtnReparar;
 	}
 
-	private JButton getEscudo() {
-		if (Escudo == null) {
-			Escudo = new JButton("Nº de Escudo");
-			Escudo.addActionListener(this);
+	private JRadioButton getRdbtnEscudo() {
+		if (rdbtnEscudo == null) {
+			rdbtnEscudo = new JRadioButton("Nº de Escudo");
+			buttonGroup_2.add(rdbtnEscudo);
 		}
-		return Escudo;
+		return rdbtnEscudo;
 	}
 
-	private JButton getRadar() {
-		if (Radar == null) {
-			Radar = new JButton("Nº de Radares");
-			Radar.addActionListener(this);
+	private JRadioButton getRdbtnRadar() {
+		if (rdbtnRadar == null) {
+			rdbtnRadar = new JRadioButton("Nº de Radares");
+			buttonGroup_2.add(rdbtnRadar);
 		}
-		return Radar;
+		return rdbtnRadar;
 	}
 
 	private JButton getTIENDA() {
@@ -417,18 +420,29 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	}
 
 	public void update(Observable observable, Object arg1) {
-		getMisil().setText("x" + inv.getNumMisiles());
-		getEscudo().setText("Escudo (x" + inv.getNumEscudos() + ")");
-		getRadar().setText("Radar (x" + inv.getNumRadares() + ")");
+		getRdbtnMisil().setText("x" + inv.getNumMisiles());
+		getRdbtnEscudo().setText("Escudo (x" + inv.getNumEscudos() + ")");
+		getRdbtnRadar().setText("Radar (x" + inv.getNumRadares() + ")");
 		
 		// Comprobar qué ha cambiado y actualizar y pintar recorriendo
-		
+		if(partidaEstado==1){
 		for (int n = 0; n < 10; n++) {
 			for (int m = 0; m < 10; m++) {
 				if (jugador.getEstadoCasillaBarcoJugador(n, m)== CasillaEstado.OCUPADA)
 				mCasillas[n][m].setBackground(Color.GREEN);
 			}
+		  }
 		}
+		//Pinta los escudos
+		if(partidaEstado==2){
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if (jugador.getBarcoEnCasilla(n, m).isProtegido())
+					mCasillas[n][m].setBackground(Color.CYAN);
+				    }
+				    //Hay que poner el de radar con el mCasillas2[][],el reparacion, y lo de bomba y misil
+			  }
+			}
 		
 		// Comprobaría los botones del los barcos
 		rdbtnPortaaviones.setEnabled(jugador.comprobarNumBarcos(TipoDeBarco.PORTAAVIONES));
@@ -439,11 +453,11 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		if(rdbtnPortaaviones.isEnabled()==false && rdbtnFragata.isEnabled()==false 
 				&& rdbtnSubmarino.isEnabled()==false && rdbtnDestructor.isEnabled()==false){
 			partidaEstado=2;
-			Misil.setEnabled(true);
-			Bomba.setEnabled(true);
-			Escudo.setEnabled(true);
-			Radar.setEnabled(true);
-			Reparar.setEnabled(true);
+			rdbtnMisil.setEnabled(true);
+			rdbtnBomba.setEnabled(true);
+			rdbtnEscudo.setEnabled(true);
+			rdbtnRadar.setEnabled(true);
+			rdbtnReparar.setEnabled(true);
 			TIENDA.setEnabled(true);
 			rdbtnHorizontal.setEnabled(false);
 			rdbtnVertical.setEnabled(false);
@@ -544,14 +558,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			JButton temp = (JButton) e.getSource();
 			//Realizamos las operaciones que queremos realizar sobre el boton clicado
 		    //Calculamos la posicion del boton en X e Y en su tablero
-		    //Aviso, estan invertidas, la X es la Y y la Y es la X
-			//TableroJ
-	//	    int posXJ=(temp.getX()-48)/(335/10);
-	//	    int posYJ=(temp.getY()-100)/(335/10);
-		    //TableroIA
-	//	    int posXIA=(temp.getX()-446)/(335/10);
-	//	    int posYIA=(temp.getY()-100)/(335/10);
-		    
+		    //Aviso, estan invertidas, la X es la Y y la Y es la X 
 	//	    mCasillas[posYJ][posXJ].setBackground(Color.GREEN);
 	//	    mCasillas2[posYIA][posXIA].setBackground(Color.GREEN);
 			
@@ -565,7 +572,27 @@ public class Partida extends JFrame implements Observer,ActionListener {
 				//Hace lo de la IA de disparar aleatoriamente y asi
 			} */
 			
-						
+			if(rdbtnEscudo.isSelected()==true){	
+				//TableroJ
+	     	    int posXJ=(temp.getX()-48)/(335/10);
+			    int posYJ=(temp.getY()-100)/(335/10);
+				//Sale nullPointerException que puede que se deba al metodo porque por la posicion no es problema,
+				//esta bien invertido asi
+				escudo.cumplirFuncion(jugador.getCasillaJugador(posYJ, posXJ));
+			}
+			if(rdbtnReparar.isSelected()==true){
+				//TableroJ
+	     	    int posXJ=(temp.getX()-48)/(335/10);
+			    int posYJ=(temp.getY()-100)/(335/10);
+			    reparar.act(jugador.getCasillaJugador(posYJ, posXJ));
+				
+			}
+            if(rdbtnRadar.isSelected()==true){
+    		    //TableroIA
+           	    int posXIA=(temp.getX()-446)/(335/10);
+           	    int posYIA=(temp.getY()-100)/(335/10);
+           	    radar.cumplirFuncion(jugador.getCasillaIA(posYIA, posXIA));
+			}			
 		}
 	}
 	public static Tablero getTableroJugador() {

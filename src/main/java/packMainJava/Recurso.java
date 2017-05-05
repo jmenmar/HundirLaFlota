@@ -1,6 +1,8 @@
 package packMainJava;
 
-public class Recurso {
+import java.util.Observable;
+
+public class Recurso extends Observable{
 	
 	//Métodos
 	public void act()

@@ -36,10 +36,15 @@ public class Radar extends Recurso{
 		try{
 		Casilla resultado = lista.get(randomNum);
 		return resultado;
+		//Habra que hacer que llegue el observer y lo actualice tras realizar la accion pero no me deja escribirlo idk why
+		//setChanged();
+		//notifyObservers(); // Indicar que es el tablero de barcos
+		
 		}catch(NullPointerException e)
 		{
 			return null;
 		}
+		
 	}
 	
 	public static Radar getRadar()

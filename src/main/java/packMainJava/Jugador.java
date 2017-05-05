@@ -160,5 +160,13 @@ public abstract class Jugador extends Observable {
 	public void setDinero(int dinero) {
 		this.dinero = dinero;
 	}
-
+	public Barco getBarcoEnCasilla(int fila,int columna){
+		return tableroJ.getCasilla(fila, columna).getOcupadaPor();
+	}
+	public Casilla getCasillaJugador(int fila, int columna) {
+		return tableroJ.getCasilla(fila, columna);
+	}
+	public Casilla getCasillaIA(int fila, int columna) {
+		return tableroIA.getCasilla(fila, columna);
+	}
 }
