@@ -2,7 +2,8 @@ package packMainJava;
 
 public class Misil extends Recurso {
 	
-	private static final Misil sidewinder = new Misil();
+	
+	private static Misil sidewinder = new Misil();
 
 	public CasillaEstado cumplirFuncion(Casilla pCasilla) {
 		// TODO Auto-generated method stub

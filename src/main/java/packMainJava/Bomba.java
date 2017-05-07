@@ -2,7 +2,12 @@ package packMainJava;
 
 public class Bomba extends Recurso {
 
-	private static final Bomba gbu10 = new Bomba();
+	private static Bomba gbu10 = new Bomba();
+	
+	public void act(int x, int y, Tablero tab)
+	{
+		cumplirFuncion(tab.getCasilla(x, y));
+	}
 	
 	public CasillaEstado cumplirFuncion(Casilla pCasilla)
 	{

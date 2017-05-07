@@ -4,7 +4,12 @@ import java.util.Observable;
 
 public class Escudo extends Recurso{
 	
-	private final static Escudo shield = new Escudo();
+	public void act(int x, int y, Tablero tab)
+	{
+		cumplirFuncion(tab.getCasilla(x, y));
+	}
+	
+	private static Escudo shield = new Escudo();
 	
 	//Constructor
 	public Escudo(){		
@@ -13,10 +18,12 @@ public class Escudo extends Recurso{
 	 //El barco no debe estar hundido, tampoco se pueden poner mas de un escudo por turno
 	 // El escudo pondra en estado protegido a las casillas segun como esta colado el barco
 	public void cumplirFuncion(Casilla pCasilla) {
+		
 		pCasilla.getOcupadaPor().setProtegido(true);
 		
 		setChanged();
 		notifyObservers(); // Indicar que es el tablero de barcos
+		
 	}
 	
 	public static Escudo getShield()

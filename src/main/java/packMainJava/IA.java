@@ -20,7 +20,6 @@ public class IA extends Jugador{
 	private final int precioEscudo = 200;
 	private final int precioRadar = 250;
 	private Casilla detectado;
-	private Barco[] laArmadaInvencible = new Barco[10];
 	private static IA mIA = new IA();
 	
 	
@@ -159,7 +158,7 @@ public class IA extends Jugador{
 		if(probabilidad % 5 == 0)
 		{
 			ArrayList<Barco> listaTocados = new ArrayList<Barco>();
-			for(Barco santisimaTrinidad:laArmadaInvencible)
+			for(Barco santisimaTrinidad:getLaArmadaInvencible())
 			{
 				if(santisimaTrinidad.getEstado() == Status.TOCADO)
 				{
@@ -176,7 +175,7 @@ public class IA extends Jugador{
 		if(probabilidad % 5 == 0)
 		{
 			ArrayList<Barco> listaNoGluGluGlu = new ArrayList<Barco>();
-			for(Barco JuanCarlosPrimero:laArmadaInvencible)
+			for(Barco JuanCarlosPrimero:getLaArmadaInvencible())
 			{
 				if(JuanCarlosPrimero.getEstado() != Status.HUNDIDO)
 				{
@@ -251,26 +250,7 @@ public class IA extends Jugador{
 			Bomba.getBomba().cumplirFuncion(objetivo);
 		}
 	}
-	public void addBarcoToArmadaInvencible(Barco sanJuanNepomuceno)
-	{
-		boolean encontrado = false;
-		int cont = 0;
-		while(cont < 10 && !encontrado)
-		{
-			if(laArmadaInvencible[cont] != null)encontrado = true;
-			cont++;
-		}
-		
-		if(cont > 9)
-		{
-			laArmadaInvencible[0] = sanJuanNepomuceno;
-		}
-		else
-		{
-			laArmadaInvencible[cont] = sanJuanNepomuceno;
-		}
-		
-	}
+	
 	
 	public void colocarBarcosPropios()
 	{
@@ -282,18 +262,23 @@ public class IA extends Jugador{
 		while(numPor > 0)
 		{
 			ponerBarco(TipoDeBarco.PORTAAVIONES);
+			numPor--;
 		}
+		
 		while(numSub > 0)
 		{
-			
+			ponerBarco(TipoDeBarco.SUBMARINO);
+			numSub--;
 		}
 		while(numDes > 0)
 		{
-			
+			ponerBarco(TipoDeBarco.DESTRUCTOR);	
+			numDes--;
 		}
 		while(numFra > 0)
 		{
-			
+			ponerBarco(TipoDeBarco.FRAGATA);
+			numFra--;
 		}
 	}
 	

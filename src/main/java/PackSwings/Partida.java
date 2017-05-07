@@ -24,13 +24,17 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import packMainJava.Barco;
+import packMainJava.Bomba;
 import packMainJava.Casilla;
 import packMainJava.IA;
 import packMainJava.Inventario;
 import packMainJava.Jugador;
+import packMainJava.Misil;
 import packMainJava.Player;
 import packMainJava.Radar;
+import packMainJava.Recurso;
 import packMainJava.Reparacion;
+import packMainJava.Status;
 import packMainJava.Tablero;
 import packMainJava.TipoDeBarco;
 import packMainJava.Escudo;
@@ -552,22 +556,60 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		    }
 		    
 			jugador.addBarco(tipo, posY, posX, hor);
-		    
-		}	if(e.getSource() instanceof JButton && partidaEstado==2 ){
-			//Obtenemos una referencia al objeto causante del evento
+
+		}
+		if (e.getSource() instanceof JButton && partidaEstado == 2) {
+			// Obtenemos una referencia al objeto causante del evento
+			/*
+			 * while(partidaEstado == 2) { while(turno){ JButton temp =
+			 * (JButton) e.getSource(); Recurso recurso = null; boolean
+			 * cierraTurno = false; if(rdbtnBomba.isSelected() &&
+			 * rdbtnBomba.isEnabled()){
+			 * 
+			 * recurso = Bomba.getBomba(); cierraTurno = true;
+			 * 
+			 * }else if(rdbtnMisil.isSelected() && rdbtnMisil.isEnabled()){
+			 * 
+			 * recurso = Misil.getMisil(); cierraTurno = true;
+			 * 
+			 * }else if(rdbtnRadar.isSelected() && rdbtnRadar.isEnabled()){
+			 * 
+			 * recurso = Radar.getRadar(); cierraTurno = false;
+			 * 
+			 * }else if(rdbtnEscudo.isSelected() && rdbtnEscudo.isEnabled()){
+			 * 
+			 * recurso = Escudo.getShield(); cierraTurno = false;
+			 * 
+			 * }else if(rdbtnReparar.isSelected() && rdbtnReparar.isEnabled()){
+			 * 
+			 * recurso = Reparacion.getReparacion(); cierraTurno = false;
+			 * 
+			 * }
+			 * 
+			 * int casX = (temp.getX() - 48)/(335/10); int casY = (temp.getY() -
+			 * 100)/(335/10);
+			 * 
+			 * recurso.act(casX, casY, tableroIA); if(cierraTurno) { turno =
+			 * false; } } }
+			 */
+			// Realizamos las operaciones que queremos realizar sobre el boton
+			// clicado
+			// Calculamos la posicion del boton en X e Y en su tablero
+			// Aviso, estan invertidas, la X es la Y y la Y es la X
+			// mCasillas[posYJ][posXJ].setBackground(Color.GREEN);
+			// mCasillas2[posYIA][posXIA].setBackground(Color.GREEN);
+
+			// Aqui debes
+			/*
+			 * if(temp.getName().equals("Bomba") ||
+			 * temp.getName().equals("Misil") ){
+			 * System.out.println("comprobar"); turno=false; }
+			 * 
+			 * if(turno==false){ //Hace lo de la IA de disparar aleatoriamente y
+			 * asi }
+			 */
 			JButton temp = (JButton) e.getSource();
 			
-			if(rdbtnBomba.isSelected()==true && rdbtnBomba.isEnabled()==true){
-				
-			}else if(rdbtnMisil.isSelected()==true && rdbtnMisil.isEnabled()==true){
-				
-			}else if(rdbtnRadar.isSelected()==true && rdbtnRadar.isEnabled()==true){
-				
-			}else if(rdbtnEscudo.isSelected()==true && rdbtnEscudo.isEnabled()==true){
-				
-			}else if(rdbtnReparar.isSelected()==true && rdbtnReparar.isEnabled()==true){
-				
-			}
 			//Realizamos las operaciones que queremos realizar sobre el boton clicado
 		    //Calculamos la posicion del boton en X e Y en su tablero
 		    //Aviso, estan invertidas, la X es la Y y la Y es la X 
