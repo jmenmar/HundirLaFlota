@@ -556,6 +556,18 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}	if(e.getSource() instanceof JButton && partidaEstado==2 ){
 			//Obtenemos una referencia al objeto causante del evento
 			JButton temp = (JButton) e.getSource();
+			
+			if(rdbtnBomba.isSelected()==true && rdbtnBomba.isEnabled()==true){
+				
+			}else if(rdbtnMisil.isSelected()==true && rdbtnMisil.isEnabled()==true){
+				
+			}else if(rdbtnRadar.isSelected()==true && rdbtnRadar.isEnabled()==true){
+				
+			}else if(rdbtnEscudo.isSelected()==true && rdbtnEscudo.isEnabled()==true){
+				
+			}else if(rdbtnReparar.isSelected()==true && rdbtnReparar.isEnabled()==true){
+				
+			}
 			//Realizamos las operaciones que queremos realizar sobre el boton clicado
 		    //Calculamos la posicion del boton en X e Y en su tablero
 		    //Aviso, estan invertidas, la X es la Y y la Y es la X 
