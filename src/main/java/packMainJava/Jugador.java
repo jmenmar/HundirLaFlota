@@ -16,6 +16,7 @@ public abstract class Jugador extends Observable {
 	private int numReparaciones = 1;
 	private int numRadar = 1;
 	private int dinero = 1000;
+	private Barco[] laArmadaInvencible = new Barco[10];
 
 	// Compruebas que la fila y la columna estan dentro del tablero
 	private boolean celdaEstaEnTablero(int fila, int columna) {
@@ -109,7 +110,9 @@ public abstract class Jugador extends Observable {
 					tableroJ.getCasilla(fila + i, columna)
 							.setOcupadaPor(pBarco);
 				}
+				addBarcoToArmadaInvencible(pBarco);
 			}
+			
 
 			decrementarContBarco(tipob);
 			setChanged();
@@ -117,6 +120,26 @@ public abstract class Jugador extends Observable {
 			return true;
 		}
       return false;
+	}
+	public void addBarcoToArmadaInvencible(Barco sanJuanNepomuceno)
+	{
+		boolean encontrado = false;
+		int cont = 0;
+		while(cont < 10 && !encontrado)
+		{
+			if(getLaArmadaInvencible()[cont] != null)encontrado = true;
+			cont++;
+		}
+		
+		if(cont > 9)
+		{
+			getLaArmadaInvencible()[0] = sanJuanNepomuceno;
+		}
+		else
+		{
+			getLaArmadaInvencible()[cont] = sanJuanNepomuceno;
+		}
+		
 	}
 	
 	private void decrementarContBarco(TipoDeBarco tipob) {
@@ -169,4 +192,22 @@ public abstract class Jugador extends Observable {
 	public Casilla getCasillaIA(int fila, int columna) {
 		return tableroIA.getCasilla(fila, columna);
 	}
+
+	public Barco[] getLaArmadaInvencible() {
+		return laArmadaInvencible;
+	}
+
+	public void setLaArmadaInvencible(Barco[] plaArmadaInvencible) {
+		laArmadaInvencible = plaArmadaInvencible;
+	}
+	
+	public void setPosArmada(Barco pBarco, int pos)
+	{
+		laArmadaInvencible[pos] = pBarco;
+	}
+	public Barco getPosArmada(int pos)
+	{
+		return laArmadaInvencible[pos];
+	}
+	
 }

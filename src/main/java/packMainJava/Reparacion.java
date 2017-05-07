@@ -2,7 +2,8 @@ package packMainJava;
 
 public class Reparacion extends Recurso{
 	
-	private static final Reparacion astillero = new Reparacion();
+	
+	private static Reparacion astillero = new Reparacion();
 	
 	public void act(Casilla taquillaDeClase)
 	{

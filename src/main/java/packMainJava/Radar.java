@@ -3,7 +3,9 @@ import java.util.Random;
 import java.util.ArrayList;
 public class Radar extends Recurso{
 	
-	private final static Radar awacs = new Radar();
+	
+	
+	private static Radar awacs = new Radar();
 	public Casilla cumplirFuncion(Casilla pCasilla) {
 		// TODO Auto-generated method stub
 		int posX = pCasilla.getX();
