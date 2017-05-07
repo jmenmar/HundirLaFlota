@@ -18,9 +18,7 @@ public class Escudo extends Recurso{
 	 //El barco no debe estar hundido, tampoco se pueden poner mas de un escudo por turno
 	 // El escudo pondra en estado protegido a las casillas segun como esta colado el barco
 	public void cumplirFuncion(Casilla pCasilla) {
-		
 		pCasilla.getOcupadaPor().setProtegido(true);
-		
 		setChanged();
 		notifyObservers(); // Indicar que es el tablero de barcos
 		

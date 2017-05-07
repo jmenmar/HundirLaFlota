@@ -56,19 +56,20 @@ import packMainJava.CasillaEstado;
 
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-public class Partida extends JFrame implements Observer,ActionListener {
+
+public class Partida extends JFrame implements Observer, ActionListener {
 	private JPanel panel;
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JPanel panel_3;
 	private JButton[][] mCasillas = null;
 	private JButton[][] mCasillas2 = null;
-	
-	int partidaEstado=1;
-  private Player jugador;
-  private Escudo escudo;
-  private Reparacion reparar;
-  private Radar radar;
+
+	int partidaEstado = 1;
+	private Player jugador;
+	private Escudo escudo;
+	private Reparacion reparar;
+	private Radar radar;
 	private int numeroDeFilas = 10;
 	private int numeroDeColumnas = 10;
 	private JRadioButton rdbtnBomba;
@@ -89,9 +90,9 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	private JRadioButton rdbtnHorizontal;
 	private JRadioButton rdbtnVertical;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-    boolean turno=true;
-    private final ButtonGroup buttonGroup_2 = new ButtonGroup();
-	
+	boolean turno = true;
+	private final ButtonGroup buttonGroup_2 = new ButtonGroup();
+
 	/**
 	 * Launch the application.
 	 */
@@ -101,7 +102,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 				try {
 					Partida frame = new Partida();
 					frame.setVisible(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -115,16 +116,16 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	public Partida() {
 
 		initialize();
-		jugador=Player.getPlayer();
+		jugador = Player.getPlayer();
 		jugador.addObserver(this);
-        update(null,null);
+		update(null, null);
 	}
 
 	private void initialize() {
 		setBounds(100, 100, 1000, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
-		if(partidaEstado==1){
+		if (partidaEstado == 1) {
 			rdbtnMisil.setEnabled(false);
 			rdbtnBomba.setEnabled(false);
 			rdbtnEscudo.setEnabled(false);
@@ -132,7 +133,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			rdbtnReparar.setEnabled(false);
 			TIENDA.setEnabled(false);
 		}
-		
+
 	}
 
 	private JPanel getPanel() {
@@ -150,90 +151,134 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			JRadioButton Bomba = new JRadioButton("Nº de Bombas");
 			GroupLayout gl_panel = new GroupLayout(panel);
 			gl_panel.setHorizontalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_panel.createSequentialGroup()
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(28)
-								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-									.addGroup(gl_panel.createSequentialGroup()
-										.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(63)
-										.addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGroup(gl_panel.createSequentialGroup()
-										.addGap(18)
-										.addComponent(getRdbtnPortaaviones(), GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-											.addComponent(getRdbtnHorizontal(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(getRdbtnSubmarino(), GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-											.addGroup(gl_panel.createSequentialGroup()
-												.addComponent(getRdbtnDestructor(), GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(getRdbtnFragata(), GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE))
-											.addComponent(getRdbtnVertical(), GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-										.addComponent(getTIENDA(), GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)))
-								.addGap(62)
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(getRdbtnBomba(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(getRdbtnEscudo(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(getRdbtnRadar(), GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-									.addComponent(getRdbtnReparar(), 0, 0, Short.MAX_VALUE)
-									.addComponent(getRdbtnMisil(), Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(118)
-								.addComponent(lblTableroJugador)
-								.addGap(228)
-								.addComponent(lblTableroIa, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap(20, Short.MAX_VALUE))
-			);
+					gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel
+									.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+											.createSequentialGroup()
+											.addGap(28).addGroup(gl_panel
+													.createParallelGroup(Alignment.TRAILING, false)
+													.addGroup(gl_panel.createSequentialGroup()
+															.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE,
+																	GroupLayout.DEFAULT_SIZE,
+																	GroupLayout.PREFERRED_SIZE)
+															.addGap(63).addComponent(
+																	getPanel_3(), GroupLayout.PREFERRED_SIZE,
+																	GroupLayout.DEFAULT_SIZE,
+																	GroupLayout.PREFERRED_SIZE))
+													.addGroup(gl_panel.createSequentialGroup().addGap(18)
+															.addComponent(getRdbtnPortaaviones(),
+																	GroupLayout.PREFERRED_SIZE, 124,
+																	GroupLayout.PREFERRED_SIZE)
+															.addPreferredGap(ComponentPlacement.RELATED)
+															.addGroup(gl_panel
+																	.createParallelGroup(Alignment.LEADING, false)
+																	.addComponent(getRdbtnHorizontal(),
+																			GroupLayout.DEFAULT_SIZE,
+																			GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+																	.addComponent(getRdbtnSubmarino(),
+																			GroupLayout.DEFAULT_SIZE, 124,
+																			Short.MAX_VALUE))
+															.addPreferredGap(ComponentPlacement.RELATED)
+															.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+																	.addGroup(gl_panel.createSequentialGroup()
+																			.addComponent(getRdbtnDestructor(),
+																					GroupLayout.PREFERRED_SIZE, 124,
+																					GroupLayout.PREFERRED_SIZE)
+																			.addPreferredGap(ComponentPlacement.RELATED)
+																			.addComponent(getRdbtnFragata(),
+																					GroupLayout.PREFERRED_SIZE,
+																					124, GroupLayout.PREFERRED_SIZE))
+																	.addComponent(getRdbtnVertical(),
+																			GroupLayout.PREFERRED_SIZE, 124,
+																			GroupLayout.PREFERRED_SIZE))
+															.addPreferredGap(ComponentPlacement.RELATED,
+																	99, Short.MAX_VALUE)
+															.addComponent(getTIENDA(), GroupLayout.PREFERRED_SIZE, 138,
+																	GroupLayout.PREFERRED_SIZE)))
+											.addGap(62)
+											.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+													.addComponent(getRdbtnBomba(), GroupLayout.DEFAULT_SIZE,
+															GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+													.addComponent(getRdbtnEscudo(), GroupLayout.DEFAULT_SIZE,
+															GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+													.addComponent(getRdbtnRadar(), GroupLayout.DEFAULT_SIZE, 114,
+															Short.MAX_VALUE)
+													.addComponent(getRdbtnReparar(), 0, 0, Short.MAX_VALUE)
+													.addComponent(getRdbtnMisil(), Alignment.TRAILING,
+															GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+															Short.MAX_VALUE)))
+									.addGroup(gl_panel.createSequentialGroup().addGap(118)
+											.addComponent(lblTableroJugador).addGap(228).addComponent(lblTableroIa,
+													GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)))
+									.addContainerGap(20, Short.MAX_VALUE)));
 			gl_panel.setVerticalGroup(
-				gl_panel.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_panel.createSequentialGroup()
-						.addGap(54)
-						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblTableroJugador)
-							.addComponent(lblTableroIa, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-						.addGap(18)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGap(9)
-								.addComponent(getRdbtnBomba(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(getRdbtnMisil(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(getRdbtnReparar(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(getRdbtnEscudo(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(getRdbtnRadar(), GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(83, Short.MAX_VALUE))
-							.addGroup(gl_panel.createSequentialGroup()
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-									.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_panel.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-										.addComponent(getTIENDA(), GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-										.addGap(30))
-									.addGroup(gl_panel.createSequentialGroup()
-										.addGap(32)
-										.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-											.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-												.addComponent(getRdbtnSubmarino(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-												.addComponent(getRdbtnPortaaviones(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
-											.addComponent(getRdbtnDestructor(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-											.addComponent(getRdbtnFragata(), GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-											.addComponent(getRdbtnHorizontal())
-											.addComponent(getRdbtnVertical()))
-										.addContainerGap())))))
-			);
+					gl_panel.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panel.createSequentialGroup().addGap(54).addGroup(
+									gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblTableroJugador)
+											.addComponent(
+													lblTableroIa, GroupLayout.PREFERRED_SIZE, 25,
+													GroupLayout.PREFERRED_SIZE))
+									.addGap(18)
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+											.createSequentialGroup()
+											.addGap(9)
+											.addComponent(getRdbtnBomba(), GroupLayout.PREFERRED_SIZE, 60,
+													GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(getRdbtnMisil(), GroupLayout.PREFERRED_SIZE, 60,
+													GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(getRdbtnReparar(), GroupLayout.PREFERRED_SIZE, 60,
+													GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(getRdbtnEscudo(), GroupLayout.PREFERRED_SIZE, 60,
+													GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(getRdbtnRadar(), GroupLayout.PREFERRED_SIZE,
+													60, GroupLayout.PREFERRED_SIZE)
+											.addContainerGap(83,
+													Short.MAX_VALUE))
+											.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel
+													.createParallelGroup(Alignment.LEADING)
+													.addComponent(getPanel_1(), GroupLayout.PREFERRED_SIZE,
+															GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+													.addComponent(getPanel_3(), GroupLayout.PREFERRED_SIZE,
+															GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+													.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+															.addGroup(gl_panel.createSequentialGroup()
+																	.addPreferredGap(ComponentPlacement.RELATED, 41,
+																			Short.MAX_VALUE)
+																	.addComponent(getTIENDA(),
+																			GroupLayout.PREFERRED_SIZE, 58,
+																			GroupLayout.PREFERRED_SIZE)
+																	.addGap(30))
+															.addGroup(gl_panel.createSequentialGroup().addGap(32)
+																	.addGroup(gl_panel
+																			.createParallelGroup(Alignment.LEADING)
+																			.addGroup(gl_panel
+																					.createParallelGroup(
+																							Alignment.BASELINE)
+																					.addComponent(getRdbtnSubmarino(),
+																							GroupLayout.PREFERRED_SIZE,
+																							48,
+																							GroupLayout.PREFERRED_SIZE)
+																					.addComponent(
+																							getRdbtnPortaaviones(),
+																							GroupLayout.PREFERRED_SIZE,
+																							48,
+																							GroupLayout.PREFERRED_SIZE))
+																			.addComponent(getRdbtnDestructor(),
+																					GroupLayout.PREFERRED_SIZE, 48,
+																					GroupLayout.PREFERRED_SIZE)
+																			.addComponent(getRdbtnFragata(),
+																					GroupLayout.PREFERRED_SIZE, 48,
+																					GroupLayout.PREFERRED_SIZE))
+																	.addPreferredGap(ComponentPlacement.RELATED)
+																	.addGroup(gl_panel
+																			.createParallelGroup(Alignment.BASELINE)
+																			.addComponent(getRdbtnHorizontal())
+																			.addComponent(getRdbtnVertical()))
+																	.addContainerGap()))))));
 			panel.setLayout(gl_panel);
 		}
 		return panel;
@@ -299,9 +344,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 				JButton temp = mCasillas[n][m];
 				// fijar cada casilla a una posicion y tama�o en funcion de su
 				// fila y columna
-				temp.setBounds(48 + (m * anchoDeCasilla),
-						100 + (n * altoDeCasilla), anchoDeCasilla,
-						altoDeCasilla);
+				temp.setBounds(48 + (m * anchoDeCasilla), 100 + (n * altoDeCasilla), anchoDeCasilla, altoDeCasilla);
 			}
 		}
 
@@ -360,9 +403,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 				int y = m;
 				// fijar cada casilla a una posicion y tama�o en funcion de su
 				// fila y columna
-				temp.setBounds(446 + (m * anchoDeCasilla),
-						100 + (n * altoDeCasilla), anchoDeCasilla,
-						altoDeCasilla);
+				temp.setBounds(446 + (m * anchoDeCasilla), 100 + (n * altoDeCasilla), anchoDeCasilla, altoDeCasilla);
 			}
 		}
 
@@ -373,40 +414,47 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			rdbtnMisil = new JRadioButton("x" + inv.getNumMisiles());
 			buttonGroup_2.add(rdbtnMisil);
 			rdbtnMisil.setHorizontalAlignment(SwingConstants.LEFT);
-			rdbtnMisil.setIcon(new ImageIcon(this.getClass().getResource(
-					"/misil.png")));
+			rdbtnMisil.setIcon(new ImageIcon(this.getClass().getResource("/misil.png")));
 		}
 		return rdbtnMisil;
 	}
 
 	private JRadioButton getRdbtnBomba() {
 		if (rdbtnBomba == null) {
-			rdbtnBomba = new JRadioButton("Nº de Bombas");
+			rdbtnBomba = new JRadioButton("--");
 			buttonGroup_2.add(rdbtnBomba);
+			rdbtnBomba.setHorizontalAlignment(SwingConstants.LEFT);
+			rdbtnBomba.setIcon(new ImageIcon(this.getClass().getResource("/bomba.png")));
 		}
 		return rdbtnBomba;
 	}
-	
+
 	private JRadioButton getRdbtnReparar() {
 		if (rdbtnReparar == null) {
-			rdbtnReparar = new JRadioButton("Nº de Reparaciones");
+			rdbtnReparar = new JRadioButton("x");
 			buttonGroup_2.add(rdbtnReparar);
+			rdbtnReparar.setHorizontalAlignment(SwingConstants.LEFT);
+			rdbtnReparar.setIcon(new ImageIcon(this.getClass().getResource("/reparar.png")));
 		}
 		return rdbtnReparar;
 	}
 
 	private JRadioButton getRdbtnEscudo() {
 		if (rdbtnEscudo == null) {
-			rdbtnEscudo = new JRadioButton("Nº de Escudo");
+			rdbtnEscudo = new JRadioButton("x");
 			buttonGroup_2.add(rdbtnEscudo);
+			rdbtnEscudo.setHorizontalAlignment(SwingConstants.LEFT);
+			rdbtnEscudo.setIcon(new ImageIcon(this.getClass().getResource("/escudo.png")));
 		}
 		return rdbtnEscudo;
 	}
 
 	private JRadioButton getRdbtnRadar() {
 		if (rdbtnRadar == null) {
-			rdbtnRadar = new JRadioButton("Nº de Radares");
+			rdbtnRadar = new JRadioButton("x");
 			buttonGroup_2.add(rdbtnRadar);
+			rdbtnRadar.setHorizontalAlignment(SwingConstants.LEFT);
+			rdbtnRadar.setIcon(new ImageIcon(this.getClass().getResource("/radar.png")));
 		}
 		return rdbtnRadar;
 	}
@@ -425,38 +473,40 @@ public class Partida extends JFrame implements Observer,ActionListener {
 
 	public void update(Observable observable, Object arg1) {
 		getRdbtnMisil().setText("x" + inv.getNumMisiles());
-		getRdbtnEscudo().setText("Escudo (x" + inv.getNumEscudos() + ")");
-		getRdbtnRadar().setText("Radar (x" + inv.getNumRadares() + ")");
-		
+		getRdbtnReparar().setText("x" + inv.getNumReparaciones());
+		getRdbtnEscudo().setText("x" + inv.getNumEscudos());
+		getRdbtnRadar().setText("x" + inv.getNumRadares());
+
 		// Comprobar qué ha cambiado y actualizar y pintar recorriendo
-		if(partidaEstado==1){
-		for (int n = 0; n < 10; n++) {
-			for (int m = 0; m < 10; m++) {
-				if (jugador.getEstadoCasillaBarcoJugador(n, m)== CasillaEstado.OCUPADA)
-				mCasillas[n][m].setBackground(Color.GREEN);
+		if (partidaEstado == 1) {
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA)
+						mCasillas[n][m].setBackground(Color.GREEN);
+				}
 			}
-		  }
 		}
-		//Pinta los escudos
-		if(partidaEstado==2){
+		// Pinta los escudos
+		if (partidaEstado == 2) {
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
 					if (jugador.getBarcoEnCasilla(n, m).isProtegido())
-					mCasillas[n][m].setBackground(Color.CYAN);
-				    }
-				    //Hay que poner el de radar con el mCasillas2[][],el reparacion, y lo de bomba y misil
-			  }
+						mCasillas[n][m].setBackground(Color.CYAN);
+				}
+				// Hay que poner el de radar con el mCasillas2[][],el
+				// reparacion, y lo de bomba y misil
 			}
-		
+		}
+
 		// Comprobaría los botones del los barcos
 		rdbtnPortaaviones.setEnabled(jugador.comprobarNumBarcos(TipoDeBarco.PORTAAVIONES));
 		rdbtnSubmarino.setEnabled(jugador.comprobarNumBarcos(TipoDeBarco.SUBMARINO));
 		rdbtnDestructor.setEnabled(jugador.comprobarNumBarcos(TipoDeBarco.DESTRUCTOR));
 		rdbtnFragata.setEnabled(jugador.comprobarNumBarcos(TipoDeBarco.FRAGATA));
-		
-		if(rdbtnPortaaviones.isEnabled()==false && rdbtnFragata.isEnabled()==false 
-				&& rdbtnSubmarino.isEnabled()==false && rdbtnDestructor.isEnabled()==false){
-			partidaEstado=2;
+
+		if (rdbtnPortaaviones.isEnabled() == false && rdbtnFragata.isEnabled() == false
+				&& rdbtnSubmarino.isEnabled() == false && rdbtnDestructor.isEnabled() == false) {
+			partidaEstado = 2;
 			rdbtnMisil.setEnabled(true);
 			rdbtnBomba.setEnabled(true);
 			rdbtnEscudo.setEnabled(true);
@@ -466,7 +516,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			rdbtnHorizontal.setEnabled(false);
 			rdbtnVertical.setEnabled(false);
 		}
-		if(partidaEstado==3){
+		if (partidaEstado == 3) {
 			System.out.println("Partida finaliza, cerrando en unos segundos");
 			try {
 				Thread.sleep(10000);
@@ -476,8 +526,9 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			}
 			System.exit(0);
 		}
-	    
+
 	}
+
 	private JRadioButton getRdbtnPortaaviones() {
 		if (rdbtnPortaaviones == null) {
 			rdbtnPortaaviones = new JRadioButton("PORTAAVIONES");
@@ -485,6 +536,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return rdbtnPortaaviones;
 	}
+
 	private JRadioButton getRdbtnSubmarino() {
 		if (rdbtnSubmarino == null) {
 			rdbtnSubmarino = new JRadioButton("SUBMARINO");
@@ -492,6 +544,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return rdbtnSubmarino;
 	}
+
 	private JRadioButton getRdbtnDestructor() {
 		if (rdbtnDestructor == null) {
 			rdbtnDestructor = new JRadioButton("DESTRUCTOR");
@@ -499,6 +552,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return rdbtnDestructor;
 	}
+
 	private JRadioButton getRdbtnFragata() {
 		if (rdbtnFragata == null) {
 			rdbtnFragata = new JRadioButton("FRAGATA");
@@ -507,6 +561,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return rdbtnFragata;
 	}
+
 	private JRadioButton getRdbtnHorizontal() {
 		if (rdbtnHorizontal == null) {
 			rdbtnHorizontal = new JRadioButton("HORIZONTAL");
@@ -515,6 +570,7 @@ public class Partida extends JFrame implements Observer,ActionListener {
 		}
 		return rdbtnHorizontal;
 	}
+
 	private JRadioButton getRdbtnVertical() {
 		if (rdbtnVertical == null) {
 			rdbtnVertical = new JRadioButton("VERTICAL");
@@ -526,35 +582,38 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	@SuppressWarnings("null")
 	public void actionPerformed(ActionEvent e) {
 		// Recibimos la notificacion de que alguno de los botones fue presionado
-		
-		//Verificar que el causante de este evento sea un JButton y que estemos en el estado de colocar barcos
-		if(e.getSource() instanceof JButton && partidaEstado==1 ){
-			//Obtenemos una referencia al objeto causante del evento
+
+		// Verificar que el causante de este evento sea un JButton y que estemos
+		// en el estado de colocar barcos
+		if (e.getSource() instanceof JButton && partidaEstado == 1) {
+			// Obtenemos una referencia al objeto causante del evento
 			JButton temp = (JButton) e.getSource();
-			//Realizamos las operaciones que queremos realizar sobre el boton clicado
-		    //La idea es que crea un barco del tipo del cual el radiobutton este marcado para poder pasarselo a los metodos
-		    //Horizontal sera 0 y vertical sera 1
-		    boolean hor=true;
-		    if(rdbtnHorizontal.isSelected()==true){
-		    	hor=true;
-		    }else if(rdbtnVertical.isSelected()==true){
-		    	hor=false;
-		    }	
-		    //Calculamos la posicion del boton en X e Y en su tablero
-		    //Aviso, estan invertidas, la X es la Y y la Y es la X
-		    int posX=(temp.getX()-48)/(335/10);
-		    int posY=(temp.getY()-100)/(335/10);
-		    TipoDeBarco tipo = TipoDeBarco.FRAGATA;
-		    if(rdbtnSubmarino.isSelected()==true && rdbtnSubmarino.isEnabled()==true){
-		    	tipo = TipoDeBarco.SUBMARINO;
-		    }else if(rdbtnDestructor.isSelected()==true  && rdbtnDestructor.isEnabled()==true){
-		    	tipo = TipoDeBarco.DESTRUCTOR;
-		    }else if(rdbtnPortaaviones.isSelected()==true  && rdbtnPortaaviones.isEnabled()==true){
-		    	tipo = TipoDeBarco.PORTAAVIONES;
-		    }else if(rdbtnFragata.isSelected()==true && rdbtnFragata.isEnabled()==true){ // Else
-		    	tipo = TipoDeBarco.FRAGATA;
-		    }
-		    
+			// Realizamos las operaciones que queremos realizar sobre el boton
+			// clicado
+			// La idea es que crea un barco del tipo del cual el radiobutton
+			// este marcado para poder pasarselo a los metodos
+			// Horizontal sera 0 y vertical sera 1
+			boolean hor = true;
+			if (rdbtnHorizontal.isSelected() == true) {
+				hor = true;
+			} else if (rdbtnVertical.isSelected() == true) {
+				hor = false;
+			}
+			// Calculamos la posicion del boton en X e Y en su tablero
+			// Aviso, estan invertidas, la X es la Y y la Y es la X
+			int posX = (temp.getX() - 48) / (335 / 10);
+			int posY = (temp.getY() - 100) / (335 / 10);
+			TipoDeBarco tipo = TipoDeBarco.FRAGATA;
+			if (rdbtnSubmarino.isSelected() == true && rdbtnSubmarino.isEnabled() == true) {
+				tipo = TipoDeBarco.SUBMARINO;
+			} else if (rdbtnDestructor.isSelected() == true && rdbtnDestructor.isEnabled() == true) {
+				tipo = TipoDeBarco.DESTRUCTOR;
+			} else if (rdbtnPortaaviones.isSelected() == true && rdbtnPortaaviones.isEnabled() == true) {
+				tipo = TipoDeBarco.PORTAAVIONES;
+			} else if (rdbtnFragata.isSelected() == true && rdbtnFragata.isEnabled() == true) { // Else
+				tipo = TipoDeBarco.FRAGATA;
+			}
+
 			jugador.addBarco(tipo, posY, posX, hor);
 
 		}
@@ -609,46 +668,49 @@ public class Partida extends JFrame implements Observer,ActionListener {
 			 * asi }
 			 */
 			JButton temp = (JButton) e.getSource();
-			
-			//Realizamos las operaciones que queremos realizar sobre el boton clicado
-		    //Calculamos la posicion del boton en X e Y en su tablero
-		    //Aviso, estan invertidas, la X es la Y y la Y es la X 
-	//	    mCasillas[posYJ][posXJ].setBackground(Color.GREEN);
-	//	    mCasillas2[posYIA][posXIA].setBackground(Color.GREEN);
-			
-			//Aqui debes 
-		/*	if(temp.getName().equals("Bomba") || temp.getName().equals("Misil") ){
-				System.out.println("comprobar");
-				turno=false;
-			}
-			
-			if(turno==false){ 
-				//Hace lo de la IA de disparar aleatoriamente y asi
-			} */
-			
-			if(rdbtnEscudo.isSelected()==true){	
-				//TableroJ
-	     	    int posXJ=(temp.getX()-48)/(335/10);
-			    int posYJ=(temp.getY()-100)/(335/10);
-				//Sale nullPointerException que puede que se deba al metodo porque por la posicion no es problema,
-				//esta bien invertido asi
+
+			// Realizamos las operaciones que queremos realizar sobre el boton
+			// clicado
+			// Calculamos la posicion del boton en X e Y en su tablero
+			// Aviso, estan invertidas, la X es la Y y la Y es la X
+			// mCasillas[posYJ][posXJ].setBackground(Color.GREEN);
+			// mCasillas2[posYIA][posXIA].setBackground(Color.GREEN);
+
+			// Aqui debes
+			/*
+			 * if(temp.getName().equals("Bomba") ||
+			 * temp.getName().equals("Misil") ){
+			 * System.out.println("comprobar"); turno=false; }
+			 * 
+			 * if(turno==false){ //Hace lo de la IA de disparar aleatoriamente y
+			 * asi }
+			 */
+
+			if (rdbtnEscudo.isSelected() == true) {
+				// TableroJ
+				int posXJ = (temp.getX() - 48) / (335 / 10);
+				int posYJ = (temp.getY() - 100) / (335 / 10);
+				// Sale nullPointerException que puede que se deba al metodo
+				// porque por la posicion no es problema,
+				// esta bien invertido asi
 				escudo.cumplirFuncion(jugador.getCasillaJugador(posYJ, posXJ));
 			}
-			if(rdbtnReparar.isSelected()==true){
-				//TableroJ
-	     	    int posXJ=(temp.getX()-48)/(335/10);
-			    int posYJ=(temp.getY()-100)/(335/10);
-			    reparar.act(jugador.getCasillaJugador(posYJ, posXJ));
-				
+			if (rdbtnReparar.isSelected() == true) {
+				// TableroJ
+				int posXJ = (temp.getX() - 48) / (335 / 10);
+				int posYJ = (temp.getY() - 100) / (335 / 10);
+				reparar.act(jugador.getCasillaJugador(posYJ, posXJ));
+
 			}
-            if(rdbtnRadar.isSelected()==true){
-    		    //TableroIA
-           	    int posXIA=(temp.getX()-446)/(335/10);
-           	    int posYIA=(temp.getY()-100)/(335/10);
-           	    radar.cumplirFuncion(jugador.getCasillaIA(posYIA, posXIA));
-			}			
+			if (rdbtnRadar.isSelected() == true) {
+				// TableroIA
+				int posXIA = (temp.getX() - 446) / (335 / 10);
+				int posYIA = (temp.getY() - 100) / (335 / 10);
+				radar.cumplirFuncion(jugador.getCasillaIA(posYIA, posXIA));
+			}
 		}
 	}
+
 	public static Tablero getTableroJugador() {
 		return tableroJ;
 	}
@@ -656,5 +718,5 @@ public class Partida extends JFrame implements Observer,ActionListener {
 	public static Tablero getTableroIA() {
 		return tableroIA;
 	}
-	
+
 }
