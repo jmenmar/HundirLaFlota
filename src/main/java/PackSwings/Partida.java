@@ -31,13 +31,10 @@ import packMainJava.Inventario;
 import packMainJava.Jugador;
 import packMainJava.Misil;
 import packMainJava.Player;
-import packMainJava.Radar;
 import packMainJava.Recurso;
-import packMainJava.Reparacion;
 import packMainJava.Status;
 import packMainJava.Tablero;
 import packMainJava.TipoDeBarco;
-import packMainJava.Escudo;
 
 import java.awt.Panel;
 
@@ -67,9 +64,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 
 	int partidaEstado = 1;
 	private Player jugador;
-	private Escudo escudo;
-	private Reparacion reparar;
-	private Radar radar;
 	private int numeroDeFilas = 10;
 	private int numeroDeColumnas = 10;
 	private JRadioButton rdbtnBomba;
@@ -854,7 +848,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 						// esta bien invertido asi
 						pCasilla = jugador.getCasillaJugador(posYJ, posXJ);
 						if (pCasilla.getEstado() == CasillaEstado.OCUPADA) {
-							Escudo.getShield().cumplirFuncion(pCasilla);
+
 						}
 
 					} else if (rdbtnReparar.isSelected() == true) {
@@ -862,38 +856,16 @@ public class Partida extends JFrame implements Observer, ActionListener {
 						int posXJ = (temp.getX() - 48) / (335 / 10);
 						int posYJ = (temp.getY() - 100) / (335 / 10);
 						cierraTurno = false;
-						Reparacion.getReparacion().act(
-								jugador.getCasillaJugador(posYJ, posXJ));
 
 					} else if (rdbtnRadar.isSelected() == true) {
 						// TableroIA
-						Casilla deteccion;
-						Status estado;
 						int posXIA = (temp.getX() - 446) / (335 / 10);
 						int posYIA = (temp.getY() - 100) / (335 / 10);
-						cierraTurno = false;
-						deteccion = Radar.getRadar().cumplirFuncion(
-								jugador.getCasillaIA(posYIA, posXIA));
-						estado = deteccion.getOcupadaPor().getEstado();
-						if (deteccion != null && estado == Status.INTACTO) {
-							temp.setBackground(Color.GREEN);
-						} else if (estado == Status.TOCADO) {
-							temp.setBackground(Color.YELLOW);
-						} else if (estado == Status.HUNDIDO) {
-							temp.setBackground(Color.RED);
-						}
-
-					} else {
-						System.out.println("!!");
 					}
-					if (cierraTurno)
-						turno = false;
-
 				}
-				IA.getIA().act();
-				turno = true;
 			}
 		}
+
 	}
 
 	public static Tablero getTableroJugador() {

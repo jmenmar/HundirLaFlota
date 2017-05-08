@@ -199,7 +199,7 @@ public class IA extends Jugador{
 			randomX = bigBird.nextInt((numCol - 4) - 1);
 			randomY = bigBird.nextInt((numFil - 4) - 1);
 			Casilla ostrasQueAquiHayUno = tab.getCasilla(randomX, randomY);
-			return Radar.getRadar().cumplirFuncion(ostrasQueAquiHayUno);
+			return null;
 		}
 		else
 		{
