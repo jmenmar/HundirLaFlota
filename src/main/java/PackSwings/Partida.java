@@ -31,13 +31,10 @@ import packMainJava.Inventario;
 import packMainJava.Jugador;
 import packMainJava.Misil;
 import packMainJava.Player;
-import packMainJava.Radar;
 import packMainJava.Recurso;
-import packMainJava.Reparacion;
 import packMainJava.Status;
 import packMainJava.Tablero;
 import packMainJava.TipoDeBarco;
-import packMainJava.Escudo;
 
 import java.awt.Panel;
 
@@ -67,9 +64,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 
 	int partidaEstado = 1;
 	private Player jugador;
-	private Escudo escudo;
-	private Reparacion reparar;
-	private Radar radar;
 	private int numeroDeFilas = 10;
 	private int numeroDeColumnas = 10;
 	private JRadioButton rdbtnBomba;
@@ -361,6 +355,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 				temp.addActionListener(this);
 			}
 		}
+		IA.getIA().colocarBarcosPropios();
 		testBarcosIA();
 
 	}
@@ -490,12 +485,31 @@ public class Partida extends JFrame implements Observer, ActionListener {
 		if (partidaEstado == 2) {
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
-					if (jugador.getBarcoEnCasilla(n, m).isProtegido())
-						mCasillas[n][m].setBackground(Color.CYAN);
+				 	if(jugador.getCasillaJugador(n, m).getOcupadaPor()!=null)
+				    	if (jugador.getBarcoEnCasilla(n, m).isProtegido())
+				     		mCasillas[n][m].setBackground(Color.CYAN);
 				}
 				// Hay que poner el de radar con el mCasillas2[][],el
 				// reparacion, y lo de bomba y misil
 			}
+		  //Radar
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if (jugador.getCasillaIA(n,m).isDetectada())
+						mCasillas2[n][m].setBackground(Color.GREEN);
+				}
+			}
+		  //Reparar
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA && 
+							jugador.getCasillaJugador(n, m).getOcupadaPor().getEstado()== Status.INTACTO &&
+							  !jugador.getCasillaJugador(n, m).getOcupadaPor().isProtegido())
+						mCasillas[n][m].setBackground(Color.GREEN);
+				  }
+				}
+			
+			
 		}
 
 		// Comprobaría los botones del los barcos
@@ -648,7 +662,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			 * int casX = (temp.getX() - 48)/(335/10); int casY = (temp.getY() -
 			 * 100)/(335/10);
 			 * 
-			 * recurso.act(casX, casY, tableroIA); if(cierraTurno) { turno =
+			 * recurso.act(casY, casX, tableroIA); if(cierraTurno) { turno =
 			 * false; } } }
 			 */
 			// Realizamos las operaciones que queremos realizar sobre el boton
@@ -690,23 +704,20 @@ public class Partida extends JFrame implements Observer, ActionListener {
 				// TableroJ
 				int posXJ = (temp.getX() - 48) / (335 / 10);
 				int posYJ = (temp.getY() - 100) / (335 / 10);
-				// Sale nullPointerException que puede que se deba al metodo
-				// porque por la posicion no es problema,
-				// esta bien invertido asi
-				escudo.cumplirFuncion(jugador.getCasillaJugador(posYJ, posXJ));
+				jugador.setEscudoEnBarco(posYJ, posXJ);
 			}
 			if (rdbtnReparar.isSelected() == true) {
 				// TableroJ
 				int posXJ = (temp.getX() - 48) / (335 / 10);
 				int posYJ = (temp.getY() - 100) / (335 / 10);
-				reparar.act(jugador.getCasillaJugador(posYJ, posXJ));
+				jugador.repararBarco(posYJ, posXJ);
 
 			}
 			if (rdbtnRadar.isSelected() == true) {
 				// TableroIA
 				int posXIA = (temp.getX() - 446) / (335 / 10);
 				int posYIA = (temp.getY() - 100) / (335 / 10);
-				radar.cumplirFuncion(jugador.getCasillaIA(posYIA, posXIA));
+				jugador.usarRadar(posYIA,posXIA);
 			}
 		}
 	}
