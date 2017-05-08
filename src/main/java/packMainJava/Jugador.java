@@ -1,10 +1,11 @@
 package packMainJava;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Random;
 
-public abstract class Jugador extends Observable {
-
+public abstract class Jugador extends Observable{
 	private Tablero tableroIA = new Tablero();
 	private Tablero tableroJ = new Tablero();
 	private int portaaviones = 1;
@@ -191,6 +192,65 @@ public abstract class Jugador extends Observable {
 	}
 	public Casilla getCasillaIA(int fila, int columna) {
 		return tableroIA.getCasilla(fila, columna);
+	}
+	public void setEscudoEnBarco(int fila,int columna){
+		Casilla pCasilla = tableroJ.getCasilla(fila, columna);
+		if(pCasilla.getEstado()!=CasillaEstado.AGUA){
+			if(pCasilla.getOcupadaPor().getEstado() != Status.HUNDIDO){
+				pCasilla.getOcupadaPor().setProtegido(true);
+				setChanged();
+				notifyObservers();
+			}
+		}
+	}
+	public Casilla usarRadar(int fila,int columna){
+		int contX = 0;
+		int contY = 0;
+		Casilla[][] rastreo = new Casilla[4][4];
+		ArrayList<Casilla> lista = new ArrayList<Casilla>();
+		for(int hotel = fila; hotel < fila + 4; hotel++){
+			for(int victor = columna; victor < columna + 4; victor++)
+				{
+				//rastreo[contX][contY] = Tablero.getTabla[hotel][victor];
+				contY++;
+				}
+			contX++;
+		}
+		for(contX = 0; contX < 4; contX++)
+		{
+			for(contY = 0; contY < 4; contY++)
+			{
+				if(rastreo[contX][contY] != null)
+				{
+					lista.add(rastreo[contX][contY]);
+				}
+			}
+		}
+		Random rnd = new Random();
+		int randomNum;
+		randomNum = rnd.nextInt((lista.size()) + 1);
+		try{
+		Casilla resultado = lista.get(randomNum);
+		resultado.setDetectada(true);
+		setChanged();
+		notifyObservers();	
+		return resultado;
+		}catch(IndexOutOfBoundsException e)
+		{
+			System.out.println("El radar no ha encontrado ningun barco");
+			return null;
+		}
+		
+	}
+	
+	public void repararBarco(int fila,int columna){
+		Barco normandy = getCasillaJugador(fila,columna).getOcupadaPor();
+		if(normandy != null && normandy.getEstado()!= Status.HUNDIDO)
+		{
+			normandy.repararBarco();
+			setChanged();
+			notifyObservers();
+		}
 	}
 
 	public Barco[] getLaArmadaInvencible() {

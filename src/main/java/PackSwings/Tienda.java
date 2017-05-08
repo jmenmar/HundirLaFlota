@@ -14,6 +14,8 @@ import javax.swing.JDialog;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+
 import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
@@ -23,7 +25,9 @@ import packMainJava.Inventario;
 import packMainJava.Misil;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.ActionEvent;
@@ -31,6 +35,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.GridLayout;
+import java.awt.Image;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class Tienda extends JFrame implements Observer {
 
@@ -57,6 +64,9 @@ public class Tienda extends JFrame implements Observer {
 	private JPanel panelDer;
 	private JTextArea txtrEscudoAadeseloA;
 	private JTextArea txtrMisilUnSlo;
+
+	public URL fondo;
+	public Image imagenFondo;
 
 	private int dinero = 1000;
 	private int PRECIO_MISIL = 100;
@@ -95,7 +105,6 @@ public class Tienda extends JFrame implements Observer {
 	public Tienda() {
 		initialize();
 		actualizarTienda();
-		estado();
 	}
 
 	private void initialize() {
@@ -278,12 +287,19 @@ public class Tienda extends JFrame implements Observer {
 	private JPanel getPanelPie() {
 		if (panelPie == null) {
 			panelPie = new JPanel();
+			panelPie.setBorder(new EmptyBorder(10, 0, 10, 0));
 			panelPie.setBackground(new Color(0, 51, 0));
-			FlowLayout fl_panelPie = (FlowLayout) panelPie.getLayout();
-			fl_panelPie.setVgap(10);
-			fl_panelPie.setHgap(20);
-			fl_panelPie.setAlignment(FlowLayout.RIGHT);
-			panelPie.add(getBotonVolver());
+			GridBagLayout gbl_panelPie = new GridBagLayout();
+			gbl_panelPie.columnWidths = new int[] { 491, 63, 0 };
+			gbl_panelPie.rowHeights = new int[] { 23, 0 };
+			gbl_panelPie.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+			gbl_panelPie.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+			panelPie.setLayout(gbl_panelPie);
+			GridBagConstraints gbc_botonVolver = new GridBagConstraints();
+			gbc_botonVolver.anchor = GridBagConstraints.NORTHWEST;
+			gbc_botonVolver.gridx = 1;
+			gbc_botonVolver.gridy = 0;
+			panelPie.add(getBotonVolver(), gbc_botonVolver);
 		}
 		return panelPie;
 	}
@@ -364,8 +380,8 @@ public class Tienda extends JFrame implements Observer {
 		if (dinero >= PRECIO_MISIL && misilesDisp > 0) {
 			dinero = dinero - PRECIO_MISIL;
 			misilesDisp--;
-			inv.addMisil();
 			actualizarTienda();
+			inv.addMisil();
 		} else {
 			// ERROR: No money
 			JOptionPane optionPane = new JOptionPane("Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
@@ -373,15 +389,14 @@ public class Tienda extends JFrame implements Observer {
 			dialog.setAlwaysOnTop(true);
 			dialog.setVisible(true);
 		}
-		estado();
 	}
 
 	public void comprarEscudo() {
 		if (dinero >= PRECIO_ESCUDO && escudosDisp > 0) {
 			dinero = dinero - PRECIO_ESCUDO;
 			escudosDisp--;
-			inv.addEscudo();
 			actualizarTienda();
+			inv.addEscudo();
 		} else {
 			// ERROR: No money
 			JOptionPane optionPane = new JOptionPane("Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
@@ -389,16 +404,14 @@ public class Tienda extends JFrame implements Observer {
 			dialog.setAlwaysOnTop(true);
 			dialog.setVisible(true);
 		}
-
-		estado();
 	}
 
 	public void comprarRadar() {
 		if (dinero >= PRECIO_RADAR && radaresDisp > 0) {
 			dinero = dinero - PRECIO_RADAR;
 			radaresDisp--;
-			inv.addRadar();
 			actualizarTienda();
+			inv.addRadar();
 		} else {
 			// ERROR: No money
 			JOptionPane optionPane = new JOptionPane("Dinero insuficiente", JOptionPane.ERROR_MESSAGE);
@@ -406,13 +419,6 @@ public class Tienda extends JFrame implements Observer {
 			dialog.setAlwaysOnTop(true);
 			dialog.setVisible(true);
 		}
-		estado();
-	}
-
-	public void estado() {
-		System.out.println("MISILES: " + inv.getNumMisiles() + " ESCUDOS: " + inv.getNumEscudos() + " RADARES: "
-				+ inv.getNumRadares() + " | DINERO: " + dinero);
-
 	}
 
 	public void actualizarTienda() {
@@ -457,7 +463,6 @@ public class Tienda extends JFrame implements Observer {
 
 	public void update(Observable observable, Object value) {
 		// TODO Auto-generated method stub
-		// System.out.println("El nuevo nº misiles es: " + ((Inventario)
-		// observable).getNumMisiles());
+
 	}
 }

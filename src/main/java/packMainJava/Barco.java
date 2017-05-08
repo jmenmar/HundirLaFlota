@@ -91,6 +91,7 @@ public class Barco extends Observable{
 			this.protegido = protegido;
 			setChanged();
 			notifyObservers();
+			this.notifyObservers(); // Indicar que es el tablero de barcos
 		}
 		public Casilla[] getPosicion() {
 			return posicion;
