@@ -6,21 +6,21 @@ import java.util.Observer;
 
 public class Inventario extends Observable{
 	
-	private static Inventario mInventario = new Inventario(1,1,1,1,1);
+	private static Inventario mInventario = new Inventario(1,1,1,1);
 
 	private int numBombas;
 	private int numMisiles;
-	private int numReparaciones;
 	private int numRadares;
 	private int numEscudos;
+	//private int numReparaciones;
 	
-	private Inventario(int pNumBombas, int pNumMisiles, int pNumRadares, int pNumEscudos, int pNumReparaciones){
+	private Inventario(int pNumBombas, int pNumMisiles, int pNumRadares, int pNumEscudos){
 
 		numBombas = pNumBombas;
 		numMisiles = pNumMisiles;
 		numRadares = pNumRadares;
 		numEscudos = pNumEscudos;
-		numReparaciones = pNumReparaciones;
+		//numReparaciones = pNumReparaciones;
 	}
 	
 	public static Inventario getInventario() {
@@ -89,12 +89,12 @@ public class Inventario extends Observable{
 		this.notifyObservers();
 	}
 
-	public int getNumReparaciones() {
+	/*public int getNumReparaciones() {
 		return numReparaciones;
 	}
 
 	public void setNumReparaciones(int numReparaciones) {
 		this.numReparaciones = numReparaciones;
-	}
+	}*/
 	
 }

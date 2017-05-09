@@ -473,7 +473,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 
 	public void update(Observable observable, Object arg1) {
 		getRdbtnMisil().setText("x" + inv.getNumMisiles());
-		getRdbtnReparar().setText("x" + inv.getNumReparaciones());
+		// getRdbtnReparar().setText("x" + inv.getNumReparaciones());
 		getRdbtnEscudo().setText("x" + inv.getNumEscudos());
 		getRdbtnRadar().setText("x" + inv.getNumRadares());
 

@@ -14,7 +14,6 @@ import javax.swing.JDialog;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
@@ -25,9 +24,7 @@ import packMainJava.Inventario;
 import packMainJava.Misil;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.event.ActionListener;
-import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.ActionEvent;
@@ -35,7 +32,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.GridLayout;
-import java.awt.Image;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
@@ -64,9 +60,6 @@ public class Tienda extends JFrame implements Observer {
 	private JPanel panelDer;
 	private JTextArea txtrEscudoAadeseloA;
 	private JTextArea txtrMisilUnSlo;
-
-	public URL fondo;
-	public Image imagenFondo;
 
 	private int dinero = 1000;
 	private int PRECIO_MISIL = 100;
