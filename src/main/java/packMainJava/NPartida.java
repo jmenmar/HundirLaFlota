@@ -11,10 +11,13 @@ public class NPartida {
 		Inventario inve = Inventario.getInventario();
 		Partida partida = new Partida();
 		Tienda shop = Tienda.getTienda();
+		Player jugador = Player.getPlayer();
 		inve.addObserver(partida);
 		inve.addObserver(shop);
 		shop.setVisible(false);
 		partida.setVisible(true);
 		inve.notifyObservers();
+		jugador.addObserver(partida);
+		
 	}
 }

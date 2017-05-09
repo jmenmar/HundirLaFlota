@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 public class Tablero {
-	private static Casilla[][] tabla = null;
+	private  Casilla[][] tabla = null;
 	
 	private int numFil = 10;
 	private int numCol = 10;

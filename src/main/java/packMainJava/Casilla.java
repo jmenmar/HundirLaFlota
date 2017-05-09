@@ -7,6 +7,7 @@ public class Casilla {
 	private CasillaEstado estado;
 	private boolean tocaBarco;
 	private Barco ocupadaPor;
+	private boolean detectada;
 	
 	//Constructor
 	//n es horizontal y m es Vertical
@@ -17,6 +18,7 @@ public class Casilla {
 		estado = CasillaEstado.AGUA;
 		tocaBarco = false;
 		ocupadaPor = null;
+		detectada = false;
 	}
 	
 	//Get & set (no hay setX o setY porque la posicion de una casilla no deber�a de variar una
@@ -51,6 +53,14 @@ public class Casilla {
 
 	public int getY() {
 		return y;
+	}
+
+	public boolean isDetectada() {
+		return detectada;
+	}
+
+	public void setDetectada(boolean detectada) {
+		this.detectada = detectada;
 	}
 	
 	

@@ -1,6 +1,8 @@
 package packMainJava;
 
-public class Barco {
+import java.util.Observable;
+
+public class Barco extends Observable{
 	
 	private Status estado;
 	public TipoDeBarco modelo;
@@ -87,6 +89,9 @@ public class Barco {
 		}
 		public void setProtegido(boolean protegido) {
 			this.protegido = protegido;
+			setChanged();
+			notifyObservers();
+			this.notifyObservers(); // Indicar que es el tablero de barcos
 		}
 		public Casilla[] getPosicion() {
 			return posicion;
