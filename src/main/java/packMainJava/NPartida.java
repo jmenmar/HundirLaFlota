@@ -18,6 +18,5 @@ public class NPartida {
 		partida.setVisible(true);
 		inve.notifyObservers();
 		jugador.addObserver(partida);
-		
 	}
 }

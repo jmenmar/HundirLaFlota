@@ -485,31 +485,51 @@ public class Partida extends JFrame implements Observer, ActionListener {
 		if (partidaEstado == 2) {
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
-				 	if(jugador.getCasillaJugador(n, m).getOcupadaPor()!=null)
-				    	if (jugador.getBarcoEnCasilla(n, m).isProtegido())
-				     		mCasillas[n][m].setBackground(Color.CYAN);
+					if (jugador.getCasillaJugador(n, m).getOcupadaPor() != null)
+						if (jugador.getBarcoEnCasilla(n, m).isProtegido())
+							mCasillas[n][m].setBackground(Color.CYAN);
 				}
 				// Hay que poner el de radar con el mCasillas2[][],el
 				// reparacion, y lo de bomba y misil
 			}
-		  //Radar
+			// Radar
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
-					if (jugador.getCasillaIA(n,m).isDetectada())
+					if (jugador.getCasillaIA(n, m).isDetectada())
 						mCasillas2[n][m].setBackground(Color.GREEN);
 				}
 			}
-		  //Reparar
+			// Reparar
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
-					if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA && 
-							jugador.getCasillaJugador(n, m).getOcupadaPor().getEstado()== Status.INTACTO &&
-							  !jugador.getCasillaJugador(n, m).getOcupadaPor().isProtegido())
+					if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
+							&& jugador.getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.INTACTO
+							&& !jugador.getCasillaJugador(n, m).getOcupadaPor().isProtegido())
 						mCasillas[n][m].setBackground(Color.GREEN);
-				  }
 				}
-			
-			
+			}
+			// Bomba
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if (jugador.getEstadoCasillaBarcoIA(n, m) == CasillaEstado.OCUPADA
+							&& jugador.getCasillaIA(n, m).getOcupadaPor().getEstado() == Status.TOCADO
+							&& !jugador.getCasillaIA(n, m).getOcupadaPor().isProtegido())
+						mCasillas[n][m].setBackground(Color.YELLOW);
+					// Si el disparo va al agua ---> Pintar para reflejar el
+					// disparo en el agua
+				}
+			}
+			// Misil
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if (jugador.getEstadoCasillaBarcoIA(n, m) == CasillaEstado.OCUPADA
+							&& jugador.getCasillaIA(n, m).getOcupadaPor().getEstado() == Status.HUNDIDO
+							&& !jugador.getCasillaIA(n, m).getOcupadaPor().isProtegido())
+						mCasillas[n][m].setBackground(Color.RED);
+					// Si el disparo va al agua ---> Pintar para reflejar el
+					// disparo en el agua
+				}
+			}
 		}
 
 		// Comprobaría los botones del los barcos
@@ -690,7 +710,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			// mCasillas[posYJ][posXJ].setBackground(Color.GREEN);
 			// mCasillas2[posYIA][posXIA].setBackground(Color.GREEN);
 
-				
 			// Aqui debes
 			/*
 			 * if(temp.getName().equals("Bomba") ||
@@ -701,7 +720,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			 * asi }
 			 */
 
-			
 			if (rdbtnEscudo.isSelected() == true) {
 				// TableroJ
 				int posXJ = (temp.getX() - 48) / (335 / 10);
@@ -719,7 +737,19 @@ public class Partida extends JFrame implements Observer, ActionListener {
 				// TableroIA
 				int posXIA = (temp.getX() - 446) / (335 / 10);
 				int posYIA = (temp.getY() - 100) / (335 / 10);
-				jugador.usarRadar(posYIA,posXIA);
+				jugador.usarRadar(posYIA, posXIA);
+			}
+			if (rdbtnBomba.isSelected() == true) {
+				// TableroIA
+				int posXIA = (temp.getX() - 446) / (335 / 10);
+				int posYIA = (temp.getY() - 100) / (335 / 10);
+				jugador.usarBomba(posYIA, posXIA);
+			}
+			if (rdbtnMisil.isSelected() == true) {
+				// TableroIA
+				int posXIA = (temp.getX() - 446) / (335 / 10);
+				int posYIA = (temp.getY() - 100) / (335 / 10);
+				jugador.usarMisil(posYIA, posXIA);
 			}
 		}
 

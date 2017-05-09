@@ -122,6 +122,7 @@ public abstract class Jugador extends Observable{
 		}
       return false;
 	}
+	
 	public void addBarcoToArmadaInvencible(Barco sanJuanNepomuceno)
 	{
 		boolean encontrado = false;
@@ -193,6 +194,7 @@ public abstract class Jugador extends Observable{
 	public Casilla getCasillaIA(int fila, int columna) {
 		return tableroIA.getCasilla(fila, columna);
 	}
+	
 	public void setEscudoEnBarco(int fila,int columna){
 		Casilla pCasilla = tableroJ.getCasilla(fila, columna);
 		if(pCasilla.getEstado()!=CasillaEstado.AGUA){
@@ -203,6 +205,7 @@ public abstract class Jugador extends Observable{
 			}
 		}
 	}
+	
 	public Casilla usarRadar(int fila,int columna){
 		int contX = 0;
 		int contY = 0;
@@ -253,6 +256,51 @@ public abstract class Jugador extends Observable{
 		}
 	}
 
+	public CasillaEstado usarBomba(int fila, int columna){
+		Casilla pCasilla = tableroJ.getCasilla(fila, columna);
+		Barco tangoZulu = getCasillaJugador(fila,columna).getOcupadaPor();
+		if(tangoZulu != null)
+		{
+			if(!tangoZulu.isProtegido())
+			{
+				tangoZulu.setImpacto(pCasilla);
+				setChanged();
+				notifyObservers();
+			}
+			else
+			{
+				tangoZulu.setProtegido(false);
+			}
+			return CasillaEstado.OCUPADA;
+		} else 
+		{
+			return CasillaEstado.AGUA;
+		}
+
+	}
+
+	public CasillaEstado usarMisil(int fila, int columna){
+		Barco papaBear = getCasillaJugador(fila,columna).getOcupadaPor();
+		if(papaBear != null)
+		{
+			if(!papaBear.isProtegido())
+			{
+				papaBear.hundirBarco();
+				setChanged();
+				notifyObservers();
+			}
+			else
+			{
+				papaBear.setProtegido(false);
+			}
+			return CasillaEstado.OCUPADA;
+		}
+		else
+		{
+			return CasillaEstado.AGUA;
+		}
+	}
+	
 	public Barco[] getLaArmadaInvencible() {
 		return laArmadaInvencible;
 	}
