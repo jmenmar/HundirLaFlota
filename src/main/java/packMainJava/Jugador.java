@@ -18,6 +18,7 @@ public abstract class Jugador extends Observable{
 	private int numRadar = 1;
 	private int dinero = 1000;
 	private Barco[] laArmadaInvencible = new Barco[10];
+	Inventario inv = Inventario.getInventario(); // Instancia única al Singleton
 
 	// Compruebas que la fila y la columna estan dentro del tablero
 	private boolean celdaEstaEnTablero(int fila, int columna) {
@@ -196,69 +197,78 @@ public abstract class Jugador extends Observable{
 	}
 	
 	public void setEscudoEnBarco(int fila,int columna){
-		Casilla pCasilla = tableroJ.getCasilla(fila, columna);
-		if(pCasilla.getEstado()!=CasillaEstado.AGUA){
-			if(pCasilla.getOcupadaPor().getEstado() != Status.HUNDIDO){
-				pCasilla.getOcupadaPor().setProtegido(true);
-				setChanged();
-				notifyObservers();
+		if(inv.getNumEscudos()>0){
+			Casilla pCasilla = tableroJ.getCasilla(fila, columna);
+			if(pCasilla.getEstado()!=CasillaEstado.AGUA){
+				if(pCasilla.getOcupadaPor().getEstado() != Status.HUNDIDO){
+					pCasilla.getOcupadaPor().setProtegido(true);	
+					inv.restarEscudo();
+				}
 			}
 		}
 	}
 	
 	public Casilla usarRadar(int fila,int columna){
-		int contX = 0;
-		int contY = 0;
-		Casilla[][] rastreo = new Casilla[4][4];
-		ArrayList<Casilla> lista = new ArrayList<Casilla>();
-		for(int hotel = fila; hotel < fila + 4; hotel++){
-			for(int victor = columna; victor < columna + 4; victor++)
-				{
-				//rastreo[contX][contY] = Tablero.getTabla[hotel][victor];
-				contY++;
-				}
-			contX++;
-		}
-		for(contX = 0; contX < 4; contX++)
-		{
-			for(contY = 0; contY < 4; contY++)
+		if(inv.getNumRadares()>0){
+			int contX = 0;
+			int contY = 0;
+			Casilla[][] rastreo = new Casilla[4][4];
+			ArrayList<Casilla> lista = new ArrayList<Casilla>();
+			for(int hotel = fila; hotel < fila + 4; hotel++){
+				for(int victor = columna; victor < columna + 4; victor++)
+					{
+					//rastreo[contX][contY] = Tablero.getTabla[hotel][victor];
+					contY++;
+					}
+				contX++;
+			}
+			for(contX = 0; contX < 4; contX++)
 			{
-				if(rastreo[contX][contY] != null)
+				for(contY = 0; contY < 4; contY++)
 				{
-					lista.add(rastreo[contX][contY]);
+					if(rastreo[contX][contY] != null)
+					{
+						lista.add(rastreo[contX][contY]);
+					}
 				}
 			}
+			Random rnd = new Random();
+			int randomNum;
+			randomNum = rnd.nextInt((lista.size()) + 1);
+			try{
+				Casilla resultado = lista.get(randomNum);
+				resultado.setDetectada(true);
+				setChanged();
+				notifyObservers();	
+				inv.restarRadar();
+				return resultado;
+			}catch(IndexOutOfBoundsException e)
+			{
+				inv.restarRadar();
+				System.out.println("El radar no ha encontrado ningun barco");
+				return null;
+			}
 		}
-		Random rnd = new Random();
-		int randomNum;
-		randomNum = rnd.nextInt((lista.size()) + 1);
-		try{
-		Casilla resultado = lista.get(randomNum);
-		resultado.setDetectada(true);
-		setChanged();
-		notifyObservers();	
-		return resultado;
-		}catch(IndexOutOfBoundsException e)
-		{
-			System.out.println("El radar no ha encontrado ningun barco");
-			return null;
-		}
-		
+		return null;
 	}
 	
 	public void repararBarco(int fila,int columna){
-		Barco normandy = getCasillaJugador(fila,columna).getOcupadaPor();
-		if(normandy != null && normandy.getEstado()!= Status.HUNDIDO)
-		{
-			normandy.repararBarco();
-			setChanged();
-			notifyObservers();
+		if(inv.getNumReparaciones()>0){
+			Barco normandy = getCasillaJugador(fila,columna).getOcupadaPor();
+			if(normandy != null && normandy.getEstado()!= Status.HUNDIDO)
+			{
+				normandy.repararBarco();
+				setChanged();
+				notifyObservers();
+				inv.restarReparacion();
+			}
 		}
 	}
 
 	public CasillaEstado usarBomba(int fila, int columna){
-		Casilla pCasilla = tableroJ.getCasilla(fila, columna);
-		Barco tangoZulu = getCasillaJugador(fila,columna).getOcupadaPor();
+		//Casilla pCasilla = tableroJ.getCasilla(fila, columna);
+		Casilla pCasilla = getCasillaIA(fila, columna);
+		Barco tangoZulu = getCasillaIA(fila,columna).getOcupadaPor();
 		if(tangoZulu != null)
 		{
 			if(!tangoZulu.isProtegido())
@@ -270,35 +280,49 @@ public abstract class Jugador extends Observable{
 			else
 			{
 				tangoZulu.setProtegido(false);
-			}
-			return CasillaEstado.OCUPADA;
-		} else 
-		{
-			return CasillaEstado.AGUA;
-		}
-
-	}
-
-	public CasillaEstado usarMisil(int fila, int columna){
-		Barco papaBear = getCasillaJugador(fila,columna).getOcupadaPor();
-		if(papaBear != null)
-		{
-			if(!papaBear.isProtegido())
-			{
-				papaBear.hundirBarco();
 				setChanged();
 				notifyObservers();
 			}
-			else
-			{
-				papaBear.setProtegido(false);
-			}
+			//IA.getIA().act();
 			return CasillaEstado.OCUPADA;
-		}
-		else
+		} else 
 		{
+			//IA.getIA().act();
 			return CasillaEstado.AGUA;
 		}
+		
+	}
+
+	public CasillaEstado usarMisil(int fila, int columna){
+		if(inv.getNumMisiles()>0){
+			//Barco papaBear = getCasillaJugador(fila,columna).getOcupadaPor();
+			Barco papaBear = getCasillaIA(fila,columna).getOcupadaPor();
+			if(papaBear != null)
+			{
+				if(!papaBear.isProtegido())
+				{
+					papaBear.hundirBarco();
+					setChanged();
+					notifyObservers();
+				}
+				else
+				{
+					papaBear.setProtegido(false);
+					setChanged();
+					notifyObservers();
+				}
+				//IA.getIA().act();
+				inv.restarMisil();
+				return CasillaEstado.OCUPADA;
+			}
+			else
+			{
+				//IA.getIA().act();
+				inv.restarMisil();
+				return CasillaEstado.AGUA;
+			}
+		} 
+		return null;
 	}
 	
 	public Barco[] getLaArmadaInvencible() {

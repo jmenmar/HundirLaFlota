@@ -468,7 +468,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 
 	public void update(Observable observable, Object arg1) {
 		getRdbtnMisil().setText("x" + inv.getNumMisiles());
-		// getRdbtnReparar().setText("x" + inv.getNumReparaciones());
+		getRdbtnReparar().setText("x" + inv.getNumReparaciones());
 		getRdbtnEscudo().setText("x" + inv.getNumEscudos());
 		getRdbtnRadar().setText("x" + inv.getNumRadares());
 
@@ -527,7 +527,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 							&& !jugador.getCasillaIA(n, m).getOcupadaPor().isProtegido())
 						mCasillas[n][m].setBackground(Color.RED);
 					// Si el disparo va al agua ---> Pintar para reflejar el
-					// disparo en el agua
+					// dispara en el agua
 				}
 			}
 		}

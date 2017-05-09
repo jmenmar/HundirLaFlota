@@ -6,21 +6,21 @@ import java.util.Observer;
 
 public class Inventario extends Observable{
 	
-	private static Inventario mInventario = new Inventario(1,1,1,1);
+	private static Inventario mInventario = new Inventario(1,1,1,1,1);
 
 	private int numBombas;
 	private int numMisiles;
 	private int numRadares;
 	private int numEscudos;
-	//private int numReparaciones;
+	private int numReparaciones;
 	
-	private Inventario(int pNumBombas, int pNumMisiles, int pNumRadares, int pNumEscudos){
+	private Inventario(int pNumBombas, int pNumMisiles, int pNumRadares, int pNumEscudos, int pNumReparaciones){
 
 		numBombas = pNumBombas;
 		numMisiles = pNumMisiles;
 		numRadares = pNumRadares;
 		numEscudos = pNumEscudos;
-		//numReparaciones = pNumReparaciones;
+		numReparaciones = pNumReparaciones;
 	}
 	
 	public static Inventario getInventario() {
@@ -61,6 +61,12 @@ public class Inventario extends Observable{
 		this.notifyObservers();
 	}
 
+	public void restarMisil(){
+		numMisiles--;
+		setChanged();
+		this.notifyObservers();
+	}
+	
 	public int getNumRadares() {
 		return numRadares;
 	}
@@ -71,6 +77,12 @@ public class Inventario extends Observable{
 	
 	public void addRadar(){
 		numRadares++;
+		setChanged();
+		this.notifyObservers();
+	}
+	
+	public void restarRadar(){
+		numRadares--;
 		setChanged();
 		this.notifyObservers();
 	}
@@ -89,12 +101,24 @@ public class Inventario extends Observable{
 		this.notifyObservers();
 	}
 
-	/*public int getNumReparaciones() {
+	public void restarEscudo(){
+		numEscudos--;
+		setChanged();
+		this.notifyObservers();
+	}
+	
+	public int getNumReparaciones() {
 		return numReparaciones;
 	}
 
 	public void setNumReparaciones(int numReparaciones) {
 		this.numReparaciones = numReparaciones;
-	}*/
+	}
+	
+	public void restarReparacion(){
+		numReparaciones--;
+		setChanged();
+		this.notifyObservers();
+	}
 	
 }
