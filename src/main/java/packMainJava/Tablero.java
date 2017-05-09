@@ -8,12 +8,12 @@ public class Tablero {
 	
 	private int numFil = 10;
 	private int numCol = 10;
-	public Tablero(){
+	public Tablero(boolean revelar){
 		
 		tabla = new Casilla[numCol][numFil];
 		for(int n = 0; n < numCol; n++){
 			for(int m = 0; m < numFil; m++){
-			 tabla[n][m] = new Casilla(n, m);
+			 tabla[n][m] = new Casilla(n, m, revelar);
 			}
 		}	
 	}

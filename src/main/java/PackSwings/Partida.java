@@ -314,7 +314,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 
 	public void inicializar() {
 		mCasillas = new JButton[10][10];
-		Tablero tableroJ = new Tablero();
+		// Tablero tableroJ = new Tablero(true);
 		for (int n = 0; n < 10; n++) {
 			for (int m = 0; m < 10; m++) {
 				JButton temp = new JButton();
@@ -346,7 +346,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 
 	public void inicializar2() {
 		mCasillas2 = new JButton[10][10];
-		tableroIA = new Tablero();
+		// tableroIA = new Tablero();
 		for (int n = 0; n < 10; n++) {
 			for (int m = 0; m < 10; m++) {
 				JButton temp = new JButton();
@@ -361,7 +361,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	}
 
 	public void testBarcosIA() {
-		Casilla testudo;
+		Barco testudo;
 		System.out.println("Test barcos");
 		System.out.print("[-]");
 		for (int foo = 0; foo < 10; foo++) {
@@ -371,9 +371,9 @@ public class Partida extends JFrame implements Observer, ActionListener {
 		for (int m = 0; m < numeroDeColumnas; m++) {
 			System.out.print("[" + m + "]");
 			for (int n = 0; n < numeroDeFilas; n++) {
-				testudo = tableroIA.getCasilla(n, m);
+				testudo = IA.getIA().getBarcoEnCasilla(n, m);
 				System.out.print("[");
-				if (testudo.getOcupadaPor() != null) {
+				if (testudo != null) {
 					System.out.print("x");
 				} else {
 					System.out.print(" ");
@@ -513,10 +513,15 @@ public class Partida extends JFrame implements Observer, ActionListener {
 				for (int m = 0; m < 10; m++) {
 					if (jugador.getEstadoCasillaBarcoIA(n, m) == CasillaEstado.OCUPADA
 							&& jugador.getCasillaIA(n, m).getOcupadaPor().getEstado() == Status.TOCADO
-							&& !jugador.getCasillaIA(n, m).getOcupadaPor().isProtegido())
-						mCasillas[n][m].setBackground(Color.YELLOW);
-					// Si el disparo va al agua ---> Pintar para reflejar el
-					// disparo en el agua
+							&& !jugador.getCasillaIA(n, m).getOcupadaPor().isProtegido()
+							&& jugador.getCasillaIA(n, m).isRevelado()) {
+						mCasillas2[n][m].setBackground(Color.YELLOW);
+						// Si el disparo va al agua ---> Pintar para reflejar el
+						// disparo en el agua
+					} else if (jugador.getEstadoCasillaBarcoIA(n, m) != CasillaEstado.OCUPADA
+							&& jugador.getCasillaIA(n, m).isRevelado()) {
+						mCasillas2[n][m].setBackground(Color.BLUE);
+					}
 				}
 			}
 			// Misil
@@ -525,7 +530,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 					if (jugador.getEstadoCasillaBarcoIA(n, m) == CasillaEstado.OCUPADA
 							&& jugador.getCasillaIA(n, m).getOcupadaPor().getEstado() == Status.HUNDIDO
 							&& !jugador.getCasillaIA(n, m).getOcupadaPor().isProtegido())
-						mCasillas[n][m].setBackground(Color.RED);
+						mCasillas2[n][m].setBackground(Color.RED);
 					// Si el disparo va al agua ---> Pintar para reflejar el
 					// dispara en el agua
 				}

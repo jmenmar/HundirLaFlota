@@ -6,8 +6,8 @@ import java.util.Observable;
 import java.util.Random;
 
 public abstract class Jugador extends Observable{
-	private Tablero tableroIA = new Tablero();
-	private Tablero tableroJ = new Tablero();
+	private Tablero tableroIA = new Tablero(false);
+	private Tablero tableroJ = new Tablero(true);
 	private int portaaviones = 1;
 	private int submarinos = 2;
 	private int destructores = 3;
@@ -265,30 +265,31 @@ public abstract class Jugador extends Observable{
 		}
 	}
 
-	public CasillaEstado usarBomba(int fila, int columna){
+	public void usarBomba(int fila, int columna){
 		//Casilla pCasilla = tableroJ.getCasilla(fila, columna);
 		Casilla pCasilla = getCasillaIA(fila, columna);
-		Barco tangoZulu = getCasillaIA(fila,columna).getOcupadaPor();
+		//Barco tangoZulu = getCasillaIA(fila,columna).getOcupadaPor();
+		Barco tangoZulu = getBarcoEnCasilla(fila, columna);
 		if(tangoZulu != null)
 		{
 			if(!tangoZulu.isProtegido())
 			{
 				tangoZulu.setImpacto(pCasilla);
-				setChanged();
-				notifyObservers();
 			}
 			else
 			{
 				tangoZulu.setProtegido(false);
-				setChanged();
-				notifyObservers();
 			}
 			//IA.getIA().act();
-			return CasillaEstado.OCUPADA;
+			pCasilla.setRevelado(true);
+			setChanged();
+			notifyObservers();
 		} else 
 		{
 			//IA.getIA().act();
-			return CasillaEstado.AGUA;
+			pCasilla.setRevelado(true);
+			setChanged();
+			notifyObservers();
 		}
 		
 	}

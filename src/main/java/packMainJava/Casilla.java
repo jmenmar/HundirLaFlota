@@ -8,10 +8,11 @@ public class Casilla {
 	private boolean tocaBarco;
 	private Barco ocupadaPor;
 	private boolean detectada;
+	private  boolean revelado;
 	
 	//Constructor
 	//n es horizontal y m es Vertical
-	public Casilla(int n, int m)
+	public Casilla(int n, int m, boolean revelar)
 	{
 		x = n;
 		y = m;
@@ -19,6 +20,7 @@ public class Casilla {
 		tocaBarco = false;
 		ocupadaPor = null;
 		detectada = false;
+		setRevelado(revelar);
 	}
 	
 	//Get & set (no hay setX o setY porque la posicion de una casilla no deber�a de variar una
@@ -61,6 +63,14 @@ public class Casilla {
 
 	public void setDetectada(boolean detectada) {
 		this.detectada = detectada;
+	}
+
+	public boolean isRevelado() {
+		return revelado;
+	}
+
+	public void setRevelado(boolean revelado) {
+		this.revelado = revelado;
 	}
 	
 	
