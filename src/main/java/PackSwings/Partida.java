@@ -511,15 +511,15 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			// Bomba
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
-					if (jugador.getEstadoCasillaBarcoIA(n, m) == CasillaEstado.OCUPADA
-							&& jugador.getCasillaIA(n, m).getOcupadaPor().getEstado() == Status.TOCADO
-							&& !jugador.getCasillaIA(n, m).getOcupadaPor().isProtegido()
-							&& jugador.getCasillaIA(n, m).isRevelado()) {
+					if (IA.getIA().getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
+							&& IA.getIA().getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.TOCADO
+							&& !IA.getIA().getCasillaJugador(n, m).getOcupadaPor().isProtegido()
+							&& IA.getIA().getCasillaJugador(n, m).isRevelado()) {
 						mCasillas2[n][m].setBackground(Color.YELLOW);
 						// Si el disparo va al agua ---> Pintar para reflejar el
 						// disparo en el agua
-					} else if (jugador.getEstadoCasillaBarcoIA(n, m) != CasillaEstado.OCUPADA
-							&& jugador.getCasillaIA(n, m).isRevelado()) {
+					} else if (IA.getIA().getEstadoCasillaBarcoJugador(n, m) != CasillaEstado.OCUPADA
+							&& IA.getIA().getCasillaJugador(n, m).isRevelado()) {
 						mCasillas2[n][m].setBackground(Color.BLUE);
 					}
 				}
@@ -527,12 +527,15 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			// Misil
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
-					if (jugador.getEstadoCasillaBarcoIA(n, m) == CasillaEstado.OCUPADA
-							&& jugador.getCasillaIA(n, m).getOcupadaPor().getEstado() == Status.HUNDIDO
-							&& !jugador.getCasillaIA(n, m).getOcupadaPor().isProtegido())
+					if (IA.getIA().getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
+							&& IA.getIA().getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.HUNDIDO
+							&& !IA.getIA().getCasillaJugador(n, m).getOcupadaPor().isProtegido()
+							&& IA.getIA().getCasillaJugador(n, m).isRevelado()) {
 						mCasillas2[n][m].setBackground(Color.RED);
-					// Si el disparo va al agua ---> Pintar para reflejar el
-					// dispara en el agua
+					} else if (IA.getIA().getEstadoCasillaBarcoJugador(n, m) != CasillaEstado.OCUPADA
+							&& IA.getIA().getCasillaJugador(n, m).isRevelado()) {
+						mCasillas2[n][m].setBackground(Color.BLUE);
+					}
 				}
 			}
 		}

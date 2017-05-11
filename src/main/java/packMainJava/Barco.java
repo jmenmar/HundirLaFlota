@@ -59,13 +59,24 @@ public class Barco extends Observable{
 			}
 		}
 		
-		public void hundirBarco()
+		public void hundirBarco(Barco pBarco)
 		{
 			for(int i = 0; i < this.posicion.length; i++)
 			{
 				setImpacto(posicion[i]);
 			}
 			
+			pBarco.estado = Status.HUNDIDO;
+		}
+		
+		public void comprobarHundimiento(Barco pBarco){
+			Casilla pCasilla;
+			int tamañoBarco = pBarco.getModelo().getLongitud();
+			for(int i=tamañoBarco;i>0;i--){
+				//Recorre el baco de la IA y comprueba que todas sus casillas están: Reveladas (true)
+				//Si el nº de casillas del Barco reveladas es igual al tamaño del barco
+				//Entonces hundirBarco()
+			}
 		}
 		
 		public void repararBarco()

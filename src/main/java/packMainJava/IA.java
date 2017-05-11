@@ -76,7 +76,7 @@ public class IA extends Jugador{
 	{
 		magisterioEsUnGradoMedio = true;
 		while(magisterioEsUnGradoMedio){
-			if(probabilidad < 40)
+			if(probabilidad < 1)
 			{
 				Random quePodemosComprar = new Random();
 				int controlador = quePodemosComprar.nextInt(3);
@@ -131,6 +131,9 @@ public class IA extends Jugador{
 					case 2:
 						if(dinero >= precioRadar)comprarRadar();
 				}
+				Random quePodemosComprar2 = new Random();
+				int nuevaProb = quePodemosComprar2.nextInt(100);
+				probabilidad = nuevaProb;
 			}
 			else
 			{
@@ -185,6 +188,7 @@ public class IA extends Jugador{
 			Random livingInTheVatican = new Random();
 			int quePasaSiLoPongoAqui = livingInTheVatican.nextInt(listaNoGluGluGlu.size()-1);
 			listaNoGluGluGlu.get(quePasaSiLoPongoAqui).setProtegido(true);
+			
 		}
 	}
 	private Casilla usarRadar(int probabilidad, Tablero tab)

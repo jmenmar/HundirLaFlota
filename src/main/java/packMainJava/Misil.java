@@ -12,7 +12,7 @@ public class Misil extends Recurso {
 		{
 			if(!papaBear.isProtegido())
 			{
-				papaBear.hundirBarco();
+				papaBear.hundirBarco(papaBear);
 			}
 			else
 			{

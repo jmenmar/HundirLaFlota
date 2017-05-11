@@ -267,9 +267,10 @@ public abstract class Jugador extends Observable{
 
 	public void usarBomba(int fila, int columna){
 		//Casilla pCasilla = tableroJ.getCasilla(fila, columna);
-		Casilla pCasilla = getCasillaIA(fila, columna);
+		Casilla pCasilla = IA.getIA().getCasillaJugador(fila, columna); //MODIFICADO! (En pruebas)
+		//Casilla pCasilla = getCasillaIA(fila, columna);
 		//Barco tangoZulu = getCasillaIA(fila,columna).getOcupadaPor();
-		Barco tangoZulu = getBarcoEnCasilla(fila, columna);
+		Barco tangoZulu = IA.getIA().getBarcoEnCasilla(fila, columna);
 		if(tangoZulu != null)
 		{
 			if(!tangoZulu.isProtegido())
@@ -280,29 +281,32 @@ public abstract class Jugador extends Observable{
 			{
 				tangoZulu.setProtegido(false);
 			}
-			//IA.getIA().act();
+			
 			pCasilla.setRevelado(true);
 			setChanged();
 			notifyObservers();
 		} else 
 		{
-			//IA.getIA().act();
+			
 			pCasilla.setRevelado(true);
 			setChanged();
 			notifyObservers();
+			
 		}
-		
+		IA.getIA().act();
 	}
 
-	public CasillaEstado usarMisil(int fila, int columna){
+	public void usarMisil(int fila, int columna){
 		if(inv.getNumMisiles()>0){
 			//Barco papaBear = getCasillaJugador(fila,columna).getOcupadaPor();
-			Barco papaBear = getCasillaIA(fila,columna).getOcupadaPor();
+			Casilla pCasilla = IA.getIA().getCasillaJugador(fila, columna);
+			Barco papaBear = IA.getIA().getBarcoEnCasilla(fila, columna);
+			//Barco papaBear = IA.getIA().getCasillaJugador(fila,columna).getOcupadaPor();
 			if(papaBear != null)
 			{
 				if(!papaBear.isProtegido())
 				{
-					papaBear.hundirBarco();
+					papaBear.hundirBarco(papaBear);
 					setChanged();
 					notifyObservers();
 				}
@@ -312,18 +316,19 @@ public abstract class Jugador extends Observable{
 					setChanged();
 					notifyObservers();
 				}
-				//IA.getIA().act();
 				inv.restarMisil();
-				return CasillaEstado.OCUPADA;
+				pCasilla.setRevelado(true);
 			}
 			else
 			{
-				//IA.getIA().act();
+				
 				inv.restarMisil();
-				return CasillaEstado.AGUA;
+				pCasilla.setRevelado(true);
+				setChanged();
+				notifyObservers();
 			}
 		} 
-		return null;
+		//IA.getIA().act();
 	}
 	
 	public Barco[] getLaArmadaInvencible() {
