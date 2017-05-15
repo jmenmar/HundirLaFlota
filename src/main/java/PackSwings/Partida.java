@@ -368,9 +368,9 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			System.out.print("[" + foo + "]");
 		}
 		System.out.println("");
-		for (int m = 0; m < numeroDeColumnas; m++) {
-			System.out.print("[" + m + "]");
-			for (int n = 0; n < numeroDeFilas; n++) {
+		for (int n = 0; n < numeroDeColumnas; n++) {
+			System.out.print("[" + n + "]");
+			for (int m = 0; m < numeroDeFilas; m++) {
 				testudo = IA.getIA().getBarcoEnCasilla(n, m);
 				System.out.print("[");
 				if (testudo != null) {
@@ -495,7 +495,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			// Radar
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
-					if (jugador.getCasillaIA(n, m).isDetectada())
+					if (IA.getIA().getCasillaJugador(n, m).isDetectada())
 						mCasillas2[n][m].setBackground(Color.GREEN);
 				}
 			}
@@ -511,8 +511,16 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			// Bomba
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
-					if (IA.getIA().getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
-							&& IA.getIA().getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.TOCADO
+					boolean finder = false;
+					Barco pBarco = IA.getIA().getCasillaJugador(n, m).getOcupadaPor();
+					if (pBarco != null) {
+						for (int i = 0; i < pBarco.getModelo().getLongitud(); i++) {
+							if (pBarco.getImpactos()[i] == IA.getIA().getCasillaJugador(n, m)) {
+								finder = true;
+							}
+						}
+					}
+					if (IA.getIA().getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA && finder
 							&& !IA.getIA().getCasillaJugador(n, m).getOcupadaPor().isProtegido()
 							&& IA.getIA().getCasillaJugador(n, m).isRevelado()) {
 						mCasillas2[n][m].setBackground(Color.YELLOW);
@@ -745,7 +753,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 				// TableroIA
 				int posXIA = (temp.getX() - 446) / (335 / 10);
 				int posYIA = (temp.getY() - 100) / (335 / 10);
-				jugador.usarRadar(posYIA, posXIA);
+				jugador.usarRadar(posYIA, posXIA, IA.getIA());
 			}
 			if (rdbtnBomba.isSelected() == true) {
 				// TableroIA

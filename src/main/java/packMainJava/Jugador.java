@@ -7,7 +7,7 @@ import java.util.Random;
 
 public abstract class Jugador extends Observable{
 	private Tablero tableroIA = new Tablero(false);
-	private Tablero tableroJ = new Tablero(true);
+	private Tablero tableroJ = new Tablero(false);
 	private int portaaviones = 1;
 	private int submarinos = 2;
 	private int destructores = 3;
@@ -100,18 +100,22 @@ public abstract class Jugador extends Observable{
 		if (comprobarNumBarcos(tipob)
 				&& puedePonerBarco(tipob.getLongitud(), fila, columna, hor)) {
 			Barco pBarco = new Barco(tipob);
+			Casilla pOcupa[] = new Casilla[tipob.getLongitud()];
 			for (int i = 0; i < tipob.getLongitud(); i++) {
 				if (hor) {
 					tableroJ.getCasilla(fila, columna + i).setEstado(
 							CasillaEstado.OCUPADA);
 					tableroJ.getCasilla(fila, columna + i)
 							.setOcupadaPor(pBarco);
+					pOcupa[i] = tableroJ.getCasilla(fila, columna + i);
 				} else {
 					tableroJ.getCasilla(fila + i, columna).setEstado(
 							CasillaEstado.OCUPADA);
 					tableroJ.getCasilla(fila + i, columna)
 							.setOcupadaPor(pBarco);
+					pOcupa[i] = tableroJ.getCasilla(fila + i, columna);
 				}
+				pBarco.setPosicion(pOcupa);
 				addBarcoToArmadaInvencible(pBarco);
 			}
 			
@@ -130,18 +134,21 @@ public abstract class Jugador extends Observable{
 		int cont = 0;
 		while(cont < 10 && !encontrado)
 		{
-			if(getLaArmadaInvencible()[cont] != null)encontrado = true;
-			cont++;
+			if(laArmadaInvencible[cont] != null)
+				{
+				cont++;
+				}
+			else
+			{
+				laArmadaInvencible[cont] = sanJuanNepomuceno;
+				encontrado = true;
+			}
 		}
 		
-		if(cont > 9)
+		/*if(cont > 9)
 		{
-			getLaArmadaInvencible()[0] = sanJuanNepomuceno;
-		}
-		else
-		{
-			getLaArmadaInvencible()[cont] = sanJuanNepomuceno;
-		}
+			laArmadaInvencible[0] = sanJuanNepomuceno;
+		}*/
 		
 	}
 	
@@ -208,48 +215,36 @@ public abstract class Jugador extends Observable{
 		}
 	}
 	
-	public Casilla usarRadar(int fila,int columna){
-		if(inv.getNumRadares()>0){
-			int contX = 0;
-			int contY = 0;
-			Casilla[][] rastreo = new Casilla[4][4];
+	public void usarRadar(int fila,int columna, Jugador pJugador){
 			ArrayList<Casilla> lista = new ArrayList<Casilla>();
-			for(int hotel = fila; hotel < fila + 4; hotel++){
-				for(int victor = columna; victor < columna + 4; victor++)
-					{
-					//rastreo[contX][contY] = Tablero.getTabla[hotel][victor];
-					contY++;
-					}
-				contX++;
-			}
-			for(contX = 0; contX < 4; contX++)
+			int filaInicial = Math.max(0, fila - 1);
+			int filaFinal = Math.min(tableroJ.getMaxFil() - 1, fila + 1);
+			int colInicial = Math.max(0, columna - 1);
+			int colFinal = Math.min(tableroJ.getMaxCol(), columna + 1);
+			
+			for(int i = filaInicial; i <= filaFinal; i++)
 			{
-				for(contY = 0; contY < 4; contY++)
+				for(int j = colInicial; j <= colFinal; j++)
 				{
-					if(rastreo[contX][contY] != null)
+					Casilla pCasilla = pJugador.getCasillaJugador(i, j);
+					if(pCasilla.getOcupadaPor() != null)
 					{
-						lista.add(rastreo[contX][contY]);
+						lista.add(pCasilla);
 					}
 				}
 			}
-			Random rnd = new Random();
-			int randomNum;
-			randomNum = rnd.nextInt((lista.size()) + 1);
-			try{
+			
+			if(lista.size() > 0)
+			{
+				Random rnd = new Random();
+				int randomNum;
+				randomNum = rnd.nextInt(lista.size());
 				Casilla resultado = lista.get(randomNum);
 				resultado.setDetectada(true);
 				setChanged();
 				notifyObservers();	
 				inv.restarRadar();
-				return resultado;
-			}catch(IndexOutOfBoundsException e)
-			{
-				inv.restarRadar();
-				System.out.println("El radar no ha encontrado ningun barco");
-				return null;
 			}
-		}
-		return null;
 	}
 	
 	public void repararBarco(int fila,int columna){
@@ -301,11 +296,14 @@ public abstract class Jugador extends Observable{
 			//Barco papaBear = getCasillaJugador(fila,columna).getOcupadaPor();
 			Casilla pCasilla = IA.getIA().getCasillaJugador(fila, columna);
 			Barco papaBear = IA.getIA().getBarcoEnCasilla(fila, columna);
+			Casilla[] posiciones;
 			//Barco papaBear = IA.getIA().getCasillaJugador(fila,columna).getOcupadaPor();
 			if(papaBear != null)
 			{
 				if(!papaBear.isProtegido())
 				{
+					posiciones = papaBear.getPosicion();
+					for(Casilla potato:posiciones)potato.setRevelado(true);
 					papaBear.hundirBarco(papaBear);
 					setChanged();
 					notifyObservers();
@@ -346,6 +344,14 @@ public abstract class Jugador extends Observable{
 	public Barco getPosArmada(int pos)
 	{
 		return laArmadaInvencible[pos];
+	}
+	public Tablero getTableroJ()
+	{
+		return tableroJ;
+	}
+	public Tablero getTableroIA()
+	{
+		return tableroIA;
 	}
 	
 }

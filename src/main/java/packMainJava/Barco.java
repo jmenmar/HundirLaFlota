@@ -10,7 +10,7 @@ public class Barco extends Observable{
 	private boolean horizontal;
 	private Casilla proa;
 	private Casilla[] posicion;
-	private boolean[] impactos;
+	private Casilla[] impactos;
 	
 	//Constructor
 
@@ -20,38 +20,69 @@ public class Barco extends Observable{
 		this.estado = Status.INTACTO;
 		this.protegido = false;
 		this.posicion = new Casilla[this.modelo.getLongitud()];
-		this.impactos = new boolean[this.modelo.getLongitud()];
+		this.impactos = new Casilla[this.modelo.getLongitud()];
 		for(int i = 0; i < impactos.length; i++)
 		{
-			impactos[i] = false;
+			impactos[i] = null;
 		}
 	}
 	
 		//Metodos
 		public void setImpacto(Casilla impacto) {
-			boolean finder = false;
-			boolean done = false;
-			int buscador;
-			for(int foo = 0; foo < this.impactos.length; foo++)
+			int longitud = this.getModelo().getLongitud();
+			boolean encontrado = false;
+			int i = 0;
+			int j = 0;
+			while(i < longitud && encontrado)
 			{
-				if(impacto == this.posicion[foo] && impactos[foo])
+				while(j < longitud && encontrado)
 				{
-					finder = true;
-				}
-				else if(impacto == this.posicion[foo])
-				{
-					buscador = foo;
+					if(posicion[i] == impactos[j])
+					{
+						encontrado = true;
+						j++;
+					}
+					i++;
 				}
 			}
-			if(!finder)
+			if(!encontrado)
 			{
-				if(protegido)
+				boolean finder = false;
+				int foo = 0;
+				while(foo < longitud && !finder)
 				{
-					protegido = false;
+					if(impactos[foo] != null)
+					{
+						foo++;
+					}else
+					{
+						impactos[foo] = impacto;
+						finder = true;
+					}
+				}
+			}
+			int cont = 0;
+			int morgan = 0;
+			while(morgan < longitud)
+			{
+				if(impactos[morgan] != null)
+				{
+					cont++;
+				}
+				morgan++;
+			}
+			if(cont == longitud)
+			{
+				estado = Status.HUNDIDO;
+			}else
+			{
+				if(cont == 0)
+				{
+					estado = Status.INTACTO;
 				}
 				else
 				{
-					if(estado == Status.INTACTO)
+					if(cont > 0 && cont < longitud)
 					{
 						estado = Status.TOCADO;
 					}
@@ -66,7 +97,6 @@ public class Barco extends Observable{
 				setImpacto(posicion[i]);
 			}
 			
-			pBarco.estado = Status.HUNDIDO;
 		}
 		
 		public void comprobarHundimiento(Barco pBarco){
@@ -83,7 +113,7 @@ public class Barco extends Observable{
 		{
 			for(int charlie = 0; charlie < this.impactos.length; charlie++)
 			{
-				this.impactos[charlie] = false;
+				this.impactos[charlie] = null;
 			}
 			this.estado = Status.INTACTO;
 		}
@@ -108,7 +138,7 @@ public class Barco extends Observable{
 			return posicion;
 		}
 
-		public boolean[] getImpactos() {
+		public Casilla[] getImpactos() {
 			return impactos;
 		}
 

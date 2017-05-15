@@ -66,9 +66,9 @@ public class IA extends Jugador{
 		}
 		if (numRadar > 0)
 		{
-			usarRadar(random.nextInt(100), PackSwings.Partida.getTableroJugador());
+			usarRadar(random.nextInt(100), Player.getPlayer().getTableroJ());
 		}
-		disparar(random.nextInt(100), PackSwings.Partida.getTableroJugador());
+		disparar(random.nextInt(100), Player.getPlayer().getTableroJ());
 		//Aqui se cambiaria el turno ya
 		
 	}
@@ -163,14 +163,19 @@ public class IA extends Jugador{
 			ArrayList<Barco> listaTocados = new ArrayList<Barco>();
 			for(Barco santisimaTrinidad:getLaArmadaInvencible())
 			{
+				if(santisimaTrinidad == null){System.out.println("Nulo");}else{
+				System.out.println(santisimaTrinidad.toString());}
 				if(santisimaTrinidad.getEstado() == Status.TOCADO)
 				{
 					listaTocados.add(santisimaTrinidad);
 				}
 			}
-			Random alphaBravoDelta666 = new Random();
-			int posibilidades = alphaBravoDelta666.nextInt(listaTocados.size()-1);
-			listaTocados.get(posibilidades).repararBarco();
+			if(listaTocados.size() > 0)
+			{
+					Random alphaBravoDelta666 = new Random();
+					int posibilidades = alphaBravoDelta666.nextInt(listaTocados.size());
+					listaTocados.get(posibilidades).repararBarco();
+			}
 		}
 	}
 	private void usarEscudo(int probabilidad)
@@ -186,12 +191,12 @@ public class IA extends Jugador{
 				}
 			}
 			Random livingInTheVatican = new Random();
-			int quePasaSiLoPongoAqui = livingInTheVatican.nextInt(listaNoGluGluGlu.size()-1);
+			int quePasaSiLoPongoAqui = livingInTheVatican.nextInt(listaNoGluGluGlu.size());
 			listaNoGluGluGlu.get(quePasaSiLoPongoAqui).setProtegido(true);
 			
 		}
 	}
-	private Casilla usarRadar(int probabilidad, Tablero tab)
+	private void usarRadar(int probabilidad, Tablero tab)
 	{
 		if(probabilidad < 20)
 		{
@@ -200,13 +205,9 @@ public class IA extends Jugador{
 			int randomX;
 			int randomY;
 			Random bigBird = new Random();
-			randomX = bigBird.nextInt((numCol - 4) - 1);
-			randomY = bigBird.nextInt((numFil - 4) - 1);
-			return usarRadar(randomX,randomY);
-		}
-		else
-		{
-			return null;
+			randomX = bigBird.nextInt((numCol - 4));
+			randomY = bigBird.nextInt((numFil - 4));
+			usarRadar(randomX,randomY, Player.getPlayer());
 		}
 	}
 	private void disparar(int probabilidad, Tablero tab)
