@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
 
-public abstract class Jugador extends Observable{
+public abstract class Jugador extends Observable {
 	private Tablero tableroIA = new Tablero(false);
 	private Tablero tableroJ = new Tablero(false);
 	private int portaaviones = 1;
@@ -18,6 +18,7 @@ public abstract class Jugador extends Observable{
 	private int numRadar = 1;
 	private int dinero = 1000;
 	private Barco[] laArmadaInvencible = new Barco[10];
+	private Jugador oponente;
 	Inventario inv = Inventario.getInventario(); // Instancia única al Singleton
 
 	// Compruebas que la fila y la columna estan dentro del tablero
@@ -35,18 +36,18 @@ public abstract class Jugador extends Observable{
 	}
 
 	public boolean puedePonerBarco(int tam, int fila, int columna, boolean hor) {
-		int filai,filaf,columnai,columnaf;
+		int filai, filaf, columnai, columnaf;
 		if (hor) {
 
 			if (!celdaEstaEnTablero(fila, columna)
-					|| !celdaEstaEnTablero(fila, columna + tam-1)) {
+					|| !celdaEstaEnTablero(fila, columna + tam - 1)) {
 				return false;
 
 			}
 
 		} else {
 			if (!celdaEstaEnTablero(fila, columna)
-					|| !celdaEstaEnTablero(fila+tam-1, columna)) {
+					|| !celdaEstaEnTablero(fila + tam - 1, columna)) {
 				return false;
 
 			}
@@ -54,19 +55,19 @@ public abstract class Jugador extends Observable{
 
 		// Comprueba si hay un barco
 		// Calcular fila final y columan final en función dehor y vert
-		if(hor){
-			filai=Math.max(0,fila - 1);
-			filaf=Math.min( fila + 1,9);
+		if (hor) {
+			filai = Math.max(0, fila - 1);
+			filaf = Math.min(fila + 1, 9);
 
-			columnai=Math.max(0,columna - 1);
-			columnaf=Math.min( columna +tam,9);
-			
-		}else{
-			filai=Math.max(0,fila - 1);
-			filaf=Math.min( fila + tam ,9);
-			columnai=Math.max(0,columna - 1);
-			columnaf=Math.min( columna + 1,9);
-			
+			columnai = Math.max(0, columna - 1);
+			columnaf = Math.min(columna + tam, 9);
+
+		} else {
+			filai = Math.max(0, fila - 1);
+			filaf = Math.min(fila + tam, 9);
+			columnai = Math.max(0, columna - 1);
+			columnaf = Math.min(columna + 1, 9);
+
 		}
 		for (int fila2 = filai; fila2 <= filaf; fila2++) {
 			for (int columna2 = columnai; columna2 <= columnaf; columna2++) {
@@ -96,7 +97,8 @@ public abstract class Jugador extends Observable{
 		return false;
 	}
 
-	public boolean addBarco(TipoDeBarco tipob, int fila, int columna, boolean hor) {
+	public boolean addBarco(TipoDeBarco tipob, int fila, int columna,
+			boolean hor) {
 		if (comprobarNumBarcos(tipob)
 				&& puedePonerBarco(tipob.getLongitud(), fila, columna, hor)) {
 			Barco pBarco = new Barco(tipob);
@@ -118,45 +120,38 @@ public abstract class Jugador extends Observable{
 				pBarco.setPosicion(pOcupa);
 				addBarcoToArmadaInvencible(pBarco);
 			}
-			
 
 			decrementarContBarco(tipob);
 			setChanged();
 			notifyObservers(); // Indicar que es el tablero de barcos
 			return true;
 		}
-      return false;
+		return false;
 	}
-	
-	public void addBarcoToArmadaInvencible(Barco sanJuanNepomuceno)
-	{
+
+	public void addBarcoToArmadaInvencible(Barco sanJuanNepomuceno) {
 		boolean encontrado = false;
 		int cont = 0;
-		while(cont < 10 && !encontrado)
-		{
-			if(laArmadaInvencible[cont] != null)
-				{
+		while (cont < 10 && !encontrado) {
+			if (laArmadaInvencible[cont] != null) {
 				cont++;
-				}
-			else
-			{
+			} else {
 				laArmadaInvencible[cont] = sanJuanNepomuceno;
 				encontrado = true;
 			}
 		}
-		
-		/*if(cont > 9)
-		{
-			laArmadaInvencible[0] = sanJuanNepomuceno;
-		}*/
-		
+
+		/*
+		 * if(cont > 9) { laArmadaInvencible[0] = sanJuanNepomuceno; }
+		 */
+
 	}
-	
+
 	private void decrementarContBarco(TipoDeBarco tipob) {
 		switch (tipob) {
 		case SUBMARINO:
-			 submarinos--;
-			 break;
+			submarinos--;
+			break;
 		case PORTAAVIONES:
 			portaaviones--;
 			break;
@@ -172,86 +167,93 @@ public abstract class Jugador extends Observable{
 	public CasillaEstado getEstadoCasillaBarcoJugador(int fila, int columna) {
 		return tableroJ.getCasilla(fila, columna).getEstado();
 	}
+
 	public CasillaEstado getEstadoCasillaBarcoIA(int fila, int columna) {
 		return tableroIA.getCasilla(fila, columna).getEstado();
 	}
+
 	public int getNumEscudos() {
 		return numEscudos;
 	}
+
 	public void setNumEscudos(int numEscudos) {
 		this.numEscudos = numEscudos;
 	}
+
 	public int getNumReparaciones() {
 		return numReparaciones;
 	}
+
 	public void setNumReparaciones(int numReparaciones) {
 		this.numReparaciones = numReparaciones;
 	}
+
 	public int getDinero() {
 		return dinero;
 	}
+
 	public void setDinero(int dinero) {
 		this.dinero = dinero;
 	}
-	public Barco getBarcoEnCasilla(int fila,int columna){
+
+	public Barco getBarcoEnCasilla(int fila, int columna) {
 		return tableroJ.getCasilla(fila, columna).getOcupadaPor();
 	}
+
 	public Casilla getCasillaJugador(int fila, int columna) {
 		return tableroJ.getCasilla(fila, columna);
 	}
+
 	public Casilla getCasillaIA(int fila, int columna) {
 		return tableroIA.getCasilla(fila, columna);
 	}
-	
-	public void setEscudoEnBarco(int fila,int columna){
-		if(inv.getNumEscudos()>0){
+
+	public void setEscudoEnBarco(int fila, int columna) {
+		if (inv.getNumEscudos() > 0) {
 			Casilla pCasilla = tableroJ.getCasilla(fila, columna);
-			if(pCasilla.getEstado()!=CasillaEstado.AGUA){
-				if(pCasilla.getOcupadaPor().getEstado() != Status.HUNDIDO){
-					pCasilla.getOcupadaPor().setProtegido(true);	
+			if (pCasilla.getEstado() != CasillaEstado.AGUA) {
+				if (pCasilla.getOcupadaPor().getEstado() != Status.HUNDIDO) {
+					pCasilla.getOcupadaPor().setProtegido(true);
 					inv.restarEscudo();
-				}
+					setChanged();
+					notifyObservers();
+				}			
 			}
 		}
 	}
-	
-	public void usarRadar(int fila,int columna, Jugador pJugador){
-			ArrayList<Casilla> lista = new ArrayList<Casilla>();
-			int filaInicial = Math.max(0, fila - 1);
-			int filaFinal = Math.min(tableroJ.getMaxFil() - 1, fila + 1);
-			int colInicial = Math.max(0, columna - 1);
-			int colFinal = Math.min(tableroJ.getMaxCol(), columna + 1);
-			
-			for(int i = filaInicial; i <= filaFinal; i++)
-			{
-				for(int j = colInicial; j <= colFinal; j++)
-				{
-					Casilla pCasilla = pJugador.getCasillaJugador(i, j);
-					if(pCasilla.getOcupadaPor() != null)
-					{
-						lista.add(pCasilla);
-					}
+
+	public void usarRadar(int fila, int columna, Jugador pJugador) {
+		ArrayList<Casilla> lista = new ArrayList<Casilla>();
+		int filaInicial = Math.max(0, fila - 1);
+		int filaFinal = Math.min(tableroJ.getMaxFil() - 1, fila + 1);
+		int colInicial = Math.max(0, columna - 1);
+		int colFinal = Math.min(tableroJ.getMaxCol(), columna + 1);
+
+		for (int i = filaInicial; i <= filaFinal; i++) {
+			for (int j = colInicial; j <= colFinal; j++) {
+				Casilla pCasilla = pJugador.getCasillaJugador(i, j);
+				if (pCasilla.getOcupadaPor() != null) {
+					lista.add(pCasilla);
 				}
 			}
-			
-			if(lista.size() > 0)
-			{
-				Random rnd = new Random();
-				int randomNum;
-				randomNum = rnd.nextInt(lista.size());
-				Casilla resultado = lista.get(randomNum);
-				resultado.setDetectada(true);
-				setChanged();
-				notifyObservers();	
-				inv.restarRadar();
-			}
+		}
+
+		if (lista.size() > 0) {
+			Random rnd = new Random();
+			int randomNum;
+			randomNum = rnd.nextInt(lista.size());
+			Casilla resultado = lista.get(randomNum);
+			resultado.setDetectada(true);
+			setChanged();
+			notifyObservers();
+			inv.restarRadar();
+		}
 	}
-	
-	public void repararBarco(int fila,int columna){
-		if(inv.getNumReparaciones()>0){
-			Barco normandy = getCasillaJugador(fila,columna).getOcupadaPor();
-			if(normandy != null && normandy.getEstado()!= Status.HUNDIDO)
-			{
+
+	public void repararBarco(int fila, int columna) {
+		if (inv.getNumReparaciones() > 0) {
+			Barco normandy = getCasillaJugador(fila, columna).getOcupadaPor();
+			if (normandy != null && normandy.getEstado() != Status.HUNDIDO) {
 				normandy.repararBarco();
 				setChanged();
 				notifyObservers();
@@ -260,75 +262,74 @@ public abstract class Jugador extends Observable{
 		}
 	}
 
-	public void usarBomba(int fila, int columna){
-		//Casilla pCasilla = tableroJ.getCasilla(fila, columna);
-		Casilla pCasilla = IA.getIA().getCasillaJugador(fila, columna); //MODIFICADO! (En pruebas)
-		//Casilla pCasilla = getCasillaIA(fila, columna);
-		//Barco tangoZulu = getCasillaIA(fila,columna).getOcupadaPor();
-		Barco tangoZulu = IA.getIA().getBarcoEnCasilla(fila, columna);
-		if(tangoZulu != null)
-		{
-			if(!tangoZulu.isProtegido())
-			{
+	public void usarBomba(int fila, int columna) {
+		// Casilla pCasilla = tableroJ.getCasilla(fila, columna);
+		Casilla pCasilla = getOponente().getCasillaJugador(fila, columna); // MODIFICADO!
+																		// (En
+																		// pruebas)
+		// Casilla pCasilla = getCasillaIA(fila, columna);
+		// Barco tangoZulu = getCasillaIA(fila,columna).getOcupadaPor();
+		Barco tangoZulu =getOponente().getBarcoEnCasilla(fila, columna);
+		if (tangoZulu != null) {
+			if (!tangoZulu.isProtegido()) {
 				tangoZulu.setImpacto(pCasilla);
-			}
-			else
-			{
+				tableroIA.getCasilla(fila, columna).setEstado(CasillaEstado.TOCADO);
+			} else {
 				tangoZulu.setProtegido(false);
+				tableroIA.getCasilla(fila, columna).setEstado(CasillaEstado.OCUPADA);
 			}
-			
+
 			pCasilla.setRevelado(true);
 			setChanged();
 			notifyObservers();
-		} else 
-		{
+			getOponente().setChanged();
+			getOponente().notifyObservers();
 			
+		} else {
+
+			tableroIA.getCasilla(fila, columna).setEstado(CasillaEstado.AGUA);
 			pCasilla.setRevelado(true);
 			setChanged();
 			notifyObservers();
-			
+			getOponente().setChanged();
+			getOponente().notifyObservers();
+
 		}
-		IA.getIA().act();
 	}
 
-	public void usarMisil(int fila, int columna){
-		if(inv.getNumMisiles()>0){
-			//Barco papaBear = getCasillaJugador(fila,columna).getOcupadaPor();
-			Casilla pCasilla = IA.getIA().getCasillaJugador(fila, columna);
-			Barco papaBear = IA.getIA().getBarcoEnCasilla(fila, columna);
+	public void usarMisil(int fila, int columna) {
+		if (inv.getNumMisiles() > 0) {
+			// Barco papaBear = getCasillaJugador(fila,columna).getOcupadaPor();
+			Casilla pCasilla = getOponente().getCasillaJugador(fila, columna);
+			Barco papaBear = getOponente().getBarcoEnCasilla(fila, columna);
 			Casilla[] posiciones;
-			//Barco papaBear = IA.getIA().getCasillaJugador(fila,columna).getOcupadaPor();
-			if(papaBear != null)
-			{
-				if(!papaBear.isProtegido())
-				{
+			// Barco papaBear =
+			// IA.getIA().getCasillaJugador(fila,columna).getOcupadaPor();
+			if (papaBear != null) {
+				if (!papaBear.isProtegido()) {
 					posiciones = papaBear.getPosicion();
-					for(Casilla potato:posiciones)potato.setRevelado(true);
+					for (Casilla potato : posiciones)
+						potato.setRevelado(true);
 					papaBear.hundirBarco(papaBear);
 					setChanged();
 					notifyObservers();
-				}
-				else
-				{
+				} else {
 					papaBear.setProtegido(false);
 					setChanged();
 					notifyObservers();
 				}
 				inv.restarMisil();
 				pCasilla.setRevelado(true);
-			}
-			else
-			{
-				
+			} else {
+
 				inv.restarMisil();
 				pCasilla.setRevelado(true);
 				setChanged();
 				notifyObservers();
 			}
-		} 
-		//IA.getIA().act();
+		}
 	}
-	
+
 	public Barco[] getLaArmadaInvencible() {
 		return laArmadaInvencible;
 	}
@@ -336,22 +337,47 @@ public abstract class Jugador extends Observable{
 	public void setLaArmadaInvencible(Barco[] plaArmadaInvencible) {
 		laArmadaInvencible = plaArmadaInvencible;
 	}
-	
-	public void setPosArmada(Barco pBarco, int pos)
-	{
+
+	public void setPosArmada(Barco pBarco, int pos) {
 		laArmadaInvencible[pos] = pBarco;
 	}
-	public Barco getPosArmada(int pos)
-	{
+
+	public Barco getPosArmada(int pos) {
 		return laArmadaInvencible[pos];
 	}
-	public Tablero getTableroJ()
-	{
+
+	public Tablero getTableroJ() {
 		return tableroJ;
 	}
-	public Tablero getTableroIA()
-	{
+
+	public Tablero getTableroIA() {
 		return tableroIA;
 	}
-	
+
+	public Jugador getOponente() {
+		return oponente;
+	}
+
+	public void setOponente(Jugador oponente) {
+		this.oponente = oponente;
+	}
+
+	public boolean comprobarFinPartida()
+	{
+		int cont = 0;
+		for(Barco pBarco: laArmadaInvencible)
+		{
+			if(pBarco.getEstado() == Status.HUNDIDO)
+			{
+				cont++;
+			}
+		}
+		if(cont == 10){
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

@@ -86,6 +86,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
 	boolean turno = true;
 	private final ButtonGroup buttonGroup_2 = new ButtonGroup();
+	private String ganador;
 
 	/**
 	 * Launch the application.
@@ -111,6 +112,8 @@ public class Partida extends JFrame implements Observer, ActionListener {
 
 		initialize();
 		jugador = Player.getPlayer();
+		jugador.setOponente(IA.getIA());
+		IA.getIA().setOponente(jugador);
 		jugador.addObserver(this);
 		update(null, null);
 	}
@@ -520,13 +523,19 @@ public class Partida extends JFrame implements Observer, ActionListener {
 							}
 						}
 					}
-					if (IA.getIA().getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA && finder
+					/*IA.getIA().getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA && finder
 							&& !IA.getIA().getCasillaJugador(n, m).getOcupadaPor().isProtegido()
-							&& IA.getIA().getCasillaJugador(n, m).isRevelado()) {
+							&& IA.getIA().getCasillaJugador(n, m).isRevelado()
+							*/
+					if (jugador.getCasillaIA(n,m).getEstado() == CasillaEstado.TOCADO) {
+						if(IA.getIA().getBarcoEnCasilla(n, m).getEstado()== Status.HUNDIDO){
+						mCasillas2[n][m].setBackground(Color.RED);
+						}else{
 						mCasillas2[n][m].setBackground(Color.YELLOW);
+						}
 						// Si el disparo va al agua ---> Pintar para reflejar el
 						// disparo en el agua
-					} else if (IA.getIA().getEstadoCasillaBarcoJugador(n, m) != CasillaEstado.OCUPADA
+					} else if (jugador.getCasillaIA(n,m).getEstado() == CasillaEstado.AGUA
 							&& IA.getIA().getCasillaJugador(n, m).isRevelado()) {
 						mCasillas2[n][m].setBackground(Color.BLUE);
 					}
@@ -546,6 +555,22 @@ public class Partida extends JFrame implements Observer, ActionListener {
 					}
 				}
 			}
+			//Recibir disparo
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if(jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA 
+							&& jugador.getBarcoEnCasilla(n, m).getEstado() == Status.HUNDIDO	){
+						mCasillas[n][m].setBackground(Color.RED);
+					}else if(jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
+							&& jugador.getCasillaJugador(n, m).isRevelado()){
+						mCasillas[n][m].setBackground(Color.YELLOW);
+					}else if(jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.AGUA
+							&& jugador.getCasillaJugador(n, m).isRevelado()){
+						mCasillas[n][m].setBackground(Color.WHITE);
+					}
+				}
+			}
+			
 		}
 
 		// Comprobaría los botones del los barcos
@@ -566,8 +591,17 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			rdbtnHorizontal.setEnabled(false);
 			rdbtnVertical.setEnabled(false);
 		}
+		if(partidaEstado==2){
+		if(jugador.comprobarFinPartida()){
+			partidaEstado=3;
+			ganador="IA";
+		}else if(IA.getIA().comprobarFinPartida()){
+			partidaEstado=3;
+			ganador="Jugador";
+		  }
+		}
 		if (partidaEstado == 3) {
-			System.out.println("Partida finaliza, cerrando en unos segundos");
+			System.out.println("Partida finaliza, el ganador es:" + ganador + ",cerrando en unos segundos");
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e1) {

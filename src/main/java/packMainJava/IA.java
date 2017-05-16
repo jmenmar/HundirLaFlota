@@ -80,46 +80,6 @@ public class IA extends Jugador{
 			{
 				Random quePodemosComprar = new Random();
 				int controlador = quePodemosComprar.nextInt(3);
-				//prueba adelante
-				/*	
-					Method maquillaje;
-					Class[] dineroArray = new Class[1];
-					dineroArray[0] = Integer.class;
-					switch (controlador)
-					{
-						case 0: try
-								{
-									maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
-									maquillaje.invoke(null, precioMisil);
-								} catch (NoSuchMethodException x) {
-								    x.printStackTrace();
-								} catch (IllegalAccessException x) {
-								    x.printStackTrace();
-								} catch (InvocationTargetException x) {
-								    x.printStackTrace();
-								{
-									System.out.println(x.toString());
-								}
-								}
-								break;
-						case 1: try
-								{
-									maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
-								} catch(NoSuchMethodException e)
-								{
-									System.out.println(e.toString());
-								}
-								break;
-						case 2: try
-								{
-									maquillaje = this.getClass().getDeclaredMethod("comprarMisil", dineroArray);
-								} catch(NoSuchMethodException e)
-								{
-									System.out.println(e.toString());
-								}
-								break;
-					}
-				*/
 				switch (controlador)
 				{
 					case 0:
@@ -190,9 +150,12 @@ public class IA extends Jugador{
 					listaNoGluGluGlu.add(JuanCarlosPrimero);
 				}
 			}
-			Random livingInTheVatican = new Random();
-			int quePasaSiLoPongoAqui = livingInTheVatican.nextInt(listaNoGluGluGlu.size());
-			listaNoGluGluGlu.get(quePasaSiLoPongoAqui).setProtegido(true);
+			if(listaNoGluGluGlu.size() > 0)
+			{
+				Random livingInTheVatican = new Random();
+				int quePasaSiLoPongoAqui = livingInTheVatican.nextInt(listaNoGluGluGlu.size());
+				listaNoGluGluGlu.get(quePasaSiLoPongoAqui).setProtegido(true);
+			}
 			
 		}
 	}
@@ -228,11 +191,11 @@ public class IA extends Jugador{
 				int randomX;
 				int randomY;
 				Random patriot = new Random();
-				randomX = patriot.nextInt((numCol - 4) - 1);
-				randomY = patriot.nextInt((numFil - 4) - 1);
+				randomX = patriot.nextInt(numCol);
+				randomY = patriot.nextInt(numFil);
 				objetivo = tab.getCasilla(randomX, randomY);				
 			}
-			Misil.getMisil().cumplirFuncion(objetivo);
+			usarMisil(objetivo.getX(),objetivo.getY());
 		}
 		else
 		{
@@ -247,11 +210,11 @@ public class IA extends Jugador{
 				int randomX;
 				int randomY;
 				Random freedom = new Random();
-				randomX = freedom.nextInt((numCol - 4) - 1);
-				randomY = freedom.nextInt((numFil - 4) - 1);
+				randomX = freedom.nextInt(numCol);
+				randomY = freedom.nextInt(numFil);
 				objetivo = tab.getCasilla(randomX, randomY);				
 			}
-			Bomba.getBomba().cumplirFuncion(objetivo);
+			usarBomba(objetivo.getX(),objetivo.getY());
 		}
 	}
 	

@@ -1,5 +1,5 @@
 package packMainJava;
 
 public enum CasillaEstado {
-	OCUPADA, AGUA;
+	OCUPADA, AGUA,TOCADO;
 }
