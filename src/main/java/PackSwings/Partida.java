@@ -47,6 +47,7 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 import java.awt.event.ActionEvent;
 
 import packMainJava.CasillaEstado;
@@ -514,13 +515,19 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			// Bomba
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
+					Casilla casTemp = IA.getIA().getCasillaJugador(n, m);
 					boolean finder = false;
-					Barco pBarco = IA.getIA().getCasillaJugador(n, m).getOcupadaPor();
+					Barco pBarco = casTemp.getOcupadaPor();
 					if (pBarco != null) {
-						for (int i = 0; i < pBarco.getModelo().getLongitud(); i++) {
-							if (pBarco.getImpactos()[i] == IA.getIA().getCasillaJugador(n, m)) {
+						/*for (int i = 0; i < pBarco.getModelo().getLongitud(); i++) {
+							if (pBarco.getImpactos()[i] == casTemp) {
 								finder = true;
 							}
+						}*/
+						Set<Casilla> sethOsiris = pBarco.getMapa().keySet();
+						for(Casilla casanova: sethOsiris)
+						{
+							if (casanova == casTemp)finder = true;			
 						}
 					}
 					/*IA.getIA().getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA && finder
@@ -599,6 +606,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			partidaEstado=3;
 			ganador="Jugador";
 		  }
+		  
 		}
 		if (partidaEstado == 3) {
 			System.out.println("Partida finaliza, el ganador es:" + ganador + ",cerrando en unos segundos");

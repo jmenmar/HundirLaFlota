@@ -1,7 +1,10 @@
 package packMainJava;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
-
+import java.util.Set;
 public class Barco extends Observable{
 	
 	private Status estado;
@@ -9,8 +12,9 @@ public class Barco extends Observable{
 	private boolean protegido;
 	private boolean horizontal;
 	private Casilla proa;
-	private Casilla[] posicion;
-	private Casilla[] impactos;
+	//private Casilla[] posicion;
+	//private Casilla[] impactos;
+	private Map<Casilla, Boolean> impactos = new HashMap<Casilla, Boolean>();
 	
 	//Constructor
 
@@ -19,17 +23,17 @@ public class Barco extends Observable{
 		this.modelo = pModelo;
 		this.estado = Status.INTACTO;
 		this.protegido = false;
-		this.posicion = new Casilla[this.modelo.getLongitud()];
-		this.impactos = new Casilla[this.modelo.getLongitud()];
-		for(int i = 0; i < impactos.length; i++)
+		//this.posicion = new Casilla[this.modelo.getLongitud()];
+		//this.impactos = new Casilla[this.modelo.getLongitud()];
+		/*for(int i = 0; i < impactos.length; i++)
 		{
 			impactos[i] = null;
-		}
+		}*/
 	}
 	
 		//Metodos
 		public void setImpacto(Casilla impacto) {
-			int longitud = this.getModelo().getLongitud();
+			/*int longitud = this.getModelo().getLongitud();
 			boolean encontrado = false;
 			int i = 0;
 			int j = 0;
@@ -88,14 +92,44 @@ public class Barco extends Observable{
 					}
 				}
 			}
+		*/
+		impactos.put(impacto, true);
+		Collection<Boolean> tocados = impactos.values();
+		int cont = 0;
+		for(Boolean comprobador: tocados)
+		{
+			if(comprobador)
+			{
+				cont++;
+			}
 		}
 		
+		if(cont == modelo.getLongitud())
+		{
+			estado = Status.HUNDIDO;
+		}else
+		{
+			if(cont == 0)
+			{
+				estado = Status.INTACTO;
+			}
+			else
+			{
+				if(cont > 0 && cont < modelo.getLongitud())
+				{
+					estado = Status.TOCADO;
+				}
+			}
+		}
+		}
 		public void hundirBarco(Barco pBarco)
 		{
+			/*
 			for(int i = 0; i < this.posicion.length; i++)
 			{
 				setImpacto(posicion[i]);
 			}
+			*/
 			
 		}
 		
@@ -111,11 +145,13 @@ public class Barco extends Observable{
 		
 		public void repararBarco()
 		{
+			/*
 			for(int charlie = 0; charlie < this.impactos.length; charlie++)
 			{
 				this.impactos[charlie] = null;
 			}
 			this.estado = Status.INTACTO;
+			*/
 		}
 			
 		//get & set (he eliminado los que no deberian de ser modificados tras su inicializacion)
@@ -134,13 +170,16 @@ public class Barco extends Observable{
 			notifyObservers();
 			this.notifyObservers(); // Indicar que es el tablero de barcos
 		}
+		/*
 		public Casilla[] getPosicion() {
 			return posicion;
 		}
-
+		*/
+		/*
 		public Casilla[] getImpactos() {
 			return impactos;
 		}
+		*/
 
 		public TipoDeBarco getModelo() {
 			return modelo;
@@ -157,10 +196,19 @@ public class Barco extends Observable{
 		public void setProa(Casilla proa) {
 			this.proa = proa;
 		}
+		/*
 		public void setPosicion(Casilla[] posicion) {
 			this.posicion = posicion;
 		}
-
+		*/
+		public void setMapa(Map<Casilla, Boolean> pMapa)
+		{
+			impactos = pMapa;
+		}
+		public Map<Casilla, Boolean> getMapa()
+		{
+			return impactos;
+		}
 		
 		
 	

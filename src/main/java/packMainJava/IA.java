@@ -155,6 +155,7 @@ public class IA extends Jugador{
 				Random livingInTheVatican = new Random();
 				int quePasaSiLoPongoAqui = livingInTheVatican.nextInt(listaNoGluGluGlu.size());
 				listaNoGluGluGlu.get(quePasaSiLoPongoAqui).setProtegido(true);
+				numEscudos--;
 			}
 			
 		}
@@ -171,6 +172,7 @@ public class IA extends Jugador{
 			randomX = bigBird.nextInt((numCol - 4));
 			randomY = bigBird.nextInt((numFil - 4));
 			usarRadar(randomX,randomY, Player.getPlayer());
+			numRadar--;
 		}
 	}
 	private void disparar(int probabilidad, Tablero tab)
@@ -196,6 +198,7 @@ public class IA extends Jugador{
 				objetivo = tab.getCasilla(randomX, randomY);				
 			}
 			usarMisil(objetivo.getX(),objetivo.getY());
+			System.out.println("Disparo realizado: \nX =" +objetivo.getX() + "\nY =: " + objetivo.getY());
 		}
 		else
 		{
