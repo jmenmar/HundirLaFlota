@@ -1,4 +1,5 @@
 package packMainJava;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public class IA extends Jugador{
 	private Casilla detectado;
 	private Casilla repetirDisparo;
 	private static IA mIA = new IA();
-	private HashSet<Casilla> pMarca = new HashSet<Casilla>();
+	private HashMap<Casilla, Boolean> marca = new HashMap<Casilla, Boolean>();
+	//private HashSet<Casilla> pMarca = new HashSet<Casilla>();
 	
 	
 	private IA()
@@ -57,6 +59,7 @@ public class IA extends Jugador{
 	
 	public void act()
 	{
+		System.out.println("\nRep: " + numReparaciones + " Shield = " + numEscudos + " Rad = " + numRadar + " Misiles = " + numMisiles + "(" + dinero + ")");
 		Random random = new Random();
 		detectado = null;
 		comprarRecursos(random.nextInt(100));
@@ -73,6 +76,7 @@ public class IA extends Jugador{
 			usarRadar(random.nextInt(100), Player.getPlayer().getTableroJ());
 		}
 		disparar(random.nextInt(100), Player.getPlayer().getTableroJ());
+		System.out.println("Rep: " + numReparaciones + " Shield = " + numEscudos + " Rad = " + numRadar + " Misiles = " + numMisiles + "(" + dinero + ")\n");
 		//Aqui se cambiaria el turno ya
 		
 	}
@@ -80,7 +84,7 @@ public class IA extends Jugador{
 	{
 		magisterioEsUnGradoMedio = true;
 		while(magisterioEsUnGradoMedio){
-			if(probabilidad < 1)
+			if(probabilidad < 30)
 			{
 				Random quePodemosComprar = new Random();
 				int controlador = quePodemosComprar.nextInt(3);
@@ -109,16 +113,19 @@ public class IA extends Jugador{
 	{
 		numMisiles++;
 		dinero -= precioMisil;
+		System.out.println("Comprado misil");
 	}
 	private void comprarEscudo()
 	{
 		numEscudos++;
 		dinero -= precioEscudo;
+		System.out.println("Comprado escudo");
 	}
 	private void comprarRadar()
 	{
 		numRadar++;
 		dinero -= precioRadar;
+		System.out.println("Comprado radar");
 	}
 	private void repararBarco(int probabilidad)
 	{
@@ -127,8 +134,6 @@ public class IA extends Jugador{
 			ArrayList<Barco> listaTocados = new ArrayList<Barco>();
 			for(Barco santisimaTrinidad:getLaArmadaInvencible())
 			{
-				if(santisimaTrinidad == null){System.out.println("Nulo");}else{
-				System.out.println(santisimaTrinidad.toString());}
 				if(santisimaTrinidad.getEstado() == Status.TOCADO)
 				{
 					listaTocados.add(santisimaTrinidad);
@@ -139,6 +144,8 @@ public class IA extends Jugador{
 					Random alphaBravoDelta666 = new Random();
 					int posibilidades = alphaBravoDelta666.nextInt(listaTocados.size());
 					listaTocados.get(posibilidades).repararBarco();
+					numReparaciones--;
+					System.out.println("Barco Reparado");
 			}
 		}
 	}
@@ -160,6 +167,7 @@ public class IA extends Jugador{
 				int quePasaSiLoPongoAqui = livingInTheVatican.nextInt(listaNoGluGluGlu.size());
 				listaNoGluGluGlu.get(quePasaSiLoPongoAqui).setProtegido(true);
 				numEscudos--;
+				System.out.println("Usado escudo");
 			}
 			
 		}
@@ -184,70 +192,47 @@ public class IA extends Jugador{
 		Random kBoom = new Random();
 		int bombaOMisil = kBoom.nextInt();
 		Casilla objetivo;
-		if(bombaOMisil < 25 && numMisiles > 0)
+		Barco pBarco;
+		if(detectado != null)
 		{
-			Barco pBarco;
-			if(detectado != null)
-			{
-				objetivo = detectado;
-			}
-			else
-			{
-					int numFil = tab.getMaxFil();
-					int numCol = tab.getMaxCol();
-					int randomX;
-					int randomY;
-					Random patriot = new Random();
-					do{
-					randomX = patriot.nextInt(numCol);
-					randomY = patriot.nextInt(numFil);
-					objetivo = tab.getCasilla(randomX, randomY);	
-				}while(pMarca.contains(objetivo));
-			}
-			pBarco = objetivo.getOcupadaPor();
-			if(pBarco != null && pBarco.isProtegido())
-			{
-				repetirDisparo = objetivo;
-			}else{
-				pMarca.add(objetivo);
-			}
-			usarMisil(objetivo.getX(),objetivo.getY());
+			objetivo = detectado;
 		}
 		else
 		{
-			Barco pBarco;
-			if(detectado != null)
+			if(repetirDisparo != null)
 			{
-				objetivo = detectado;
-			}
-			else
-			{
-				if(repetirDisparo != null)
-				{
-					objetivo = repetirDisparo;
-					repetirDisparo = null;
-				}else{
-				int numFil = tab.getMaxFil();
-				int numCol = tab.getMaxCol();
-				int randomX;
-				int randomY;
-				Random freedom = new Random();
-				do{
-				randomX = freedom.nextInt(numCol);
-				randomY = freedom.nextInt(numFil);
-				objetivo = tab.getCasilla(randomX, randomY);
-				}while(pMarca.contains(objetivo));
-				}
-			}
-			pBarco = objetivo.getOcupadaPor();
-			if(pBarco != null && pBarco.isProtegido())
-			{
-				repetirDisparo = objetivo;
+				objetivo = repetirDisparo;
+				repetirDisparo = null;
 			}else{
-				pMarca.add(objetivo);
+			int numFil = tab.getMaxFil();
+			int numCol = tab.getMaxCol();
+			int randomX;
+			int randomY;
+			Random freedom = new Random();
+			do{
+			randomX = freedom.nextInt(numCol);
+			randomY = freedom.nextInt(numFil);
+			objetivo = tab.getCasilla(randomX, randomY);
+			}while(marca.containsKey(objetivo) && marca.get(objetivo));
 			}
+		}
+		pBarco = objetivo.getOcupadaPor();
+		if(pBarco != null && pBarco.isProtegido())
+		{
+			repetirDisparo = objetivo;
+		}else{
+			marca.put(objetivo, true);
+		}
+		if(bombaOMisil < 25 && numMisiles > 0)
+		{
+			usarMisil(objetivo.getX(),objetivo.getY());
+			numMisiles--;
+			System.out.println("Usado misil: coordenadaX = " + objetivo.getY() + "coordenadaY = " +objetivo.getX());
+		}
+		else
+		{
 			usarBomba(objetivo.getX(),objetivo.getY());
-		
+			System.out.println("Usada bomba: coordenadaX = " + objetivo.getY() + "coordenadaY = " +objetivo.getX());
 		}
 	}
 	
@@ -279,6 +264,19 @@ public class IA extends Jugador{
 		{
 			ponerBarco(TipoDeBarco.FRAGATA);
 			numFra--;
+		}
+	}
+
+	public HashMap<Casilla, Boolean> getMarca() {
+		return marca;
+	}
+
+	public void inicializarMarca() {
+		// TODO Auto-generated method stub
+		for(int kilo = 0; kilo < 10; kilo++){
+			for(int lima = 0; lima < 10; lima++){
+				marca.put(IA.getIA().getCasillaJugador(kilo, lima), false);
+			}
 		}
 	}
 	

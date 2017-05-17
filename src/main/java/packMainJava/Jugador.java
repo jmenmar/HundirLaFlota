@@ -219,7 +219,7 @@ public abstract class Jugador extends Observable {
 	}
 
 	public void setEscudoEnBarco(int fila, int columna) {
-		if (inv.getNumEscudos() > 0) {
+	//	if (inv.getNumEscudos() > 0) {
 			Casilla pCasilla = tableroJ.getCasilla(fila, columna);
 			if (pCasilla.getEstado() != CasillaEstado.AGUA) {
 				if (pCasilla.getOcupadaPor().getEstado() != Status.HUNDIDO) {
@@ -229,11 +229,11 @@ public abstract class Jugador extends Observable {
 					notifyObservers();
 				}			
 			}
-		}
+		//}
 	}
 
 	public void usarRadar(int fila, int columna, Jugador pJugador) {
-		if(inv.getNumRadares() > 0){
+		//if(inv.getNumRadares() > 0){
 			ArrayList<Casilla> lista = new ArrayList<Casilla>();
 			int filaInicial = Math.max(0, fila - 1);
 			int filaFinal = Math.min(tableroJ.getMaxFil() - 1, fila + 1);
@@ -259,11 +259,11 @@ public abstract class Jugador extends Observable {
 				notifyObservers();
 			}
 			//inv.restarRadar();
-		}
+		//}
 	}
 
 	public void repararBarco(int fila, int columna) {
-		if (inv.getNumReparaciones() > 0) {
+		//if (inv.getNumReparaciones() > 0) {
 			Barco normandy = getCasillaJugador(fila, columna).getOcupadaPor();
 			if (normandy != null && normandy.getEstado() != Status.HUNDIDO) {
 				normandy.repararBarco();
@@ -271,7 +271,7 @@ public abstract class Jugador extends Observable {
 				notifyObservers();
 				//inv.restarReparacion();
 			}
-		}
+		//}
 	}
 
 	public void usarBomba(int fila, int columna) {
@@ -292,25 +292,23 @@ public abstract class Jugador extends Observable {
 			}
 
 			pCasilla.setRevelado(true);
-			setChanged();
-			notifyObservers();
-			getOponente().setChanged();
-			getOponente().notifyObservers();
+			
 			
 		} else {
 
 			tableroIA.getCasilla(fila, columna).setEstado(CasillaEstado.AGUA);
 			pCasilla.setRevelado(true);
-			setChanged();
-			notifyObservers();
-			getOponente().setChanged();
-			getOponente().notifyObservers();
+			
 
 		}
+		setChanged();
+		notifyObservers();
+		getOponente().setChanged();
+		getOponente().notifyObservers();
 	}
 
 	public void usarMisil(int fila, int columna) {
-		if (inv.getNumMisiles() > 0) {
+		//if (inv.getNumMisiles() > 0) {
 			// Barco papaBear = getCasillaJugador(fila,columna).getOcupadaPor();
 			Casilla pCasilla = getOponente().getCasillaJugador(fila, columna);
 			Barco papaBear = getOponente().getBarcoEnCasilla(fila, columna);
@@ -326,12 +324,10 @@ public abstract class Jugador extends Observable {
 						potato.setRevelado(true);
 					}
 					papaBear.hundirBarco(papaBear);
-					setChanged();
-					notifyObservers();
+					
 				} else {
 					papaBear.setProtegido(false);
-					setChanged();
-					notifyObservers();
+					
 				}
 				//inv.restarMisil();
 				pCasilla.setRevelado(true);
@@ -339,10 +335,13 @@ public abstract class Jugador extends Observable {
 
 				//inv.restarMisil();
 				pCasilla.setRevelado(true);
-				setChanged();
-				notifyObservers();
+				
 			}
-		}
+			setChanged();
+			notifyObservers();
+			getOponente().setChanged();
+			getOponente().notifyObservers();
+		//}
 	}
 /*
 	public Barco[] getLaArmadaInvencible() {
@@ -390,7 +389,6 @@ public abstract class Jugador extends Observable {
 			{
 				cont++;
 			}
-			System.out.println(pBarco.getModelo());
 		}
 		if(cont == 10){
 			return true;

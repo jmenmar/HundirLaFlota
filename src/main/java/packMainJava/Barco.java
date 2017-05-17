@@ -130,6 +130,10 @@ public class Barco extends Observable{
 				setImpacto(posicion[i]);
 			}
 			*/
+			for(Casilla impacto:impactos.keySet())
+				 {
+				setImpacto(impacto);
+				 }
 			
 		}
 		
@@ -145,13 +149,10 @@ public class Barco extends Observable{
 		
 		public void repararBarco()
 		{
-			/*
-			for(int charlie = 0; charlie < this.impactos.length; charlie++)
+			for(Casilla damage:impactos.keySet())
 			{
-				this.impactos[charlie] = null;
+				impactos.put(damage, false);
 			}
-			this.estado = Status.INTACTO;
-			*/
 		}
 			
 		//get & set (he eliminado los que no deberian de ser modificados tras su inicializacion)

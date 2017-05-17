@@ -827,7 +827,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 				int posXIA = (temp.getX() - 446) / (335 / 10);
 				int posYIA = (temp.getY() - 100) / (335 / 10);
 				jugador.usarRadar(posYIA, posXIA, IA.getIA());
-				inv.restarRadar();
 			}
 			if (rdbtnBomba.isSelected() == true) {
 				// TableroIA
@@ -840,7 +839,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 				int posXIA = (temp.getX() - 446) / (335 / 10);
 				int posYIA = (temp.getY() - 100) / (335 / 10);
 				jugador.usarMisil(posYIA, posXIA);
-				inv.restarMisil();
 			}
 		}
 
