@@ -25,7 +25,6 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import packMainJava.Barco;
-import packMainJava.Bomba;
 import packMainJava.Casilla;
 import packMainJava.IA;
 import packMainJava.Inventario;

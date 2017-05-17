@@ -1,8 +1,10 @@
 package packMainJava;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Set;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -193,16 +195,16 @@ public class IA extends Jugador{
 		int bombaOMisil = kBoom.nextInt();
 		Casilla objetivo;
 		Barco pBarco;
-		if(detectado != null)
+		if(repetirDisparo != null)
 		{
-			objetivo = detectado;
+			objetivo = repetirDisparo;
+			repetirDisparo = null;
 		}
 		else
 		{
-			if(repetirDisparo != null)
+			if(detectado != null && marca.containsKey(detectado) && marca.get(detectado))
 			{
-				objetivo = repetirDisparo;
-				repetirDisparo = null;
+				objetivo = detectado;
 			}else{
 			int numFil = tab.getMaxFil();
 			int numCol = tab.getMaxCol();
@@ -227,12 +229,41 @@ public class IA extends Jugador{
 		{
 			usarMisil(objetivo.getX(),objetivo.getY());
 			numMisiles--;
-			System.out.println("Usado misil: coordenadaX = " + objetivo.getY() + "coordenadaY = " +objetivo.getX());
+			System.out.println("Usado misil: coordenadaX = " + objetivo.getY() + ", coordenadaY = " +objetivo.getX());
 		}
 		else
 		{
 			usarBomba(objetivo.getX(),objetivo.getY());
-			System.out.println("Usada bomba: coordenadaX = " + objetivo.getY() + "coordenadaY = " +objetivo.getX());
+			System.out.println("Usada bomba: coordenadaX = " + objetivo.getY() + ", coordenadaY = " +objetivo.getX());
+		}
+		if(pBarco != null && pBarco.getEstado() == Status.HUNDIDO)
+		{
+			Map<Casilla, Boolean> mikePapa = pBarco.getMapa();
+			Set<Casilla> indiaGolf = mikePapa.keySet();
+			int xray, xuMin = 100, xiangMax = -1, xiBuffer;
+			int yankee, yangMin = 100, yanyuMax = -1, yongBuffer;
+			for(Casilla encajonado:indiaGolf)
+			{
+				xray = encajonado.getX();
+				yankee = encajonado.getY();
+				xiBuffer = xray - 1;
+				xuMin = Math.min(xiBuffer, xuMin);
+				xiBuffer = xray + 1;
+				xiangMax = Math.max(xiBuffer, xiangMax);
+				yongBuffer = yankee -1;
+				yangMin = Math.min(yangMin, yongBuffer);
+				yongBuffer = yankee + 1;
+				yanyuMax = Math.max(yanyuMax, yongBuffer);
+			}
+			for(int yinYang = yangMin; yinYang <= yanyuMax; yinYang++)
+			{
+				for(int xuei = xuMin; xuei <= xiangMax; xuei++)
+				{
+					if(yinYang >= 0 && yinYang <10 && xuei >= 0 && xuei < 10){
+					marca.put(tab.getCasilla(xuei, yinYang), true);
+					}
+				}
+			}
 		}
 	}
 	
