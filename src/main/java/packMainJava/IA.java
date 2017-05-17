@@ -1,10 +1,12 @@
 package packMainJava;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.ArrayList;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Locale;
+
 import static java.lang.System.out;
 import static java.lang.System.err;
 import PackSwings.Partida;
@@ -20,7 +22,9 @@ public class IA extends Jugador{
 	private final int precioEscudo = 200;
 	private final int precioRadar = 250;
 	private Casilla detectado;
+	private Casilla repetirDisparo;
 	private static IA mIA = new IA();
+	private HashSet<Casilla> pMarca = new HashSet<Casilla>();
 	
 	
 	private IA()
@@ -182,42 +186,68 @@ public class IA extends Jugador{
 		Casilla objetivo;
 		if(bombaOMisil < 25 && numMisiles > 0)
 		{
+			Barco pBarco;
 			if(detectado != null)
 			{
 				objetivo = detectado;
 			}
 			else
 			{
-				int numFil = tab.getMaxFil();
-				int numCol = tab.getMaxCol();
-				int randomX;
-				int randomY;
-				Random patriot = new Random();
-				randomX = patriot.nextInt(numCol);
-				randomY = patriot.nextInt(numFil);
-				objetivo = tab.getCasilla(randomX, randomY);				
+					int numFil = tab.getMaxFil();
+					int numCol = tab.getMaxCol();
+					int randomX;
+					int randomY;
+					Random patriot = new Random();
+					do{
+					randomX = patriot.nextInt(numCol);
+					randomY = patriot.nextInt(numFil);
+					objetivo = tab.getCasilla(randomX, randomY);	
+				}while(pMarca.contains(objetivo));
+			}
+			pBarco = objetivo.getOcupadaPor();
+			if(pBarco != null && pBarco.isProtegido())
+			{
+				repetirDisparo = objetivo;
+			}else{
+				pMarca.add(objetivo);
 			}
 			usarMisil(objetivo.getX(),objetivo.getY());
-			System.out.println("Disparo realizado: \nX =" +objetivo.getX() + "\nY =: " + objetivo.getY());
 		}
 		else
 		{
+			Barco pBarco;
 			if(detectado != null)
 			{
 				objetivo = detectado;
 			}
 			else
 			{
+				if(repetirDisparo != null)
+				{
+					objetivo = repetirDisparo;
+					repetirDisparo = null;
+				}else{
 				int numFil = tab.getMaxFil();
 				int numCol = tab.getMaxCol();
 				int randomX;
 				int randomY;
 				Random freedom = new Random();
+				do{
 				randomX = freedom.nextInt(numCol);
 				randomY = freedom.nextInt(numFil);
-				objetivo = tab.getCasilla(randomX, randomY);				
+				objetivo = tab.getCasilla(randomX, randomY);
+				}while(pMarca.contains(objetivo));
+				}
+			}
+			pBarco = objetivo.getOcupadaPor();
+			if(pBarco != null && pBarco.isProtegido())
+			{
+				repetirDisparo = objetivo;
+			}else{
+				pMarca.add(objetivo);
 			}
 			usarBomba(objetivo.getX(),objetivo.getY());
+		
 		}
 	}
 	
