@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JScrollPane;
 import javax.swing.JDesktopPane;
+import javax.swing.JDialog;
 
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
@@ -39,6 +40,7 @@ import packMainJava.TipoDeBarco;
 import java.awt.Panel;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.Font;
 
@@ -137,13 +139,15 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setBackground(new Color(175, 238, 238));
+			panel.setBackground(new Color(0, 51, 102));
 			panel.setPreferredSize(new Dimension(20, 20));
 
 			JLabel lblTableroJugador = new JLabel("TABLERO JUGADOR");
+			lblTableroJugador.setForeground(new Color(204, 255, 255));
 			lblTableroJugador.setFont(new Font("Tahoma", Font.BOLD, 20));
 
 			JLabel lblTableroIa = new JLabel("TABLERO IA");
+			lblTableroIa.setForeground(new Color(204, 255, 255));
 			lblTableroIa.setFont(new Font("Tahoma", Font.BOLD, 20));
 
 			JRadioButton Bomba = new JRadioButton("Nº de Bombas");
@@ -411,6 +415,9 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnMisil() {
 		if (rdbtnMisil == null) {
 			rdbtnMisil = new JRadioButton("x" + inv.getNumMisiles());
+			rdbtnMisil.setFont(new Font("Tahoma", Font.BOLD, 11));
+			rdbtnMisil.setBackground(new Color(102, 153, 255));
+			rdbtnMisil.setForeground(new Color(0, 0, 0));
 			buttonGroup_2.add(rdbtnMisil);
 			rdbtnMisil.setHorizontalAlignment(SwingConstants.LEFT);
 			rdbtnMisil.setIcon(new ImageIcon(this.getClass().getResource("/misil.png")));
@@ -421,6 +428,9 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnBomba() {
 		if (rdbtnBomba == null) {
 			rdbtnBomba = new JRadioButton("--");
+			rdbtnBomba.setFont(new Font("Tahoma", Font.BOLD, 11));
+			rdbtnBomba.setBackground(new Color(102, 153, 255));
+			rdbtnBomba.setForeground(new Color(0, 0, 0));
 			buttonGroup_2.add(rdbtnBomba);
 			rdbtnBomba.setHorizontalAlignment(SwingConstants.LEFT);
 			rdbtnBomba.setIcon(new ImageIcon(this.getClass().getResource("/bomba.png")));
@@ -431,6 +441,9 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnReparar() {
 		if (rdbtnReparar == null) {
 			rdbtnReparar = new JRadioButton("x");
+			rdbtnReparar.setFont(new Font("Tahoma", Font.BOLD, 11));
+			rdbtnReparar.setBackground(new Color(102, 153, 255));
+			rdbtnReparar.setForeground(new Color(0, 0, 0));
 			buttonGroup_2.add(rdbtnReparar);
 			rdbtnReparar.setHorizontalAlignment(SwingConstants.LEFT);
 			rdbtnReparar.setIcon(new ImageIcon(this.getClass().getResource("/reparar.png")));
@@ -441,6 +454,9 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnEscudo() {
 		if (rdbtnEscudo == null) {
 			rdbtnEscudo = new JRadioButton("x");
+			rdbtnEscudo.setFont(new Font("Tahoma", Font.BOLD, 11));
+			rdbtnEscudo.setBackground(new Color(102, 153, 255));
+			rdbtnEscudo.setForeground(new Color(0, 0, 0));
 			buttonGroup_2.add(rdbtnEscudo);
 			rdbtnEscudo.setHorizontalAlignment(SwingConstants.LEFT);
 			rdbtnEscudo.setIcon(new ImageIcon(this.getClass().getResource("/escudo.png")));
@@ -451,6 +467,9 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnRadar() {
 		if (rdbtnRadar == null) {
 			rdbtnRadar = new JRadioButton("x");
+			rdbtnRadar.setFont(new Font("Tahoma", Font.BOLD, 11));
+			rdbtnRadar.setBackground(new Color(102, 153, 255));
+			rdbtnRadar.setForeground(new Color(0, 0, 0));
 			buttonGroup_2.add(rdbtnRadar);
 			rdbtnRadar.setHorizontalAlignment(SwingConstants.LEFT);
 			rdbtnRadar.setIcon(new ImageIcon(this.getClass().getResource("/radar.png")));
@@ -519,30 +538,33 @@ public class Partida extends JFrame implements Observer, ActionListener {
 					boolean finder = false;
 					Barco pBarco = casTemp.getOcupadaPor();
 					if (pBarco != null) {
-						/*for (int i = 0; i < pBarco.getModelo().getLongitud(); i++) {
-							if (pBarco.getImpactos()[i] == casTemp) {
-								finder = true;
-							}
-						}*/
+						/*
+						 * for (int i = 0; i < pBarco.getModelo().getLongitud();
+						 * i++) { if (pBarco.getImpactos()[i] == casTemp) {
+						 * finder = true; } }
+						 */
 						Set<Casilla> sethOsiris = pBarco.getMapa().keySet();
-						for(Casilla casanova: sethOsiris)
-						{
-							if (casanova == casTemp)finder = true;			
+						for (Casilla casanova : sethOsiris) {
+							if (casanova == casTemp)
+								finder = true;
 						}
 					}
-					/*IA.getIA().getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA && finder
-							&& !IA.getIA().getCasillaJugador(n, m).getOcupadaPor().isProtegido()
-							&& IA.getIA().getCasillaJugador(n, m).isRevelado()
-							*/
-					if (jugador.getCasillaIA(n,m).getEstado() == CasillaEstado.TOCADO) {
-						if(IA.getIA().getBarcoEnCasilla(n, m).getEstado()== Status.HUNDIDO){
-						mCasillas2[n][m].setBackground(Color.RED);
-						}else{
-						mCasillas2[n][m].setBackground(Color.YELLOW);
+					/*
+					 * IA.getIA().getEstadoCasillaBarcoJugador(n, m) ==
+					 * CasillaEstado.OCUPADA && finder &&
+					 * !IA.getIA().getCasillaJugador(n,
+					 * m).getOcupadaPor().isProtegido() &&
+					 * IA.getIA().getCasillaJugador(n, m).isRevelado()
+					 */
+					if (jugador.getCasillaIA(n, m).getEstado() == CasillaEstado.TOCADO) {
+						if (IA.getIA().getBarcoEnCasilla(n, m).getEstado() == Status.HUNDIDO) {
+							mCasillas2[n][m].setBackground(Color.RED);
+						} else {
+							mCasillas2[n][m].setBackground(Color.ORANGE);
 						}
 						// Si el disparo va al agua ---> Pintar para reflejar el
 						// disparo en el agua
-					} else if (jugador.getCasillaIA(n,m).getEstado() == CasillaEstado.AGUA
+					} else if (jugador.getCasillaIA(n, m).getEstado() == CasillaEstado.AGUA
 							&& IA.getIA().getCasillaJugador(n, m).isRevelado()) {
 						mCasillas2[n][m].setBackground(Color.BLUE);
 					}
@@ -562,22 +584,22 @@ public class Partida extends JFrame implements Observer, ActionListener {
 					}
 				}
 			}
-			//Recibir disparo
+			// Recibir disparo
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
-					if(jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA 
-							&& jugador.getBarcoEnCasilla(n, m).getEstado() == Status.HUNDIDO	){
+					if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
+							&& jugador.getBarcoEnCasilla(n, m).getEstado() == Status.HUNDIDO) {
 						mCasillas[n][m].setBackground(Color.RED);
-					}else if(jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
-							&& jugador.getCasillaJugador(n, m).isRevelado()){
-						mCasillas[n][m].setBackground(Color.YELLOW);
-					}else if(jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.AGUA
-							&& jugador.getCasillaJugador(n, m).isRevelado()){
+					} else if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
+							&& jugador.getCasillaJugador(n, m).isRevelado()) {
+						mCasillas[n][m].setBackground(Color.ORANGE);
+					} else if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.AGUA
+							&& jugador.getCasillaJugador(n, m).isRevelado()) {
 						mCasillas[n][m].setBackground(Color.WHITE);
 					}
 				}
 			}
-			
+
 		}
 
 		// Comprobaría los botones del los barcos
@@ -598,24 +620,21 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			rdbtnHorizontal.setEnabled(false);
 			rdbtnVertical.setEnabled(false);
 		}
-		if(partidaEstado==2){
-		if(jugador.comprobarFinPartida()){
-			partidaEstado=3;
-			ganador="IA";
-		}else if(IA.getIA().comprobarFinPartida()){
-			partidaEstado=3;
-			ganador="Jugador";
-		  }
-		  
+		if (partidaEstado == 2) {
+			if (jugador.comprobarFinPartida()) {
+				partidaEstado = 3;
+				ganador = "Has sido derrotado. Quizás la próxima vez.";
+			} else if (IA.getIA().comprobarFinPartida()) {
+				partidaEstado = 3;
+				ganador = "Enhorabuena, eres el vencedor!";
+			}
+
 		}
 		if (partidaEstado == 3) {
-			System.out.println("Partida finaliza, el ganador es:" + ganador + ",cerrando en unos segundos");
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			JOptionPane cartel = new JOptionPane(ganador, JOptionPane.INFORMATION_MESSAGE);
+			JDialog dialog = cartel.createDialog("Fin de la batalla");
+			dialog.setAlwaysOnTop(true);
+			dialog.setVisible(true);
 			System.exit(0);
 		}
 
@@ -624,6 +643,8 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnPortaaviones() {
 		if (rdbtnPortaaviones == null) {
 			rdbtnPortaaviones = new JRadioButton("PORTAAVIONES");
+			rdbtnPortaaviones.setBackground(new Color(0, 51, 102));
+			rdbtnPortaaviones.setForeground(new Color(255, 255, 255));
 			buttonGroup.add(rdbtnPortaaviones);
 		}
 		return rdbtnPortaaviones;
@@ -632,6 +653,8 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnSubmarino() {
 		if (rdbtnSubmarino == null) {
 			rdbtnSubmarino = new JRadioButton("SUBMARINO");
+			rdbtnSubmarino.setBackground(new Color(0, 51, 102));
+			rdbtnSubmarino.setForeground(new Color(255, 255, 255));
 			buttonGroup.add(rdbtnSubmarino);
 		}
 		return rdbtnSubmarino;
@@ -640,6 +663,8 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnDestructor() {
 		if (rdbtnDestructor == null) {
 			rdbtnDestructor = new JRadioButton("DESTRUCTOR");
+			rdbtnDestructor.setBackground(new Color(0, 51, 102));
+			rdbtnDestructor.setForeground(new Color(255, 255, 255));
 			buttonGroup.add(rdbtnDestructor);
 		}
 		return rdbtnDestructor;
@@ -648,6 +673,8 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnFragata() {
 		if (rdbtnFragata == null) {
 			rdbtnFragata = new JRadioButton("FRAGATA");
+			rdbtnFragata.setBackground(new Color(0, 51, 102));
+			rdbtnFragata.setForeground(new Color(255, 255, 255));
 			rdbtnFragata.setSelected(true);
 			buttonGroup.add(rdbtnFragata);
 		}
@@ -657,6 +684,8 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnHorizontal() {
 		if (rdbtnHorizontal == null) {
 			rdbtnHorizontal = new JRadioButton("HORIZONTAL");
+			rdbtnHorizontal.setBackground(new Color(0, 51, 102));
+			rdbtnHorizontal.setForeground(new Color(255, 255, 255));
 			rdbtnHorizontal.setSelected(true);
 			buttonGroup_1.add(rdbtnHorizontal);
 		}
@@ -666,6 +695,8 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	private JRadioButton getRdbtnVertical() {
 		if (rdbtnVertical == null) {
 			rdbtnVertical = new JRadioButton("VERTICAL");
+			rdbtnVertical.setBackground(new Color(0, 51, 102));
+			rdbtnVertical.setForeground(new Color(255, 255, 255));
 			buttonGroup_1.add(rdbtnVertical);
 		}
 		return rdbtnVertical;
@@ -796,6 +827,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 				int posXIA = (temp.getX() - 446) / (335 / 10);
 				int posYIA = (temp.getY() - 100) / (335 / 10);
 				jugador.usarRadar(posYIA, posXIA, IA.getIA());
+				inv.restarRadar();
 			}
 			if (rdbtnBomba.isSelected() == true) {
 				// TableroIA
@@ -808,6 +840,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 				int posXIA = (temp.getX() - 446) / (335 / 10);
 				int posYIA = (temp.getY() - 100) / (335 / 10);
 				jugador.usarMisil(posYIA, posXIA);
+				inv.restarMisil();
 			}
 		}
 
