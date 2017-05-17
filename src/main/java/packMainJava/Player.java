@@ -23,6 +23,18 @@ public class Player extends Jugador {
 		super.usarMisil(fila, columna);
 		IA.getIA().act();
 	}
+	@Override
+	public void repararBarco(int fila, int columna)
+	{
+		super.repararBarco(fila, columna);
+		inv.restarReparacion();
+	}
+	@Override
+	public void setEscudoEnBarco(int fila, int columna)
+	{
+		super.setEscudoEnBarco(fila, columna);
+		inv.restarEscudo();
+	}
 	
 }
 

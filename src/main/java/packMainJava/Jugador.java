@@ -224,7 +224,7 @@ public abstract class Jugador extends Observable {
 			if (pCasilla.getEstado() != CasillaEstado.AGUA) {
 				if (pCasilla.getOcupadaPor().getEstado() != Status.HUNDIDO) {
 					pCasilla.getOcupadaPor().setProtegido(true);
-					inv.restarEscudo();
+					//inv.restarEscudo();
 					setChanged();
 					notifyObservers();
 				}			
@@ -257,9 +257,8 @@ public abstract class Jugador extends Observable {
 				resultado.setDetectada(true);
 				setChanged();
 				notifyObservers();
-				inv.restarRadar();
 			}
-			inv.restarRadar();
+			//inv.restarRadar();
 		}
 	}
 
@@ -270,7 +269,7 @@ public abstract class Jugador extends Observable {
 				normandy.repararBarco();
 				setChanged();
 				notifyObservers();
-				inv.restarReparacion();
+				//inv.restarReparacion();
 			}
 		}
 	}
@@ -334,11 +333,11 @@ public abstract class Jugador extends Observable {
 					setChanged();
 					notifyObservers();
 				}
-				inv.restarMisil();
+				//inv.restarMisil();
 				pCasilla.setRevelado(true);
 			} else {
 
-				inv.restarMisil();
+				//inv.restarMisil();
 				pCasilla.setRevelado(true);
 				setChanged();
 				notifyObservers();
