@@ -1,6 +1,5 @@
 package packMainJava;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -313,7 +312,6 @@ public abstract class Jugador extends Observable {
 			// Barco papaBear = getCasillaJugador(fila,columna).getOcupadaPor();
 			Casilla pCasilla = getOponente().getCasillaJugador(fila, columna);
 			Barco papaBear = getOponente().getBarcoEnCasilla(fila, columna);
-			Casilla[] posiciones;
 			// Barco papaBear =
 			// IA.getIA().getCasillaJugador(fila,columna).getOcupadaPor();
 			if (papaBear != null) {

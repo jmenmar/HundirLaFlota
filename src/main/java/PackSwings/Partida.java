@@ -591,7 +591,8 @@ public class Partida extends JFrame implements Observer, ActionListener {
 						mCasillas[n][m].setBackground(Color.RED);
 					} else if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
 							&& jugador.getCasillaJugador(n, m).isRevelado()
-							&& jugador.getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.TOCADO
+							//&& jugador.getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.TOCADO
+							&& jugador.getBarcoEnCasilla(n, m).getMapa().get(jugador.getCasillaJugador(n, m))
 							&& !jugador.getCasillaJugador(n, m).getOcupadaPor().isProtegido()) {
 						mCasillas[n][m].setBackground(Color.ORANGE);
 					}else if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.AGUA

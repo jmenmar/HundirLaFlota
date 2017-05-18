@@ -138,7 +138,6 @@ public class Barco extends Observable{
 		}
 		
 		public void comprobarHundimiento(Barco pBarco){
-			Casilla pCasilla;
 			int tamañoBarco = pBarco.getModelo().getLongitud();
 			for(int i=tamañoBarco;i>0;i--){
 				//Recorre el baco de la IA y comprueba que todas sus casillas están: Reveladas (true)

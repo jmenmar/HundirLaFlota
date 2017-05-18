@@ -101,7 +101,7 @@ public class Tienda extends JFrame implements Observer {
 	}
 
 	private void initialize() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 440);
 		panelTienda = new JPanel();
 		panelTienda.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -1,19 +1,11 @@
 package packMainJava;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Observable;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Set;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Locale;
 
-import static java.lang.System.out;
-import static java.lang.System.err;
-import PackSwings.Partida;
+
 public class IA extends Jugador {
 	
 	private int numMisiles = 5;
