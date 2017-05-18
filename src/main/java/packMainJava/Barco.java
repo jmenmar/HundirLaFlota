@@ -152,7 +152,9 @@ public class Barco extends Observable{
 			for(Casilla damage:impactos.keySet())
 			{
 				impactos.put(damage, false);
+				//damage.getOcupadaPor().setEstado(Status.INTACTO);
 			}
+			
 		}
 			
 		//get & set (he eliminado los que no deberian de ser modificados tras su inicializacion)

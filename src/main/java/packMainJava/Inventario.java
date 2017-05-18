@@ -6,7 +6,7 @@ import java.util.Observer;
 
 public class Inventario extends Observable{
 	
-	private static Inventario mInventario = new Inventario(1,1,1,1,1);
+	private static Inventario mInventario = new Inventario(1,1,1,1,10);
 
 	private int numBombas;
 	private int numMisiles;

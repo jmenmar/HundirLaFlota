@@ -511,9 +511,8 @@ public class Partida extends JFrame implements Observer, ActionListener {
 						if (jugador.getBarcoEnCasilla(n, m).isProtegido())
 							mCasillas[n][m].setBackground(Color.CYAN);
 				}
-				// Hay que poner el de radar con el mCasillas2[][],el
-				// reparacion, y lo de bomba y misil
 			}
+			
 			// Radar
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
@@ -521,7 +520,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 						mCasillas2[n][m].setBackground(Color.GREEN);
 				}
 			}
-			// Reparar
+			/*// Reparar
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
 					if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
@@ -529,7 +528,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 							&& !jugador.getCasillaJugador(n, m).getOcupadaPor().isProtegido())
 						mCasillas[n][m].setBackground(Color.GREEN);
 				}
-			}
+			}*/
 			// Bomba
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
@@ -555,6 +554,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 					 * m).getOcupadaPor().isProtegido() &&
 					 * IA.getIA().getCasillaJugador(n, m).isRevelado()
 					 */
+					
 					if (jugador.getCasillaIA(n, m).getEstado() == CasillaEstado.TOCADO) {
 						if (IA.getIA().getBarcoEnCasilla(n, m).getEstado() == Status.HUNDIDO) {
 							mCasillas2[n][m].setBackground(Color.RED);
@@ -590,15 +590,59 @@ public class Partida extends JFrame implements Observer, ActionListener {
 							&& jugador.getBarcoEnCasilla(n, m).getEstado() == Status.HUNDIDO) {
 						mCasillas[n][m].setBackground(Color.RED);
 					} else if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
-							&& jugador.getCasillaJugador(n, m).isRevelado()) {
+							&& jugador.getCasillaJugador(n, m).isRevelado()
+							&& jugador.getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.TOCADO
+							&& !jugador.getCasillaJugador(n, m).getOcupadaPor().isProtegido()) {
 						mCasillas[n][m].setBackground(Color.ORANGE);
-					} else if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.AGUA
+					}else if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.AGUA
 							&& jugador.getCasillaJugador(n, m).isRevelado()) {
 						mCasillas[n][m].setBackground(Color.WHITE);
 					}
 				}
 			}
-
+			// Reparar barco propio
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
+							&& jugador.getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.INTACTO
+							&& !jugador.getCasillaJugador(n, m).getOcupadaPor().isProtegido())
+						mCasillas[n][m].setBackground(Color.GREEN);
+				}
+			}
+			
+			//Escudo quitado a la IA
+			//Pinta verde su barco después de quitarle el escudo (sólo esa casilla del disparo, visible)
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if (jugador.getCasillaIA(n, m).getEstado() == CasillaEstado.OCUPADA
+							&& IA.getIA().getCasillaJugador(n, m).isRevelado()
+							){
+						mCasillas2[n][m].setBackground(Color.GREEN);
+					}
+				}
+			}
+			
+			//IA repara su barco
+			//Pinta de verde su barco dañado tras repararlo (sólo casillas visibles)
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if (jugador.getCasillaIA(n, m).getEstado() == CasillaEstado.OCUPADA
+							&& IA.getIA().getCasillaJugador(n, m).isRevelado()
+							&& IA.getIA().getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.INTACTO){
+						mCasillas2[n][m].setBackground(Color.GREEN);
+					}
+				}
+			}
+			
+			// Pinta los escudos
+			for (int n = 0; n < 10; n++) {
+				for (int m = 0; m < 10; m++) {
+					if (jugador.getCasillaJugador(n, m).getOcupadaPor() != null)
+						if (jugador.getBarcoEnCasilla(n, m).isProtegido())
+							mCasillas[n][m].setBackground(Color.CYAN);
+				}
+			}
+			
 		}
 
 		// Comprobaría los botones del los barcos

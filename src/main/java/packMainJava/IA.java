@@ -2,6 +2,7 @@ package packMainJava;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Set;
@@ -13,11 +14,11 @@ import java.util.Locale;
 import static java.lang.System.out;
 import static java.lang.System.err;
 import PackSwings.Partida;
-public class IA extends Jugador{
+public class IA extends Jugador {
 	
 	private int numMisiles = 5;
-	private int numEscudos = 2;
-	private int numReparaciones = 1;
+	private int numEscudos = 5;
+	private int numReparaciones = 5;
 	private int numRadar = 1;
 	private int dinero = 1000;
 	private boolean magisterioEsUnGradoMedio;
@@ -146,6 +147,10 @@ public class IA extends Jugador{
 					Random alphaBravoDelta666 = new Random();
 					int posibilidades = alphaBravoDelta666.nextInt(listaTocados.size());
 					listaTocados.get(posibilidades).repararBarco();
+					listaTocados.get(posibilidades).setEstado(Status.INTACTO);
+					//FALTA NOTIFICAR Y SETCHANGED
+					super.setChanged();
+					super.notifyObservers();
 					numReparaciones--;
 					System.out.println("Barco Reparado");
 			}

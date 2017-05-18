@@ -267,6 +267,7 @@ public abstract class Jugador extends Observable {
 			Barco normandy = getCasillaJugador(fila, columna).getOcupadaPor();
 			if (normandy != null && normandy.getEstado() != Status.HUNDIDO) {
 				normandy.repararBarco();
+				normandy.setEstado(Status.INTACTO);
 				setChanged();
 				notifyObservers();
 				//inv.restarReparacion();
