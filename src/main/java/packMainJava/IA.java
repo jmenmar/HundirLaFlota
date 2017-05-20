@@ -45,13 +45,6 @@ public class IA extends Jugador {
 		}while(!addBarco(pBarco,fila,columna,hor == 1));	
 	}
 	
-	public static IA getmIA() {
-		return mIA;
-	}
-	public static void setmIA(IA mIA) {
-		IA.mIA = mIA;
-	}
-	
 	public void act()
 	{
 		System.out.println("\nRep: " + numReparaciones + " Shield = " + numEscudos + " Rad = " + numRadar + " Misiles = " + numMisiles + "(" + dinero + ")");

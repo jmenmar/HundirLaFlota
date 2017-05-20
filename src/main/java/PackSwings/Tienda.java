@@ -21,7 +21,6 @@ import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
 import packMainJava.Inventario;
-import packMainJava.Misil;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
