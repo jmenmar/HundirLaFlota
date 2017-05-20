@@ -21,7 +21,6 @@ public class IA extends Jugador {
 	private Casilla repetirDisparo;
 	private static IA mIA = new IA();
 	private HashMap<Casilla, Boolean> marca = new HashMap<Casilla, Boolean>();
-	//private HashSet<Casilla> pMarca = new HashSet<Casilla>();
 	
 	
 	private IA()
@@ -47,7 +46,7 @@ public class IA extends Jugador {
 	
 	public void act()
 	{
-		System.out.println("\nRep: " + numReparaciones + " Shield = " + numEscudos + " Rad = " + numRadar + " Misiles = " + numMisiles + "(" + dinero + ")");
+		//System.out.println("\nRep: " + numReparaciones + " Shield = " + numEscudos + " Rad = " + numRadar + " Misiles = " + numMisiles + "(" + dinero + ")");
 		Random random = new Random();
 		detectado = null;
 		comprarRecursos(random.nextInt(100));
@@ -64,7 +63,7 @@ public class IA extends Jugador {
 			usarRadar(random.nextInt(100), Player.getPlayer().getTableroJ());
 		}
 		disparar(random.nextInt(100), Player.getPlayer().getTableroJ());
-		System.out.println("Rep: " + numReparaciones + " Shield = " + numEscudos + " Rad = " + numRadar + " Misiles = " + numMisiles + "(" + dinero + ")\n");
+		//System.out.println("Rep: " + numReparaciones + " Shield = " + numEscudos + " Rad = " + numRadar + " Misiles = " + numMisiles + "(" + dinero + ")\n");
 		//Aqui se cambiaria el turno ya
 		
 	}
@@ -101,19 +100,19 @@ public class IA extends Jugador {
 	{
 		numMisiles++;
 		dinero -= precioMisil;
-		System.out.println("Comprado misil");
+		//System.out.println("Comprado misil");
 	}
 	private void comprarEscudo()
 	{
 		numEscudos++;
 		dinero -= precioEscudo;
-		System.out.println("Comprado escudo");
+		//System.out.println("Comprado escudo");
 	}
 	private void comprarRadar()
 	{
 		numRadar++;
 		dinero -= precioRadar;
-		System.out.println("Comprado radar");
+		//System.out.println("Comprado radar");
 	}
 	private void repararBarco(int probabilidad)
 	{
@@ -137,7 +136,8 @@ public class IA extends Jugador {
 					super.setChanged();
 					super.notifyObservers();
 					numReparaciones--;
-					System.out.println("Barco Reparado");
+					//AVISO uso de escudos de la IA, para comprobar que todo funciona correctamente y no es error de setImpacto
+					//System.out.println("Barco Reparado");
 			}
 		}
 	}
@@ -159,7 +159,8 @@ public class IA extends Jugador {
 				int quePasaSiLoPongoAqui = livingInTheVatican.nextInt(listaNoGluGluGlu.size());
 				listaNoGluGluGlu.get(quePasaSiLoPongoAqui).setProtegido(true);
 				numEscudos--;
-				System.out.println("Usado escudo");
+				//AVISO uso de escudos de la IA, para comprobar que todo funciona correctamente y no es error de setImpacto
+				//System.out.println("Usado escudo");
 			}
 			
 		}
@@ -219,12 +220,10 @@ public class IA extends Jugador {
 		{
 			usarMisil(objetivo.getX(),objetivo.getY());
 			numMisiles--;
-			System.out.println("Usado misil: coordenadaX = " + objetivo.getY() + ", coordenadaY = " +objetivo.getX());
 		}
 		else
 		{
 			usarBomba(objetivo.getX(),objetivo.getY());
-			System.out.println("Usada bomba: coordenadaX = " + objetivo.getY() + ", coordenadaY = " +objetivo.getX());
 		}
 		if(pBarco != null && pBarco.getEstado() == Status.HUNDIDO)
 		{

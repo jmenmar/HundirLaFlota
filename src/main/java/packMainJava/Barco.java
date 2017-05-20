@@ -12,8 +12,6 @@ public class Barco extends Observable{
 	private boolean protegido;
 	private boolean horizontal;
 	private Casilla proa;
-	//private Casilla[] posicion;
-	//private Casilla[] impactos;
 	private Map<Casilla, Boolean> impactos = new HashMap<Casilla, Boolean>();
 	
 	//Constructor
@@ -23,76 +21,11 @@ public class Barco extends Observable{
 		this.modelo = pModelo;
 		this.estado = Status.INTACTO;
 		this.protegido = false;
-		//this.posicion = new Casilla[this.modelo.getLongitud()];
-		//this.impactos = new Casilla[this.modelo.getLongitud()];
-		/*for(int i = 0; i < impactos.length; i++)
-		{
-			impactos[i] = null;
-		}*/
 	}
 	
 		//Metodos
 		public void setImpacto(Casilla impacto) {
-			/*int longitud = this.getModelo().getLongitud();
-			boolean encontrado = false;
-			int i = 0;
-			int j = 0;
-			while(i < longitud && encontrado)
-			{
-				while(j < longitud && encontrado)
-				{
-					if(posicion[i] == impactos[j])
-					{
-						encontrado = true;
-						j++;
-					}
-					i++;
-				}
-			}
-			if(!encontrado)
-			{
-				boolean finder = false;
-				int foo = 0;
-				while(foo < longitud && !finder)
-				{
-					if(impactos[foo] != null)
-					{
-						foo++;
-					}else
-					{
-						impactos[foo] = impacto;
-						finder = true;
-					}
-				}
-			}
-			int cont = 0;
-			int morgan = 0;
-			while(morgan < longitud)
-			{
-				if(impactos[morgan] != null)
-				{
-					cont++;
-				}
-				morgan++;
-			}
-			if(cont == longitud)
-			{
-				estado = Status.HUNDIDO;
-			}else
-			{
-				if(cont == 0)
-				{
-					estado = Status.INTACTO;
-				}
-				else
-				{
-					if(cont > 0 && cont < longitud)
-					{
-						estado = Status.TOCADO;
-					}
-				}
-			}
-		*/
+			
 		impactos.put(impacto, true);
 		Collection<Boolean> tocados = impactos.values();
 		int cont = 0;
@@ -124,12 +57,7 @@ public class Barco extends Observable{
 		}
 		public void hundirBarco(Barco pBarco)
 		{
-			/*
-			for(int i = 0; i < this.posicion.length; i++)
-			{
-				setImpacto(posicion[i]);
-			}
-			*/
+		
 			for(Casilla impacto:impactos.keySet())
 				 {
 				setImpacto(impacto);
@@ -137,13 +65,15 @@ public class Barco extends Observable{
 			
 		}
 		
-		public void comprobarHundimiento(Barco pBarco){
-			int tamañoBarco = pBarco.getModelo().getLongitud();
-			for(int i=tamañoBarco;i>0;i--){
-				//Recorre el baco de la IA y comprueba que todas sus casillas están: Reveladas (true)
-				//Si el nº de casillas del Barco reveladas es igual al tamaño del barco
-				//Entonces hundirBarco()
+		public boolean comprobarHundimiento(){
+			boolean resultado = false;
+			int cont = 0;
+			for(Casilla comprobador: impactos.keySet())
+			{
+				if(impactos.get(comprobador))cont++;
 			}
+			if(cont == impactos.size())resultado = true;
+			return resultado;
 		}
 		
 		public void repararBarco()
@@ -151,7 +81,7 @@ public class Barco extends Observable{
 			for(Casilla damage:impactos.keySet())
 			{
 				impactos.put(damage, false);
-				//damage.getOcupadaPor().setEstado(Status.INTACTO);
+				setEstado(Status.INTACTO);
 			}
 			
 		}
@@ -172,17 +102,6 @@ public class Barco extends Observable{
 			notifyObservers();
 			this.notifyObservers(); // Indicar que es el tablero de barcos
 		}
-		/*
-		public Casilla[] getPosicion() {
-			return posicion;
-		}
-		*/
-		/*
-		public Casilla[] getImpactos() {
-			return impactos;
-		}
-		*/
-
 		public TipoDeBarco getModelo() {
 			return modelo;
 		}
@@ -198,11 +117,6 @@ public class Barco extends Observable{
 		public void setProa(Casilla proa) {
 			this.proa = proa;
 		}
-		/*
-		public void setPosicion(Casilla[] posicion) {
-			this.posicion = posicion;
-		}
-		*/
 		public void setMapa(Map<Casilla, Boolean> pMapa)
 		{
 			impactos = pMapa;

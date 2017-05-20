@@ -8,16 +8,10 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 
-import javax.swing.JScrollPane;
-import javax.swing.JDesktopPane;
 import javax.swing.JDialog;
 
-import java.awt.Graphics;
-import java.awt.GraphicsDevice;
-import java.awt.GridLayout;
 import java.awt.Dimension;
 import java.awt.Color;
-import java.awt.GridBagLayout;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -25,16 +19,13 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import packMainJava.Barco;
-import packMainJava.Casilla;
 import packMainJava.IA;
 import packMainJava.Inventario;
-import packMainJava.Jugador;
 import packMainJava.Player;
 import packMainJava.Status;
 import packMainJava.Tablero;
 import packMainJava.TipoDeBarco;
 
-import java.awt.Panel;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -46,7 +37,6 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 import java.awt.event.ActionEvent;
 
 import packMainJava.CasillaEstado;
@@ -319,7 +309,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 
 	public void inicializar() {
 		mCasillas = new JButton[10][10];
-		// Tablero tableroJ = new Tablero(true);
 		for (int n = 0; n < 10; n++) {
 			for (int m = 0; m < 10; m++) {
 				JButton temp = new JButton();
@@ -361,7 +350,9 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			}
 		}
 		IA.getIA().colocarBarcosPropios();
-		testBarcosIA();
+		
+		//Printea las casillas de la IA, es como jugar counter strike con wallhack, solo para desarrollo
+		//testBarcosIA();
 
 	}
 
@@ -399,8 +390,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 			for (int m = 0; m < 10; m++) {
 				// obtenemos una referencia al boton actual
 				JButton temp = mCasillas2[n][m];
-				int x = n;
-				int y = m;
 				// fijar cada casilla a una posicion y tama�o en funcion de su
 				// fila y columna
 				temp.setBounds(446 + (m * anchoDeCasilla), 100 + (n * altoDeCasilla), anchoDeCasilla, altoDeCasilla);
@@ -518,41 +507,20 @@ public class Partida extends JFrame implements Observer, ActionListener {
 						mCasillas2[n][m].setBackground(Color.GREEN);
 				}
 			}
-			/*// Reparar
+			//Escudo quitado a la IA
+			//Pinta verde su barco después de quitarle el escudo (sólo esa casilla del disparo, visible)
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
-					if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
-							&& jugador.getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.INTACTO
-							&& !jugador.getCasillaJugador(n, m).getOcupadaPor().isProtegido())
-						mCasillas[n][m].setBackground(Color.GREEN);
+					if (jugador.getCasillaIA(n, m).getEstado() == CasillaEstado.OCUPADA
+							&& IA.getIA().getCasillaJugador(n, m).isRevelado()
+							){
+						mCasillas2[n][m].setBackground(Color.GREEN);
+					}
 				}
-			}*/
+			}
 			// Bomba
 			for (int n = 0; n < 10; n++) {
-				for (int m = 0; m < 10; m++) {
-					Casilla casTemp = IA.getIA().getCasillaJugador(n, m);
-					boolean finder = false;
-					Barco pBarco = casTemp.getOcupadaPor();
-					if (pBarco != null) {
-						/*
-						 * for (int i = 0; i < pBarco.getModelo().getLongitud();
-						 * i++) { if (pBarco.getImpactos()[i] == casTemp) {
-						 * finder = true; } }
-						 */
-						Set<Casilla> sethOsiris = pBarco.getMapa().keySet();
-						for (Casilla casanova : sethOsiris) {
-							if (casanova == casTemp)
-								finder = true;
-						}
-					}
-					/*
-					 * IA.getIA().getEstadoCasillaBarcoJugador(n, m) ==
-					 * CasillaEstado.OCUPADA && finder &&
-					 * !IA.getIA().getCasillaJugador(n,
-					 * m).getOcupadaPor().isProtegido() &&
-					 * IA.getIA().getCasillaJugador(n, m).isRevelado()
-					 */
-					
+				for (int m = 0; m < 10; m++) {		
 					if (jugador.getCasillaIA(n, m).getEstado() == CasillaEstado.TOCADO) {
 						if (IA.getIA().getBarcoEnCasilla(n, m).getEstado() == Status.HUNDIDO) {
 							mCasillas2[n][m].setBackground(Color.RED);
@@ -581,6 +549,7 @@ public class Partida extends JFrame implements Observer, ActionListener {
 					}
 				}
 			}
+			
 			// Recibir disparo
 			for (int n = 0; n < 10; n++) {
 				for (int m = 0; m < 10; m++) {
@@ -589,7 +558,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 						mCasillas[n][m].setBackground(Color.RED);
 					} else if (jugador.getEstadoCasillaBarcoJugador(n, m) == CasillaEstado.OCUPADA
 							&& jugador.getCasillaJugador(n, m).isRevelado()
-							//&& jugador.getCasillaJugador(n, m).getOcupadaPor().getEstado() == Status.TOCADO
 							&& jugador.getBarcoEnCasilla(n, m).getMapa().get(jugador.getCasillaJugador(n, m))
 							&& !jugador.getCasillaJugador(n, m).getOcupadaPor().isProtegido()) {
 						mCasillas[n][m].setBackground(Color.ORANGE);
@@ -609,17 +577,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 				}
 			}
 			
-			//Escudo quitado a la IA
-			//Pinta verde su barco después de quitarle el escudo (sólo esa casilla del disparo, visible)
-			for (int n = 0; n < 10; n++) {
-				for (int m = 0; m < 10; m++) {
-					if (jugador.getCasillaIA(n, m).getEstado() == CasillaEstado.OCUPADA
-							&& IA.getIA().getCasillaJugador(n, m).isRevelado()
-							){
-						mCasillas2[n][m].setBackground(Color.GREEN);
-					}
-				}
-			}
 			
 			//IA repara su barco
 			//Pinta de verde su barco dañado tras repararlo (sólo casillas visibles)
@@ -747,7 +704,6 @@ public class Partida extends JFrame implements Observer, ActionListener {
 	@SuppressWarnings("null")
 	public void actionPerformed(ActionEvent e) {
 		// Recibimos la notificacion de que alguno de los botones fue presionado
-
 		// Verificar que el causante de este evento sea un JButton y que estemos
 		// en el estado de colocar barcos
 		if (e.getSource() instanceof JButton && partidaEstado == 1) {
@@ -783,74 +739,13 @@ public class Partida extends JFrame implements Observer, ActionListener {
 
 		}
 		if (e.getSource() instanceof JButton && partidaEstado == 2) {
-			// Obtenemos una referencia al objeto causante del evento
-			/*
-			 * while(partidaEstado == 2) { while(turno){ JButton temp =
-			 * (JButton) e.getSource(); Recurso recurso = null; boolean
-			 * cierraTurno = false; if(rdbtnBomba.isSelected() &&
-			 * rdbtnBomba.isEnabled()){
-			 * 
-			 * recurso = Bomba.getBomba(); cierraTurno = true;
-			 * 
-			 * }else if(rdbtnMisil.isSelected() && rdbtnMisil.isEnabled()){
-			 * 
-			 * recurso = Misil.getMisil(); cierraTurno = true;
-			 * 
-			 * }else if(rdbtnRadar.isSelected() && rdbtnRadar.isEnabled()){
-			 * 
-			 * recurso = Radar.getRadar(); cierraTurno = false;
-			 * 
-			 * }else if(rdbtnEscudo.isSelected() && rdbtnEscudo.isEnabled()){
-			 * 
-			 * recurso = Escudo.getShield(); cierraTurno = false;
-			 * 
-			 * }else if(rdbtnReparar.isSelected() && rdbtnReparar.isEnabled()){
-			 * 
-			 * recurso = Reparacion.getReparacion(); cierraTurno = false;
-			 * 
-			 * }
-			 * 
-			 * int casX = (temp.getX() - 48)/(335/10); int casY = (temp.getY() -
-			 * 100)/(335/10);
-			 * 
-			 * recurso.act(casY, casX, tableroIA); if(cierraTurno) { turno =
-			 * false; } } }
-			 */
+			// Obtenemos una referencia al objeto causante del evento		
 			// Realizamos las operaciones que queremos realizar sobre el boton
 			// clicado
 			// Calculamos la posicion del boton en X e Y en su tablero
 			// Aviso, estan invertidas, la X es la Y y la Y es la X
-			// mCasillas[posYJ][posXJ].setBackground(Color.GREEN);
-			// mCasillas2[posYIA][posXIA].setBackground(Color.GREEN);
-
 			// Aqui debes
-			/*
-			 * if(temp.getName().equals("Bomba") ||
-			 * temp.getName().equals("Misil") ){
-			 * System.out.println("comprobar"); turno=false; }
-			 * 
-			 * if(turno==false){ //Hace lo de la IA de disparar aleatoriamente y
-			 * asi }
-			 */
 			JButton temp = (JButton) e.getSource();
-
-			// Realizamos las operaciones que queremos realizar sobre el boton
-			// clicado
-			// Calculamos la posicion del boton en X e Y en su tablero
-			// Aviso, estan invertidas, la X es la Y y la Y es la X
-			// mCasillas[posYJ][posXJ].setBackground(Color.GREEN);
-			// mCasillas2[posYIA][posXIA].setBackground(Color.GREEN);
-
-			// Aqui debes
-			/*
-			 * if(temp.getName().equals("Bomba") ||
-			 * temp.getName().equals("Misil") ){
-			 * System.out.println("comprobar"); turno=false; }
-			 * 
-			 * if(turno==false){ //Hace lo de la IA de disparar aleatoriamente y
-			 * asi }
-			 */
-
 			if (rdbtnEscudo.isSelected() == true) {
 				// TableroJ
 				int posXJ = (temp.getX() - 48) / (335 / 10);

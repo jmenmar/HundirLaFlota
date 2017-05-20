@@ -37,8 +37,7 @@ public class Player extends Jugador {
 		for(Casilla reparacion:aReparar)
 		{
 			IA.getIA().getMarca().put(reparacion, false);
-		}
-		//IA.getIA().getMarca().put(getTableroJ().getCasilla(fila, columna), false);
+	     	}
 		}
 	}
 	@Override

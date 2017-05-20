@@ -61,12 +61,12 @@ public class Tienda extends JFrame implements Observer {
 	private JTextArea txtrMisilUnSlo;
 
 	private int dinero = 1000;
-	private int PRECIO_MISIL = 100;
+	private int PRECIO_MISIL = 300;
 	private int PRECIO_ESCUDO = 200;
 	private int PRECIO_RADAR = 250;
-	private int misilesDisp = 5;
+	private int misilesDisp = 3;
 	private int escudosDisp = 2;
-	private int radaresDisp = 1;
+	private int radaresDisp = 2;
 
 	Inventario inv = Inventario.getInventario(); // Instancia única al Singleton
 	private JLabel labelMisilDisp;
