@@ -15,10 +15,10 @@ public abstract class Jugador extends Observable {
 	private int submarinos = 2;
 	private int destructores = 3;
 	private int fragatas = 4;
-	private int numMisiles = 5;
+	//private int numMisiles = 5;
 	private int numEscudos = 2;
 	private int numReparaciones = 1;
-	private int numRadar = 1;
+	//private int numRadar = 1;
 	private int dinero = 1000;
 	private Set<Barco> laArmadaInvencible = new HashSet<Barco>();
 	private Jugador oponente;

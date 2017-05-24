@@ -1,7 +1,5 @@
 package packMainJava;
 
-import java.util.Observer;
-
 import PackSwings.Partida;
 import PackSwings.Tienda;
 

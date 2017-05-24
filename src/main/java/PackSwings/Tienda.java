@@ -209,7 +209,7 @@ public class Tienda extends JFrame implements Observer {
 
 	private JButton getBotonComprarMisil() {
 		if (botonComprarMisil == null) {
-			botonComprarMisil = new JButton("Comprar (100€)");
+			botonComprarMisil = new JButton("Comprar (300€)");
 			botonComprarMisil.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					comprarMisil();

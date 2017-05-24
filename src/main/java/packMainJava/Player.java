@@ -25,6 +25,7 @@ public class Player extends Jugador {
 		if(inv.getNumMisiles() > 0){
 		super.usarMisil(fila, columna);
 		IA.getIA().act();
+		inv.restarMisil();
 		}
 	}
 	@Override

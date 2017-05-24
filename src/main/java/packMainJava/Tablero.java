@@ -1,8 +1,5 @@
 package packMainJava;
-import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
 public class Tablero {
 	private  Casilla[][] tabla = null;
 	
